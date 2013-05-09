@@ -10,6 +10,7 @@ dojo.require("esri.map");
 var TITLE = "This is the title."
 var BYLINE = "This is the byline";
 var BASEMAP_SERVICE_NATGEO = "http://server.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Map/MapServer";
+var SPREADSHEET_URL = "/proxy/proxy.ashx?https://docs.google.com/spreadsheet/pub?key=0ApQt3h4b9AptdE8zdUd2bW41aDc0b1ZyZm9jOHRzRnc&output=csv"
 
 /******************************************************
 ***************** end config section ******************
@@ -63,7 +64,7 @@ function init() {
 	$("#title").append(TITLE);
 	$("#subtitle").append(BYLINE);	
 
-	_map = new esri.Map("map");
+	_map = new esri.Map("map", {slider:false});
 	_map.addLayer(new esri.layers.ArcGISTiledMapServiceLayer(BASEMAP_SERVICE_NATGEO));
 
 	if(_map.loaded){
@@ -93,6 +94,14 @@ function initMap() {
 	}
 	
 	handleWindowResize();
+	
+	// get the point data
+	
+	var serviceCSV = new CSVService();
+	$(serviceCSV).bind("complete", function(){
+		console.log(serviceCSV.getLocations());
+	});
+	serviceCSV.process(SPREADSHEET_URL);
 	
 }
 
