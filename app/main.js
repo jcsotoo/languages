@@ -17,7 +17,7 @@ var SPREADSHEET_URL = "/proxy/proxy.ashx?https://docs.google.com/spreadsheet/pub
 *******************************************************/
 
 var _map;
-var _locations = [];
+var _recs;
 
 var _dojoReady = false;
 var _jqueryReady = false;
@@ -100,31 +100,35 @@ function initMap() {
 	
 	var serviceCSV = new CSVService();
 	
-	$(serviceCSV).bind("complete", function(){
-		
-		var recs = serviceCSV.getLocations();
-		var pt;
-		var graphic; 
-		var sym =  new esri.symbol.SimpleMarkerSymbol(esri.symbol.SimpleMarkerSymbol.STYLE_SQUARE, 10,
-				   new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_SOLID,
-				   new dojo.Color([255,0,0]), 1),
-				   new dojo.Color([0,255,0,0.25]));
-		
-		$.each(recs, function(index, value) {
-
-			pt = esri.geometry.geographicToWebMercator(
-				new esri.geometry.Point(
-					[value.getLongitude(), value.getLatitude()],
-					new esri.SpatialReference({ wkid:4326}))
-			);
-			
-			graphic = new esri.Graphic(pt, sym, value);		
-			_locations.push(graphic);
-			_map.graphics.add(graphic);
-
-		});
+	$(serviceCSV).bind("complete", function(){	
+		_recs = serviceCSV.getLocations();
+		symbolizeLanguage();
 	});
 	serviceCSV.process(SPREADSHEET_URL);
+	
+}
+
+function symbolizeLanguage()
+{
+	
+	_map.graphics.clear();
+	
+	var pt;
+	var graphic; 
+	var sym =  new esri.symbol.SimpleMarkerSymbol(esri.symbol.SimpleMarkerSymbol.STYLE_SQUARE, 10,
+			   new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_SOLID,
+			   new dojo.Color([0,0,0]), 1),
+			   new dojo.Color([255,0,0,0.25]));
+	$.each(_recs, function(index, value) {
+		pt = esri.geometry.geographicToWebMercator(
+			new esri.geometry.Point(
+				[value.getLongitude(), value.getLatitude()],
+				new esri.SpatialReference({ wkid:4326}))
+		);
+		
+		graphic = new esri.Graphic(pt, sym, value);		
+		_map.graphics.add(graphic);
+	});
 	
 }
 
