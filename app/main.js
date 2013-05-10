@@ -7,8 +7,8 @@ dojo.require("esri.map");
 ***************** begin config section ****************
 *******************************************************/
 
-var TITLE = "This is the title."
-var BYLINE = "This is the byline";
+var TITLE = "Endangered Languages"
+var BYLINE = "Just a test to make sure there are no issues reading the data.";
 var BASEMAP_SERVICE_NATGEO = "http://server.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Map/MapServer";
 var SPREADSHEET_URL = "/proxy/proxy.ashx?https://docs.google.com/spreadsheet/pub?key=0ApQt3h4b9AptdDR2cjc2Wm4xcFpSQjVlT2ZnX3BEemc&output=csv"
 
@@ -102,15 +102,37 @@ function initMap() {
 	
 	$(serviceCSV).bind("complete", function(){	
 		_recs = serviceCSV.getLocations();
-		symbolizeLanguage();
+		loadUniqueLanguages();
+		$("#selectLanguage").change(function(e) {
+            symbolizeLanguage($(this).attr("value"));
+        });
+		symbolizeLanguage($("#selectLanguage option:first").attr("value"));
 	});
 	serviceCSV.process(SPREADSHEET_URL);
 	
 }
 
-function symbolizeLanguage()
+function loadUniqueLanguages() 
 {
-	
+	var arr = [];
+	$.each(_recs, function(index, value) {
+		if (!($.inArray(value.getLanguage(), arr) > -1)) {
+			arr.push(value.getLanguage());
+		}
+	});
+	arr.sort();
+	var value;
+	$.each(arr, function(index, name) {
+		value = $.grep(_recs, function(n, i) {
+			return n.getLanguage() == name;
+		})[0].getLanguageID();
+		$("#selectLanguage").append("<option value='"+value+"'>"+name+"</option>");
+	});
+}
+
+function symbolizeLanguage(languageID)
+{
+
 	_map.graphics.clear();
 	
 	var pt;
@@ -119,7 +141,10 @@ function symbolizeLanguage()
 			   new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_SOLID,
 			   new dojo.Color([0,0,0]), 1),
 			   new dojo.Color([255,0,0,0.25]));
-	$.each(_recs, function(index, value) {
+			   
+	var selected = $.grep(_recs, function(n, i){return n.getLanguageID() == languageID});
+	var multi = new esri.geometry.Multipoint(new esri.SpatialReference({wkid:102100}));
+	$.each(selected, function(index, value) {
 		pt = esri.geometry.geographicToWebMercator(
 			new esri.geometry.Point(
 				[value.getLongitude(), value.getLatitude()],
@@ -128,9 +153,28 @@ function symbolizeLanguage()
 		
 		graphic = new esri.Graphic(pt, sym, value);		
 		_map.graphics.add(graphic);
+		multi.addPoint(pt);
 	});
-	
+	_map.setLevel(3)
+	setTimeout(function(){
+		_map.centerAt(multi.getExtent().getCenter());
+		setTimeout(function(){
+			console.log("length", multi.getExtent());
+			if (selected.length > 1) {
+				_map.setExtent(multi.getExtent());
+				setTimeout(function(){
+				if (!_map.extent.contains(multi.getExtent())) {
+					_map.setLevel(_map.getLevel() - 1);
+				}
+				},1000);
+			} else {
+				_map.setLevel(10);
+			}
+		},1000);
+	},1000);
+		
 }
+
 
 function handleWindowResize() {
 	if ((($("body").height() <= 500) || ($("body").width() <= 800)) || _isEmbed) $("#header").height(0);
