@@ -18,6 +18,7 @@ var SPREADSHEET_URL = "/proxy/proxy.ashx?https://docs.google.com/spreadsheet/pub
 
 var _map;
 var _recs;
+var _lods;
 
 var _dojoReady = false;
 var _jqueryReady = false;
@@ -94,6 +95,8 @@ function initMap() {
 		}	
 	}
 	
+	_lods = _map._params.lods.reverse();
+	
 	handleWindowResize();
 	
 	// get the point data
@@ -116,8 +119,8 @@ function loadUniqueLanguages()
 {
 	var arr = [];
 	$.each(_recs, function(index, value) {
-		if (!($.inArray(value.getLanguage(), arr) > -1)) {
-			arr.push(value.getLanguage());
+		if (!($.inArray($.trim(value.getLanguage()), arr) > -1)) {
+			arr.push($.trim(value.getLanguage()));
 		}
 	});
 	arr.sort();
@@ -144,6 +147,7 @@ function symbolizeLanguage(languageID)
 			   
 	var selected = $.grep(_recs, function(n, i){return n.getLanguageID() == languageID});
 	var multi = new esri.geometry.Multipoint(new esri.SpatialReference({wkid:102100}));
+	
 	$.each(selected, function(index, value) {
 		pt = esri.geometry.geographicToWebMercator(
 			new esri.geometry.Point(
@@ -155,21 +159,19 @@ function symbolizeLanguage(languageID)
 		_map.graphics.add(graphic);
 		multi.addPoint(pt);
 	});
+	
 	_map.setLevel(3)
 	setTimeout(function(){
 		_map.centerAt(multi.getExtent().getCenter());
 		setTimeout(function(){
-			console.log("length", multi.getExtent());
-			if (selected.length > 1) {
-				_map.setExtent(multi.getExtent());
-				setTimeout(function(){
-				if (!_map.extent.contains(multi.getExtent())) {
-					_map.setLevel(_map.getLevel() - 1);
+			var extent;
+			$.each(_lods, function(index, value) {
+				extent = new esri.geometry.getExtentForScale(_map, value.scale);
+				if (extent.contains(multi.getExtent())) {
+					_map.centerAndZoom(multi.getExtent().getCenter(), value.level);
+					return false;
 				}
-				},1000);
-			} else {
-				_map.setLevel(10);
-			}
+			});
 		},1000);
 	},1000);
 		

@@ -64,7 +64,7 @@ function CSVService() {
 	
 			rec = new RecordMain(
 				values[getFieldIndex(FIELDNAME_NAME,fields)],
-				values[getFieldIndex(FIELDNAME_LANGUAGE_ID,fields)],
+				parseInt(values[getFieldIndex(FIELDNAME_LANGUAGE_ID,fields)]),
 				values[getFieldIndex(FIELDNAME_LANGUAGE,fields)],
 				values[getFieldIndex(FIELDNAME_REGION,fields)],
 				values[getFieldIndex(FIELDNAME_LONGITUDE,fields)],
