@@ -2,8 +2,23 @@ CSVService.prototype.constructor = CSVService;
 
 function CSVService() {
 	
-	var FIELDNAME_X = "Longitude";
-	var FIELDNAME_Y = "Latitude";	
+	var FIELDNAME_LONGITUDE = "Longitude";
+	var FIELDNAME_LATITUDE = "Latitude";	
+	var FIELDNAME_NAME = "Name";
+	var FIELDNAME_LANGUAGE_ID = "Language_ID";
+	var FIELDNAME_LANGUAGE = "Language";
+	var FIELDNAME_REGION = "Region";
+	var FIELDNAME_TEXT = "Text";
+	var FIELDNAME_PHOTO = "Photo";
+	var FIELDNAME_AUDIO = "Audio";
+	var FIELDNAME_VIDEO = "Video";
+	var FIELDNAME_LINK = "Link";
+	var FIELDNAME_CREDIT_PHOTO = "Credit_Photo";
+	var FIELDNAME_CREDIT_AUDIO = "Credit_Audio";
+	var FIELDNAME_CREDIT_VIDEO = "Credit_Video";
+	var FIELDNAME_MORE_INFO = "More_Info";
+	var FIELDNAME_MORE_INFO_URL = "More_Info_URL";
+	var FIELDNAME_NOTES = "Notes";
 	
 	var _arr = [];
 
@@ -34,36 +49,29 @@ function CSVService() {
 	// *****************
 
 	parseCSV = function(text) {
-		
+
 		var lines = CSVToArray(text)
 		var fields = lines[0];
 		
 		var values;
-		
+		var rec;		
 		for (var i = 1; i < lines.length; i++) {
 			
 			values = lines[i];
 			if (values.length == 1) {
 				break;
 			}
-			
-			/*
-			id = values[getFieldIndex(FIELDNAME_ID,fields)];
-			venue = values[getFieldIndex(FIELDNAME_VENUE,fields)];
-			url = values[getFieldIndex(FIELDNAME_URL,fields)];
-			imageURL = values[getFieldIndex(FIELDNAME_IMAGEURL,fields)];
-			city = values[getFieldIndex(FIELDNAME_CITY,fields)];
-			*/
-			
-			pt = esri.geometry.geographicToWebMercator(
-				new esri.geometry.Point(
-					[values[getFieldIndex(FIELDNAME_X,fields)],values[getFieldIndex(FIELDNAME_Y,fields)]],
-					new esri.SpatialReference({ wkid:4326}))
-			);
-			
-			graphic = new esri.Graphic(pt, null, {});		
 	
-			_arr.push(graphic);
+			rec = new RecordMain(
+				values[getFieldIndex(FIELDNAME_NAME,fields)],
+				values[getFieldIndex(FIELDNAME_LANGUAGE_ID,fields)],
+				values[getFieldIndex(FIELDNAME_LANGUAGE,fields)],
+				values[getFieldIndex(FIELDNAME_REGION,fields)],
+				values[getFieldIndex(FIELDNAME_LONGITUDE,fields)],
+				values[getFieldIndex(FIELDNAME_LATITUDE,fields)]							
+			);
+	
+			_arr.push(rec);
 	
 		}
 		
