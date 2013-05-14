@@ -1,7 +1,18 @@
-function RecordOV(name,	language_ID, language, region, longitude, latitude, text, media, url, credit, audio, notes) 
+function RecordOV(name,	languageID, language, region, longitude, latitude, text, media, url, credit, audio, notes) 
 {
-	this.foo = function()
+	this.getName = function()
 	{
-		return "foo";
+		return name;
 	}
+	
+	this.getLanguageID = function()
+	{
+		return languageID;
+	}
+	
+	this.getLanguage = function ()
+	{
+		return language;
+	}
+	
 }

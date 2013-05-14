@@ -1,5 +1,18 @@
 function ParserOV(lines)
 {
+	
+	var FIELDNAME_NAME = "Name";
+	var FIELDNAME_LANGUAGE_ID = "Language_ID"
+	var FIELDNAME_LANGUAGE = "Language";
+	var FIELDNAME_REGION = "Region";
+	var FIELDNAME_LONGITUDE = "Longitude";
+	var FIELDNAME_LATITUDE = "Latitude";
+	var FIELDNAME_TEXT = "Text";
+	var FIELDNAME_MEDIA = "Media";
+	var FIELDNAME_LINK = "Link";
+	var FIELDNAME_CREDIT = "Credit";
+	var FIELDNAME_AUDIO = "Audio";
+	var FIELDNAME_NOTES = "Notes";
 
 	var _recs = parseRecs(lines);
 	
@@ -11,8 +24,6 @@ function ParserOV(lines)
 	function parseRecs(lines)
 	{
 		
-		//Name	Language_ID	Language	Region	Longitude	Latitude	Text	Media	Link	Credit	Audio	Notes
-	
 		var fields = lines[0];
 		
 		var values;
@@ -24,8 +35,21 @@ function ParserOV(lines)
 			if (values.length == 1) {
 				break;
 			}
-	
-			rec = new RecordOV();
+
+			rec = new RecordOV(
+				values[getFieldIndex(FIELDNAME_NAME,fields)],
+				values[getFieldIndex(FIELDNAME_LANGUAGE_ID,fields)],
+				values[getFieldIndex(FIELDNAME_LANGUAGE,fields)],
+				values[getFieldIndex(FIELDNAME_REGION,fields)],
+				values[getFieldIndex(FIELDNAME_LONGITUDE,fields)],
+				values[getFieldIndex(FIELDNAME_LATITUDE,fields)],
+				values[getFieldIndex(FIELDNAME_TEXT,fields)],
+				values[getFieldIndex(FIELDNAME_MEDIA,fields)],
+				values[getFieldIndex(FIELDNAME_LINK,fields)],
+				values[getFieldIndex(FIELDNAME_CREDIT,fields)],
+				values[getFieldIndex(FIELDNAME_AUDIO,fields)],
+				values[getFieldIndex(FIELDNAME_NOTES,fields)]
+			);
 	
 			recs.push(rec);
 	
