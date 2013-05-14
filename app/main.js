@@ -142,7 +142,7 @@ function init3()
 function loadUniqueLanguages() 
 {
 	var arr1 = [];
-	$.each(_recsOV, function(index, value) {
+	$.each(_recsMain, function(index, value) {
 		if (!($.inArray(value.getLanguageID(), arr1) > -1)) {
 			arr1.push(value.getLanguageID());
 		}
