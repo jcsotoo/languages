@@ -2,94 +2,34 @@ CSVService.prototype.constructor = CSVService;
 
 function CSVService() {
 	
-	var FIELDNAME_LONGITUDE = "Longitude";
-	var FIELDNAME_LATITUDE = "Latitude";	
-	var FIELDNAME_NAME = "Name";
-	var FIELDNAME_LANGUAGE_ID = "Language_ID";
-	var FIELDNAME_LANGUAGE = "Language";
-	var FIELDNAME_REGION = "Region";
-	var FIELDNAME_TEXT = "Text";
-	var FIELDNAME_PHOTO = "Photo";
-	var FIELDNAME_AUDIO = "Audio";
-	var FIELDNAME_VIDEO = "Video";
-	var FIELDNAME_LINK = "Link";
-	var FIELDNAME_CREDIT_PHOTO = "Credit_Photo";
-	var FIELDNAME_CREDIT_AUDIO = "Credit_Audio";
-	var FIELDNAME_CREDIT_VIDEO = "Credit_Video";
-	var FIELDNAME_MORE_INFO = "More_Info";
-	var FIELDNAME_MORE_INFO_URL = "More_Info_URL";
-	var FIELDNAME_NOTES = "Notes";
-	
-	var _arr = [];
+	var _arr;
+	var _self = this;
 
 	// **********
 	// methods...
 	// **********
 
 	this.process = function(csv) {
-		var that = this;
 		$.ajax({
 		  type: 'GET',
 		  url: csv,
 		  cache: false,
-		  success: function(text){ 
-			parseCSV(text);	
-			$(that).trigger("complete");
+		  success: function(text) {
+			_arr = CSVToArray(text);	
+			$(_self).trigger("complete");
 		  }
 		});	
 		
 	}
 
-	this.getLocations = function() {
+	this.getLines = function() {
 		return _arr;
 	}
 	
 	// *****************
 	// private functions
 	// *****************
-
-	parseCSV = function(text) {
-
-		var lines = CSVToArray(text)
-		var fields = lines[0];
 		
-		var values;
-		var rec;		
-		for (var i = 1; i < lines.length; i++) {
-			
-			values = lines[i];
-			if (values.length == 1) {
-				break;
-			}
-	
-			rec = new RecordMain(
-				values[getFieldIndex(FIELDNAME_NAME,fields)],
-				parseInt(values[getFieldIndex(FIELDNAME_LANGUAGE_ID,fields)]),
-				values[getFieldIndex(FIELDNAME_LANGUAGE,fields)],
-				values[getFieldIndex(FIELDNAME_REGION,fields)],
-				values[getFieldIndex(FIELDNAME_LONGITUDE,fields)],
-				values[getFieldIndex(FIELDNAME_LATITUDE,fields)]							
-			);
-	
-			_arr.push(rec);
-	
-		}
-		
-	}
-	
-	function getFieldIndex(name,fields) 
-	{
-		var idx = -1;
-		$.each(fields,function(index,value){
-			if (value.toUpperCase() == name.toUpperCase()) {
-				idx = index;
-				return false;
-			}
-		});
-		return idx;
-	}
-	
-	
 	// This will parse a delimited string into an array of
 	// arrays. The default delimiter is the comma, but this
 	// can be overriden in the second argument.
