@@ -72,15 +72,15 @@ function init() {
 	_map.addLayer(new esri.layers.ArcGISTiledMapServiceLayer(BASEMAP_SERVICE_NATGEO));
 
 	if(_map.loaded){
-		initMap();
+		init2();
 	} else {
 		dojo.connect(_map,"onLoad",function(){
-			initMap();
+			init2();
 		});
 	}
 }
 
-function initMap() {
+function init2() {
 	
 	// if _homeExtent hasn't been set, then default to the initial extent
 	// of the web map.  On the other hand, if it HAS been set AND we're using
@@ -101,7 +101,7 @@ function initMap() {
 	
 	handleWindowResize();
 	
-	// get the point data
+	// get the spreadsheet data
 	
 	var serviceMain = new CSVService();
 	$(serviceMain).bind("complete", function(){	
@@ -112,6 +112,7 @@ function initMap() {
             symbolizeLanguage($(this).attr("value"));
         });
 		symbolizeLanguage($("#selectLanguage option:first").attr("value"));
+		init3();
 	});
 	serviceMain.process(SPREADSHEET_MAIN_URL);
 	
@@ -119,9 +120,20 @@ function initMap() {
 	$(serviceOverview).bind("complete", function() {
 		var parser = new ParserOV(serviceOverview.getLines());	
 		_recsOV = parser.getRecs()
+		init3();
 	});
 	serviceOverview.process(SPREADSHEET_OVERVIEW_URL);
+	
 }
+
+function init3() 
+{
+	if ((_recsMain == null) || (_recsOV == null)) {
+		return;
+	}
+}
+
+// private functions
 
 function loadUniqueLanguages() 
 {
