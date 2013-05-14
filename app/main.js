@@ -10,7 +10,8 @@ dojo.require("esri.map");
 var TITLE = "Endangered Languages"
 var BYLINE = "Just a test to make sure there are no issues reading the data.";
 var BASEMAP_SERVICE_NATGEO = "http://server.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Map/MapServer";
-var SPREADSHEET_URL = "/proxy/proxy.ashx?https://docs.google.com/spreadsheet/pub?key=0ApQt3h4b9AptdDR2cjc2Wm4xcFpSQjVlT2ZnX3BEemc&output=csv"
+var SPREADSHEET_MAIN_URL = "/proxy/proxy.ashx?https://docs.google.com/spreadsheet/pub?key=0ApQt3h4b9AptdDR2cjc2Wm4xcFpSQjVlT2ZnX3BEemc&output=csv";
+var SPREADSHEET_OVERVIEW_URL = "/proxy/proxy.ashx?https://docs.google.com/spreadsheet/pub?key=0ApQt3h4b9AptdDByc0FOY2NacHZNUlhjWnZ6WHdYb1E&output=csv";
 
 /******************************************************
 ***************** end config section ******************
@@ -101,17 +102,16 @@ function initMap() {
 	
 	// get the point data
 	
-	var serviceCSV = new CSVService();
-	
-	$(serviceCSV).bind("complete", function(){	
-		_recs = serviceCSV.getLocations();
+	var serviceMainCSV = new CSVService();
+	$(serviceMainCSV).bind("complete", function(){	
+		_recs = serviceMainCSV.getLocations();
 		loadUniqueLanguages();
 		$("#selectLanguage").change(function(e) {
             symbolizeLanguage($(this).attr("value"));
         });
 		symbolizeLanguage($("#selectLanguage option:first").attr("value"));
 	});
-	serviceCSV.process(SPREADSHEET_URL);
+	serviceMainCSV.process(SPREADSHEET_MAIN_URL);
 	
 }
 
