@@ -19,6 +19,7 @@ var SPREADSHEET_OVERVIEW_URL = "/proxy/proxy.ashx?https://docs.google.com/spread
 
 var _map;
 var _recsMain;
+var _recsOV;
 var _lods;
 
 var _dojoReady = false;
@@ -104,7 +105,6 @@ function initMap() {
 	
 	var serviceMain = new CSVService();
 	$(serviceMain).bind("complete", function(){	
-		console.log(serviceMain.getLines().length);
 		_recsMain = parseRecs(serviceMain.getLines());
 		loadUniqueLanguages();
 		$("#selectLanguage").change(function(e) {
@@ -116,7 +116,8 @@ function initMap() {
 	
 	var serviceOverview = new CSVService();
 	$(serviceOverview).bind("complete", function(){	
-		console.log(serviceOverview.getLines().length);
+		_recsOV = parseOVRecs(serviceOverview.getLines());
+		console.log(_recsOV.length);
 	});
 	serviceOverview.process(SPREADSHEET_OVERVIEW_URL);
 }
@@ -239,6 +240,33 @@ function parseRecs(lines)
 	}	
 	
 	return recs;
+}
+
+function parseOVRecs(lines)
+{
+	
+	//Name	Language_ID	Language	Region	Longitude	Latitude	Text	Media	Link	Credit	Audio	Notes
+
+	var fields = lines[0];
+	
+	var values;
+	var rec;
+	var recs = [];		
+	for (var i = 1; i < lines.length; i++) {
+		
+		values = lines[i];
+		if (values.length == 1) {
+			break;
+		}
+
+		rec = new RecordOV();
+
+		recs.push(rec);
+
+	}	
+	
+	return recs;
+	
 }
 
 function getFieldIndex(name,fields) 
