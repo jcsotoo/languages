@@ -1,34 +1,27 @@
 function RecordMain(name, languageID, language, region, longitude, latitude, text, photo, audio, video, url, creditPhoto, creditAudio, creditVideo, moreInfo, moreInfoURL, notes) 
 {
-	var _name = name;
-	var _languageID = languageID;
-	var _language = language;
-	var _region = region;
-	var _longitude = longitude;
-	var _latitude = latitude;
-	
 	this.getName = function() {
-		return _name;
+		return name;
 	}
 	
 	this.getLanguageID = function() {
-		return _languageID;
+		return languageID;
 	}
 	
 	this.getLanguage = function() {
-		return _language;
+		return language;
 	}
 	
 	this.getRegion = function() {
-		return _region;
+		return region;
 	}
 	
 	this.getLongitude = function() {
-		return _longitude;
+		return longitude;
 	}
 	
 	this.getLatitude = function() {
-		return _latitude;
+		return latitude;
 	}
 	
 }
