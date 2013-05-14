@@ -18,7 +18,7 @@ var SPREADSHEET_OVERVIEW_URL = "/proxy/proxy.ashx?https://docs.google.com/spread
 *******************************************************/
 
 var _map;
-var _recs;
+var _recsMain;
 var _lods;
 
 var _dojoReady = false;
@@ -105,7 +105,7 @@ function initMap() {
 	var serviceMain = new CSVService();
 	$(serviceMain).bind("complete", function(){	
 		console.log(serviceMain.getLines().length);
-		_recs = parseRecs(serviceMain.getLines());
+		_recsMain = parseRecs(serviceMain.getLines());
 		loadUniqueLanguages();
 		$("#selectLanguage").change(function(e) {
             symbolizeLanguage($(this).attr("value"));
@@ -124,7 +124,7 @@ function initMap() {
 function loadUniqueLanguages() 
 {
 	var arr = [];
-	$.each(_recs, function(index, value) {
+	$.each(_recsMain, function(index, value) {
 		if (!($.inArray($.trim(value.getLanguage()), arr) > -1)) {
 			arr.push($.trim(value.getLanguage()));
 		}
@@ -132,7 +132,7 @@ function loadUniqueLanguages()
 	arr.sort();
 	var value;
 	$.each(arr, function(index, name) {
-		value = $.grep(_recs, function(n, i) {
+		value = $.grep(_recsMain, function(n, i) {
 			return n.getLanguage() == name;
 		})[0].getLanguageID();
 		$("#selectLanguage").append("<option value='"+value+"'>"+name+"</option>");
@@ -151,7 +151,7 @@ function symbolizeLanguage(languageID)
 			   new dojo.Color([0,0,0]), 1),
 			   new dojo.Color([255,0,0,0.25]));
 			   
-	var selected = $.grep(_recs, function(n, i){return n.getLanguageID() == languageID});
+	var selected = $.grep(_recsMain, function(n, i){return n.getLanguageID() == languageID});
 	var multi = new esri.geometry.Multipoint(new esri.SpatialReference({wkid:102100}));
 	
 	$.each(selected, function(index, value) {
