@@ -141,25 +141,35 @@ function init3()
 
 function loadUniqueLanguages() 
 {
-	var arr = [];
+	var arr1 = [];
 	$.each(_recsOV, function(index, value) {
-		if (!($.inArray($.trim(value.getLanguage()), arr) > -1)) {
-			arr.push($.trim(value.getLanguage()));
+		if (!($.inArray(value.getLanguageID(), arr1) > -1)) {
+			arr1.push(value.getLanguageID());
 		}
 	});
-	var value;
-	$.each(arr, function(index, name) {
-		value = $.grep(_recsOV, function(n, i) {
-			return $.trim(n.getLanguage()) == name;
-		})[0].getLanguageID();
-		$("#selectLanguage").append("<option value='"+value+"'>"+name+"</option>");
+	
+	var language;
+	var arr2 = [];
+	$.each(arr1, function(index, id) {
+		language = $.grep(_recsOV, function(n, i) {
+			return n.getLanguageID() == id;
+		})[0].getLanguage();
+		arr2.push({languageID: id, language: language});
 	});
+	
+	arr2.sort(function(a,b) {return a.language.replace(/[^a-z]/ig,'') > b.language.replace(/[^a-z]/ig,'') ? 1 : -1;});
+
+	$.each(arr2, function(index, value) {
+		$("#selectLanguage").append("<option value='"+value.languageID+"'>"+value.language+"</option>");
+	});
+	
 }
 
 function symbolizeLanguage(languageID)
 {
 
 	_map.graphics.clear();
+	_map.setLevel(3)
 	
 	var pt;
 	var graphic; 
@@ -169,6 +179,11 @@ function symbolizeLanguage(languageID)
 			   new dojo.Color([255,0,0,0.25]));
 			   
 	var selected = $.grep(_recsMain, function(n, i){return n.getLanguageID() == languageID});
+	if (selected.length == 0) {
+		alert("no records for the selected language in the main table");
+		return false;
+	}
+	
 	var multi = new esri.geometry.Multipoint(new esri.SpatialReference({wkid:102100}));
 	
 	$.each(selected, function(index, value) {
@@ -183,7 +198,6 @@ function symbolizeLanguage(languageID)
 		multi.addPoint(pt);
 	});
 	
-	_map.setLevel(3)
 	setTimeout(function(){
 		_map.centerAt(multi.getExtent().getCenter());
 		setTimeout(function(){
