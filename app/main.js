@@ -21,9 +21,16 @@ var _map;
 var _recsMain;
 var _recsOV;
 var _lods;
+var _master;
+
+var _layerOV;
+var _layerStoryPoints;
 
 var _dojoReady = false;
 var _jqueryReady = false;
+
+var _symCircle;
+
 
 var _homeExtent; // set this in init() if desired; otherwise, it will 
 				 // be the default extent of the web map;
@@ -70,6 +77,12 @@ function init() {
 
 	_map = new esri.Map("map", {slider:false});
 	_map.addLayer(new esri.layers.ArcGISTiledMapServiceLayer(BASEMAP_SERVICE_NATGEO));
+	
+	_layerOV = new esri.layers.GraphicsLayer();
+	_map.addLayer(_layerOV);
+	
+	_layerStoryPoints = new esri.layers.GraphicsLayer();
+	_map.addLayer(_layerStoryPoints);
 
 	if(_map.loaded){
 		init2();
@@ -100,6 +113,7 @@ function init2() {
 	_lods = _map._params.lods.reverse();
 	
 	handleWindowResize();
+	_map.setLevel(2);
 	
 	// get the spreadsheet data
 	
@@ -127,11 +141,32 @@ function init3()
 		return;
 	}
 	
-	loadUniqueLanguages();
-	$("#selectLanguage").change(function(e) {
-		symbolizeLanguage($(this).attr("value"));
+	_master = createMaster();
+	$.each(_master, function(index, value) {
+		$("#selectLanguage").append("<option value='"+value.languageID+"' style='background-color:"+value.color+";cursor:pointer'>"+value.language+"</option>");
 	});
-	symbolizeLanguage($("#selectLanguage option:first").attr("value"));
+
+	$("#selectLanguage").change(function(e) {
+		var that = this;
+		var selected = $.grep(_master, function(n, i){return $(that).attr("value") == n.languageID})[0];
+		$("#selectLanguage").css("background-color", selected.color);
+	});
+	
+	var selected = $.grep(_master, function(n, i){return $("#selectLanguage option:first").attr("value") == n.languageID})[0];
+	$("#selectLanguage").css("background-color", selected.color);
+	
+	var pt;	
+	var color;
+	$.each(_recsOV, function(index, value) {
+		pt = esri.geometry.geographicToWebMercator(
+			new esri.geometry.Point(
+				[value.getLongitude(), value.getLatitude()],
+				new esri.SpatialReference({ wkid:4326}))
+		);
+		color = $.grep(_master, function(n, i){return n.languageID == value.getLanguageID()})[0].color;
+		graphic = new esri.Graphic(pt, createCircleMarker(color), value);		
+		_layerOV.add(graphic);
+	});
 	
 }
 
@@ -139,10 +174,10 @@ function init3()
 // private functions
 // -----------------
 
-function loadUniqueLanguages() 
+function createMaster() 
 {
 	var arr1 = [];
-	$.each(_recsMain, function(index, value) {
+	$.each(_recsOV, function(index, value) {
 		if (!($.inArray(value.getLanguageID(), arr1) > -1)) {
 			arr1.push(value.getLanguageID());
 		}
@@ -154,21 +189,19 @@ function loadUniqueLanguages()
 		language = $.grep(_recsOV, function(n, i) {
 			return n.getLanguageID() == id;
 		})[0].getLanguage();
-		arr2.push({languageID: id, language: language});
+		arr2.push({languageID: id, language: language, color: createRandomColor()});
 	});
 	
 	arr2.sort(function(a,b) {return a.language.replace(/[^a-z]/ig,'') > b.language.replace(/[^a-z]/ig,'') ? 1 : -1;});
-
-	$.each(arr2, function(index, value) {
-		$("#selectLanguage").append("<option value='"+value.languageID+"'>"+value.language+"</option>");
-	});
+	
+	return arr2;
 	
 }
 
 function symbolizeLanguage(languageID)
 {
-
-	_map.graphics.clear();
+	
+	_layerStoryPoints.clear();
 	_map.setLevel(3)
 	
 	var pt;
@@ -194,7 +227,7 @@ function symbolizeLanguage(languageID)
 		);
 		
 		graphic = new esri.Graphic(pt, sym, value);		
-		_map.graphics.add(graphic);
+		_layerStoryPoints.add(graphic);
 		multi.addPoint(pt);
 	});
 	
@@ -211,7 +244,7 @@ function symbolizeLanguage(languageID)
 			});
 		},1000);
 	},1000);
-		
+
 }
 
 function handleWindowResize() {
@@ -221,4 +254,21 @@ function handleWindowResize() {
 	$("#map").height($("body").height() - $("#header").height());
 	$("#map").width($("body").width());
 	_map.resize();
+}
+
+function createRandomColor() {
+    var letters = '0123456789ABCDEF'.split('');
+    var color = '#';
+    for (var i = 0; i < 6; i++ ) {
+        color += letters[Math.round(Math.random() * 15)];
+    }
+    return color;
+}
+
+function createCircleMarker(color) 
+{
+ 	return new esri.symbol.SimpleMarkerSymbol(esri.symbol.SimpleMarkerSymbol.STYLE_CIRCLE, 15,
+		   new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_SOLID,
+		   new dojo.Color([0,0,0]), 1),
+		   color);
 }
