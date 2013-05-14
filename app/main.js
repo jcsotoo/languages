@@ -107,11 +107,6 @@ function init2() {
 	$(serviceMain).bind("complete", function(){	
 		var parser = new ParserMain(serviceMain.getLines());
 		_recsMain = parser.getRecs();
-		loadUniqueLanguages();
-		$("#selectLanguage").change(function(e) {
-            symbolizeLanguage($(this).attr("value"));
-        });
-		symbolizeLanguage($("#selectLanguage option:first").attr("value"));
 		init3();
 	});
 	serviceMain.process(SPREADSHEET_MAIN_URL);
@@ -131,23 +126,31 @@ function init3()
 	if ((_recsMain == null) || (_recsOV == null)) {
 		return;
 	}
+	
+	loadUniqueLanguages();
+	$("#selectLanguage").change(function(e) {
+		symbolizeLanguage($(this).attr("value"));
+	});
+	symbolizeLanguage($("#selectLanguage option:first").attr("value"));
+	
 }
 
+// -----------------
 // private functions
+// -----------------
 
 function loadUniqueLanguages() 
 {
 	var arr = [];
-	$.each(_recsMain, function(index, value) {
+	$.each(_recsOV, function(index, value) {
 		if (!($.inArray($.trim(value.getLanguage()), arr) > -1)) {
 			arr.push($.trim(value.getLanguage()));
 		}
 	});
-	arr.sort();
 	var value;
 	$.each(arr, function(index, name) {
-		value = $.grep(_recsMain, function(n, i) {
-			return n.getLanguage() == name;
+		value = $.grep(_recsOV, function(n, i) {
+			return $.trim(n.getLanguage()) == name;
 		})[0].getLanguageID();
 		$("#selectLanguage").append("<option value='"+value+"'>"+name+"</option>");
 	});
