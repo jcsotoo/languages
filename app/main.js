@@ -267,6 +267,15 @@ function doSelect(languageID)
 	
 	_layerOV.setOpacity(0.6);
 
+	$("#map").multiTips({
+		pointArray : _selected,
+		mapVariable : _map,
+		labelDirection : "top",
+		backgroundColor : "#dadada",
+		textColor : "#444",
+		pointerColor: "#444"
+	});
+	
 }
 
 function createMaster() 
