@@ -15,6 +15,11 @@ function RecordOV(name,	languageID, language, region, longitude, latitude, text,
 		return language;
 	}
 	
+	this.getRegion = function() 
+	{
+		return region;
+	}
+	
 	this.getLongitude = function()
 	{
 		return longitude;

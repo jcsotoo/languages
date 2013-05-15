@@ -24,6 +24,7 @@ var _lods;
 var _master;
 
 var _layerOV;
+var _layerSelected;
 var _layerStoryPoints;
 
 var _dojoReady = false;
@@ -80,6 +81,13 @@ function init() {
 	
 	_layerOV = new esri.layers.GraphicsLayer();
 	_map.addLayer(_layerOV);
+	
+	_layerSelected = new esri.layers.GraphicsLayer();
+	_map.addLayer(_layerSelected);
+	
+	dojo.connect(_layerOV, "onMouseOver", layerOV_onMouseOver);
+	dojo.connect(_layerOV, "onMouseOut", layerOV_onMouseOut);
+	dojo.connect(_layerOV, "onClick", layerOV_onClick);	
 	
 	_layerStoryPoints = new esri.layers.GraphicsLayer();
 	_map.addLayer(_layerStoryPoints);
@@ -168,6 +176,41 @@ function init3()
 		_layerOV.add(graphic);
 	});
 	
+}
+
+function layerOV_onMouseOver(event) 
+{
+	if (_isMobile) return;
+	var graphic = event.graphic;
+	_map.setMapCursor("pointer");
+	//graphic.setSymbol(resizePictureMarkerSymbol(graphic.symbol, _lutArenaIconSpecs["actual"]))
+	moveGraphicToFront(graphic);
+	$("#hoverInfo").html("<b>"+graphic.attributes.getLanguage()+"</b>"+"<p>"+graphic.attributes.getRegion());
+	var pt = _map.toScreen(graphic.geometry);
+	hoverInfoPos(pt.x,pt.y);	
+}
+
+
+function layerOV_onMouseOut(event) 
+{
+	var graphic = event.graphic;
+	_map.setMapCursor("default");
+	$("#hoverInfo").hide();
+	//graphic.setSymbol(resizePictureMarkerSymbol(graphic.symbol, _lutArenaIconSpecs["normal"]))
+}
+
+
+function layerOV_onClick(event) 
+{
+	
+	$.each(_layerSelected.graphics, function(index, value) {
+		_layerSelected.remove(value);
+		_layerOV.add(value);
+	});
+	
+	_layerOV.setOpacity(0.4);
+	_layerOV.remove(event.graphic);
+	_layerSelected.add(event.graphic);
 }
 
 // -----------------
@@ -272,3 +315,26 @@ function createCircleMarker(color)
 		   new dojo.Color([0,0,0]), 1),
 		   color);
 }
+
+function moveGraphicToFront(graphic)
+{
+	var dojoShape = graphic.getDojoShape();
+	if (dojoShape) dojoShape.moveToFront();
+}
+
+function hoverInfoPos(x,y){
+	if (x <= ($("#map").width())-230){
+		$("#hoverInfo").css("left",x+15);
+	}
+	else{
+		$("#hoverInfo").css("left",x-25-($("#hoverInfo").width()));
+	}
+	if (y >= ($("#hoverInfo").height())+50){
+		$("#hoverInfo").css("top",y-35-($("#hoverInfo").height()));
+	}
+	else{
+		$("#hoverInfo").css("top",y-15+($("#hoverInfo").height()));
+	}
+	$("#hoverInfo").show();
+}
+
