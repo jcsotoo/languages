@@ -233,18 +233,20 @@ function zoomToSelected()
 	
 	setTimeout(function(){
 		_map.centerAt(multi.getExtent().getCenter());
-		/*
 		setTimeout(function(){
+			var level;
 			var extent;
+			var expand = multi.getExtent().expand(1.2);
 			$.each(_lods, function(index, value) {
 				extent = new esri.geometry.getExtentForScale(_map, value.scale);
-				if (extent.contains(multi.getExtent())) {
-					_map.centerAndZoom(multi.getExtent().getCenter(), value.level);
+				if (extent.contains(expand)) {
+					level = value.level;
 					return false;
 				}
 			});
+			if (level > 5) level = 5;
+			_map.centerAndZoom(multi.getExtent().getCenter(), level);
 		},1000);
-		*/
 	},500);
 	
 }
