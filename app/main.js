@@ -32,6 +32,7 @@ var _jqueryReady = false;
 
 var _symCircle;
 
+var _selected = [];
 
 var _homeExtent; // set this in init() if desired; otherwise, it will 
 				 // be the default extent of the web map;
@@ -88,6 +89,10 @@ function init() {
 	dojo.connect(_layerOV, "onMouseOver", layerOV_onMouseOver);
 	dojo.connect(_layerOV, "onMouseOut", layerOV_onMouseOut);
 	dojo.connect(_layerOV, "onClick", layerOV_onClick);	
+
+	dojo.connect(_layerSelected, "onMouseOver", layerOV_onMouseOver);
+	dojo.connect(_layerSelected, "onMouseOut", layerOV_onMouseOut);
+	dojo.connect(_layerSelected, "onClick", layerOV_onClick);	
 	
 	_layerStoryPoints = new esri.layers.GraphicsLayer();
 	_map.addLayer(_layerStoryPoints);
@@ -143,6 +148,12 @@ function init2() {
 	
 }
 
+function colorizeBox(languageID)
+{
+	var selected = $.grep(_master, function(n, i){return languageID == n.languageID})[0];
+	$("#selectLanguage").css("background-color", selected.color);
+}
+
 function init3() 
 {
 	if ((_recsMain == null) || (_recsOV == null)) {
@@ -155,13 +166,10 @@ function init3()
 	});
 
 	$("#selectLanguage").change(function(e) {
-		var that = this;
-		var selected = $.grep(_master, function(n, i){return $(that).attr("value") == n.languageID})[0];
-		$("#selectLanguage").css("background-color", selected.color);
+		var languageID = $(this).val();
+		colorizeBox(languageID);
+		doSelect(languageID);
 	});
-	
-	var selected = $.grep(_master, function(n, i){return $("#selectLanguage option:first").attr("value") == n.languageID})[0];
-	$("#selectLanguage").css("background-color", selected.color);
 	
 	var pt;	
 	var color;
@@ -175,7 +183,7 @@ function init3()
 		graphic = new esri.Graphic(pt, createCircleMarker(color), value);		
 		_layerOV.add(graphic);
 	});
-	
+		
 }
 
 function layerOV_onMouseOver(event) 
@@ -202,20 +210,36 @@ function layerOV_onMouseOut(event)
 
 function layerOV_onClick(event) 
 {
-	
-	$.each(_layerSelected.graphics, function(index, value) {
-		_layerSelected.remove(value);
-		_layerOV.add(value);
-	});
-	
-	_layerOV.setOpacity(0.4);
-	_layerOV.remove(event.graphic);
-	_layerSelected.add(event.graphic);
+	var languageID = event.graphic.attributes.getLanguageID();
+	doSelect(languageID);
+	$("#selectLanguage").val(languageID);
+	colorizeBox(languageID);
 }
 
 // -----------------
 // private functions
 // -----------------
+
+function doSelect(languageID)
+{
+
+	$.each(_selected, function(index, value) {
+		_layerSelected.remove(value);
+		value.setSymbol(value.symbol.setSize(15));
+		_layerOV.add(value);
+	});
+
+	_selected = $.grep(_layerOV.graphics, function(n, i){return n.attributes.getLanguageID() == languageID});
+	
+	$.grep(_selected, function(n, i){
+		_layerOV.remove(n);
+		_layerSelected.add(n);
+		n.setSymbol(n.symbol.setSize(20));
+	});	
+	
+	_layerOV.setOpacity(0.6);
+
+}
 
 function createMaster() 
 {
