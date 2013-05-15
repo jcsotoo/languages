@@ -169,6 +169,7 @@ function init3()
 		var languageID = $(this).val();
 		colorizeBox(languageID);
 		doSelect(languageID);
+		zoomToSelected();
 	});
 	
 	var pt;	
@@ -214,11 +215,38 @@ function layerOV_onClick(event)
 	doSelect(languageID);
 	$("#selectLanguage").val(languageID);
 	colorizeBox(languageID);
+	zoomToSelected();
 }
 
 // -----------------
 // private functions
 // -----------------
+
+function zoomToSelected()
+{
+	var multi = new esri.geometry.Multipoint(new esri.SpatialReference({wkid:102100}));
+	
+	$.each(_selected, function(index, value) {
+		multi.addPoint(value.geometry);
+	});
+	
+	setTimeout(function(){
+		_map.centerAt(multi.getExtent().getCenter());
+		/*
+		setTimeout(function(){
+			var extent;
+			$.each(_lods, function(index, value) {
+				extent = new esri.geometry.getExtentForScale(_map, value.scale);
+				if (extent.contains(multi.getExtent())) {
+					_map.centerAndZoom(multi.getExtent().getCenter(), value.level);
+					return false;
+				}
+			});
+		},1000);
+		*/
+	},500);
+	
+}
 
 function doSelect(languageID)
 {
