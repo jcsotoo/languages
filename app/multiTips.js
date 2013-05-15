@@ -105,7 +105,7 @@
 			
 		$.each(settings.pointArray,function(i,pt){
 			mapDiv.append("<div id='arrow"+i+"' class='mtArrow'></div>").append("<div id='multiTip"+i+"' class='multiTip'></div>");
-			$('#multiTip'+i).html(pt.attributes[settings.attributeLabelField]);
+			$('#multiTip'+i).html(pt.attributes.getRegion());
 			$('#multiTip'+i).css("background-color",settings.backgroundColor);
 			$('#multiTip'+i).css("color",settings.textColor);
 			$('#multiTip'+i).css("white-space","nowrap");
