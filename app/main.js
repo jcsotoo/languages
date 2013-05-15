@@ -148,12 +148,6 @@ function init2() {
 	
 }
 
-function colorizeBox(languageID)
-{
-	var selected = $.grep(_master, function(n, i){return languageID == n.languageID})[0];
-	$("#selectLanguage").css("background-color", selected.color);
-}
-
 function init3() 
 {
 	if ((_recsMain == null) || (_recsOV == null)) {
@@ -221,6 +215,13 @@ function layerOV_onClick(event)
 // -----------------
 // private functions
 // -----------------
+
+function colorizeBox(languageID)
+{
+	var selected = $.grep(_master, function(n, i){return languageID == n.languageID})[0];
+	$("#selectLanguage").css("background-color", selected.color);
+}
+
 
 function zoomToSelected()
 {
