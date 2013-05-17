@@ -17,6 +17,14 @@ var SPREADSHEET_OVERVIEW_URL = "/proxy/proxy.ashx?https://docs.google.com/spread
 ***************** end config section ******************
 *******************************************************/
 
+
+var STATE_NO_SELECTION = 0;
+var STATE_SELECTION_OVERVIEW = 1;
+var STATE_SELECTION_LOCAL = 2;
+
+var _currentState = STATE_NO_SELECTION;
+var _languageID;
+
 var _map;
 var _recsMain;
 var _recsOV;
@@ -160,14 +168,17 @@ function init3()
 	});
 
 	$("#selectLanguage").change(function(e) {
-		var languageID = $(this).val();
-		colorizeBox(languageID);
-		doSelect(languageID);
-		zoomToSelected();
+		_languageID = $(this).val();
+		colorizeBox(_languageID);
+		changeState(STATE_SELECTION_OVERVIEW);
 	});
 	
 	$("#zoomButton").click(function(e) {
-        zoomToStoryPoints();
+		if (_layerStoryPoints.graphics.length == 0) {
+			alert('no story points current available for this language');
+			return false;
+		}
+        changeState(STATE_SELECTION_LOCAL);
     });
 	
 	var pt;	
@@ -209,11 +220,43 @@ function layerOV_onMouseOut(event)
 
 function layerOV_onClick(event) 
 {
-	var languageID = event.graphic.attributes.getLanguageID();
-	doSelect(languageID);
-	$("#selectLanguage").val(languageID);
-	colorizeBox(languageID);
-	zoomToSelected();
+	$("#hoverInfo").hide();
+	_languageID = event.graphic.attributes.getLanguageID();
+	$("#selectLanguage").val(_languageID);
+	colorizeBox(_languageID);
+	changeState(STATE_SELECTION_OVERVIEW);
+}
+
+function changeState(toState)
+{
+	var fromState = _currentState;
+	_currentState = toState;
+	if (_currentState == STATE_SELECTION_OVERVIEW) {
+		_layerStoryPoints.hide();
+		_layerOV.show();
+		_layerSelected.show();
+		doSelect(_languageID);
+		zoomToSelected();
+	} else if (_currentState == STATE_SELECTION_LOCAL) {
+		_layerOV.hide();
+		_layerSelected.hide();
+
+		$("#map").multiTips({
+			pointArray : [],
+			mapVariable : _map,
+			labelDirection : "top",
+			backgroundColor : "#dadada",
+			textColor : "#444",
+			pointerColor: "#444"
+		});
+		
+		_layerStoryPoints.show();
+		
+		setTimeout(function(){zoomToStoryPoints()},1000)
+
+	} else {
+		alert('invalid state');
+	}
 }
 
 // -----------------
