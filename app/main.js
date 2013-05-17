@@ -166,6 +166,10 @@ function init3()
 		zoomToSelected();
 	});
 	
+	$("#zoomButton").click(function(e) {
+        zoomToStoryPoints();
+    });
+	
 	var pt;	
 	var color;
 	$.each(_recsOV, function(index, value) {
@@ -279,7 +283,7 @@ function doSelect(languageID)
 		pointerColor: "#444"
 	});
 	
-	symbolizeLanguage(languageID);
+	loadStoryPoints(languageID);
 }
 
 function createMaster() 
@@ -306,11 +310,10 @@ function createMaster()
 	
 }
 
-function symbolizeLanguage(languageID)
+function loadStoryPoints(languageID)
 {
 	
 	_layerStoryPoints.clear();
-	//_map.setLevel(3)
 	
 	var pt;
 	var graphic; 
@@ -336,23 +339,25 @@ function symbolizeLanguage(languageID)
 		
 		graphic = new esri.Graphic(pt, sym, value);		
 		_layerStoryPoints.add(graphic);
-		multi.addPoint(pt);
 	});
-	/*
-	setTimeout(function(){
-		_map.centerAt(multi.getExtent().getCenter());
-		setTimeout(function(){
-			var extent;
-			$.each(_lods, function(index, value) {
-				extent = new esri.geometry.getExtentForScale(_map, value.scale);
-				if (extent.contains(multi.getExtent())) {
-					_map.centerAndZoom(multi.getExtent().getCenter(), value.level);
-					return false;
-				}
-			});
-		},1000);
-	},1000);
-	*/
+	
+}
+
+function zoomToStoryPoints()
+{
+	var multi = new esri.geometry.Multipoint(new esri.SpatialReference({wkid:102100}));
+
+	$.each(_layerStoryPoints.graphics, function(index, value) {
+		multi.addPoint(value.geometry);
+	});
+
+	$.each(_lods, function(index, value) {
+		extent = new esri.geometry.getExtentForScale(_map, value.scale);
+		if (extent.contains(multi.getExtent())) {
+			_map.centerAndZoom(multi.getExtent().getCenter(), value.level);
+			return false;
+		}
+	});
 }
 
 function handleWindowResize() {
