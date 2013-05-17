@@ -121,6 +121,14 @@
         <div id="logo"><a id="logoLink" href="http://www.esri.com" target="_blank"><img id="logoImg" src="resources/images/esriGlobeLogow.png" alt="Esri - Home"></a></div>
       </div>
     </div>
+ 
+    <div style="top:20px;right:20px;z-index:100;margin-left:50%;padding-left:-100px">
+        <select id="selectLanguage" style="z-index:400;font-size:16px;cursor:pointer;float:left">
+            <option value="default" disabled="disabled">Select a language</option>
+        </select>
+        <br />
+        <button id="zoomButton" style="cursor:pointer;float:left;margin-top:-14px">Zoom to Story Points</button>
+    </div>
     
     <div id="map" dojotype="dijit.layout.ContentPane">
         <div id="zoomToggle">
@@ -128,13 +136,6 @@
             <img id="zoomExtent" src="resources/images/ZoomHome.png">
             <img id="zoomOut" src="resources/images/ZoomLight_03.png">
         </div><!--?zoomToggle-->
-        <div style="position:absolute;top:20px;right:20px;z-index:100">
-            <select id="selectLanguage" style="z-index:400;font-size:16px;cursor:pointer">
-                <option value="default" disabled="disabled">Select a language</option>
-            </select>
-            <br />
-            <button id="zoomButton" style="cursor:pointer">Zoom to Story Points</button>
-        </div>
         <div id="hoverInfo"></div>        
     </div><!--mapPane-->
         
