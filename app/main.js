@@ -244,7 +244,7 @@ function zoomToSelected()
 					return false;
 				}
 			});
-			if (level > 5) level = 5;
+			if (level > 4) level = 4;
 			_map.centerAndZoom(multi.getExtent().getCenter(), level);
 		},1000);
 	},500);
@@ -279,6 +279,7 @@ function doSelect(languageID)
 		pointerColor: "#444"
 	});
 	
+	symbolizeLanguage(languageID);
 }
 
 function createMaster() 
@@ -309,7 +310,7 @@ function symbolizeLanguage(languageID)
 {
 	
 	_layerStoryPoints.clear();
-	_map.setLevel(3)
+	//_map.setLevel(3)
 	
 	var pt;
 	var graphic; 
@@ -320,7 +321,7 @@ function symbolizeLanguage(languageID)
 			   
 	var selected = $.grep(_recsMain, function(n, i){return n.getLanguageID() == languageID});
 	if (selected.length == 0) {
-		alert("no records for the selected language in the main table");
+		//alert("no records for the selected language in the main table");
 		return false;
 	}
 	
@@ -337,7 +338,7 @@ function symbolizeLanguage(languageID)
 		_layerStoryPoints.add(graphic);
 		multi.addPoint(pt);
 	});
-	
+	/*
 	setTimeout(function(){
 		_map.centerAt(multi.getExtent().getCenter());
 		setTimeout(function(){
@@ -351,7 +352,7 @@ function symbolizeLanguage(languageID)
 			});
 		},1000);
 	},1000);
-
+	*/
 }
 
 function handleWindowResize() {
