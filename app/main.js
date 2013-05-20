@@ -237,6 +237,7 @@ function changeState(toState)
 		_layerSelected.show();
 		doSelect(_languageID);
 		zoomToSelected();
+		playSound()
 	} else if (_currentState == STATE_SELECTION_LOCAL) {
 		_layerOV.hide();
 		_layerSelected.hide();
@@ -258,6 +259,12 @@ function changeState(toState)
 		alert('invalid state');
 	}
 }
+
+function playSound(soundfile) {
+	//var embed = $("<embed></embed>");
+	//$(embed).attr("src",
+ 	document.getElementById("dummy").innerHTML= "<embed src='resources/media/birz.wav' hidden='true' autostart='true' loop='false' />";
+ }
 
 // -----------------
 // private functions
