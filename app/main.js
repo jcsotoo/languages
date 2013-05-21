@@ -363,8 +363,6 @@ function createMaster()
 		}
 	});
 	
-	console.log("There are ", arr1.length, " unique languages.");
-	
 	var recOV;
 	var recLUT;
 	var arr2 = [];
@@ -372,6 +370,9 @@ function createMaster()
 		recOV = $.grep(_recsOV, function(n, i) {
 			return n.getLanguageID() == id;
 		})[0];
+		// todo: this check to make sure that artwork exists for 
+		//       the current language -- it should eventually be
+		//       unnecessary.
 		recLUT = $.grep(_lut, function(n, i) {
 			return n.languageID == id;
 		})[0];
