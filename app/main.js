@@ -179,7 +179,12 @@ function init3()
 		return;
 	}
 	
+	// create a master list of unique language id's
+	// - sorted by language name (todo: still?)
+	// - only languages for which there's artwork in _lut (todo:still?)
+	
 	_master = createMaster();
+	
 	$.each(_master, function(index, value) {
 		var thumb = $.grep(_lut, function(n, i){return n.languageID == value.languageID})[0].art;
 		$("#listThumbs").append("<li value='"+value.languageID+"'><img src='resources/artwork/"+thumb+"' style='max-height:70px'/></li>");
@@ -201,6 +206,9 @@ function init3()
 	var pt;	
 	var icon;
 	$.each(_recsOV, function(index, value) {
+		// todo: this checks to make sure that the language of the current record is represented in
+		//       the master list.  check is necessary now because not all languages have artwork.
+		//       eventually, probably not necessary.
 		if ($.grep(_master, function(n, i){return n.languageID == value.getLanguageID()}).length > 0) {
 			pt = esri.geometry.geographicToWebMercator(
 				new esri.geometry.Point(
