@@ -121,13 +121,9 @@
         <div id="logo"><a id="logoLink" href="http://www.esri.com" target="_blank"><img id="logoImg" src="resources/images/esriGlobeLogow.png" alt="Esri - Home"></a></div>
       </div>
     </div>
- 
-    <div style="top:20px;right:20px;z-index:100;margin-left:50%;padding-left:-100px">
-        <select id="selectLanguage" style="z-index:400;font-size:16px;cursor:pointer;float:left">
-            <option value="default" disabled="disabled">Select a language</option>
-        </select>
-        <br />
-        <button id="zoomButton" style="cursor:pointer;float:left;margin-top:-14px">Zoom to Story Points</button>
+ 	
+    <div style="width:100%">
+	    <ul id="listThumbs"></ul>
     </div>
     
     <span id="dummy"></span>
@@ -139,6 +135,7 @@
             <img id="zoomOut" src="resources/images/ZoomLight_03.png">
         </div><!--?zoomToggle-->
         <div id="hoverInfo"></div>        
+        <button id="zoomButton" style="position:absolute;bottom:100px;left:20px;cursor:pointer;z-index:99">Zoom to Story Points</button>
     </div><!--mapPane-->
         
 </body>

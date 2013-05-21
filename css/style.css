@@ -162,3 +162,13 @@ a:hover{
 	cursor:pointer;
 }
 
+#listThumbs {
+	height:70px;	
+	width:3000px;
+}
+
+#listThumbs li {
+	display: inline;
+	list-style-type: none;
+	cursor:pointer;
+}
