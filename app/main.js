@@ -53,7 +53,7 @@ var _lut = [
 ];
 
 var _layerOV;
-var _layerSelected;
+var _layerSelected; // todo: still need a separate layer for selected?
 var _layerStoryPoints;
 
 var _dojoReady = false;
@@ -330,7 +330,7 @@ function doSelect(languageID)
 
 	$.each(_selected, function(index, value) {
 		_layerSelected.remove(value);
-		value.setSymbol(value.symbol.setSize(15));
+		value.setSymbol(value.symbol.setSize(15)); // todo: remove hard-coded value
 		_layerOV.add(value);
 	});
 
@@ -339,7 +339,7 @@ function doSelect(languageID)
 	$.grep(_selected, function(n, i){
 		_layerOV.remove(n);
 		_layerSelected.add(n);
-		n.setSymbol(n.symbol.setSize(20));
+		n.setSymbol(n.symbol.setSize(20)); // todo: remove hard-coded value
 	});	
 
 	$("#map").multiTips({
@@ -445,6 +445,7 @@ function handleWindowResize() {
 
 function createIconMarker(icon) 
 {
+	// todo: remove hard-coded width and height values
 	return new esri.symbol.PictureMarkerSymbol("resources/icons/"+icon, 30, 30); 
 }
 
