@@ -341,8 +341,6 @@ function doSelect(languageID)
 		_layerSelected.add(n);
 		n.setSymbol(n.symbol.setSize(20));
 	});	
-	
-	_layerOV.setOpacity(0.6);
 
 	$("#map").multiTips({
 		pointArray : _selected,
