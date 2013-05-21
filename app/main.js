@@ -22,6 +22,8 @@ var STATE_NO_SELECTION = 0;
 var STATE_SELECTION_OVERVIEW = 1;
 var STATE_SELECTION_LOCAL = 2;
 
+var TEST_SOUND_FILE = "resources/media/birz.wav"
+
 var _currentState = STATE_NO_SELECTION;
 var _languageID;
 
@@ -263,7 +265,7 @@ function changeState(toState)
 		_layerSelected.show();
 		doSelect(_languageID);
 		zoomToSelected();
-		playSound()
+		playSound(TEST_SOUND_FILE);
 	} else if (_currentState == STATE_SELECTION_LOCAL) {
 		_layerOV.hide();
 		_layerSelected.hide();
@@ -287,9 +289,8 @@ function changeState(toState)
 }
 
 function playSound(soundfile) {
-	//var embed = $("<embed></embed>");
-	//$(embed).attr("src",
- 	document.getElementById("dummy").innerHTML= "<embed src='resources/media/birz.wav' hidden='true' autostart='true' loop='false' />";
+	$("#dummy").empty();
+	$("#dummy").append("<embed src='"+soundfile+"' hidden='true' autostart='true' loop='false' />");
  }
 
 // -----------------
