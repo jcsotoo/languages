@@ -57,8 +57,6 @@ var _layerStoryPoints;
 var _dojoReady = false;
 var _jqueryReady = false;
 
-var _symCircle;
-
 var _selected = [];
 
 var _homeExtent; // set this in init() if desired; otherwise, it will 
