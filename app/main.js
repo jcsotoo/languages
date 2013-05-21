@@ -29,7 +29,26 @@ var _map;
 var _recsMain;
 var _recsOV;
 var _lods;
-var _master;
+var _lut = [
+	{languageID:1, language:"Siletz Dee-ni", art:"PanelSiletz.jpg", icon:"Icon1Siletz.png"},
+	{languageID:2, language:"Koro", art:"PanelKoro.jpg", icon:"Icon1Koro.png"},
+	{languageID:3, language:"Tuvan", art:"PanelTuvan.jpg", icon:"Icon1Tuvan.png"},
+	{languageID:4, language:"Hawaiian", art:"PanelHawaii.jpg", icon:"Icon1Hawaii.png"},
+	{languageID:5, language:"Welsh", art:"PanelWales.jpg", icon:"Icon1Wales.png"},
+	{languageID:6, language:"Garifuna", art:"PanelGarifuna.jpg", icon:"Icon1Garifuna.png"},
+	{languageID:7, language:"Kalmyk", art:"PanelKalmyk.jpg", icon:""},
+	{languageID:8, language:"Passamaquoddy", art:"PanelPassamaquoddy.jpg", icon:""},
+	{languageID:9, language:"Penobscot", art:"PanelPenobscot.jpg", icon:""},
+	{languageID:10, language:"Kallawaya", art:"PanelKallawaya.jpg", icon:""},
+	{languageID:11, language:"Wayuunaiki", art:"PanelWayuu.jpg", icon:""},
+	{languageID:12, language:"Ri Palenge", art:"", icon:""},
+	{languageID:13, language:"Kichwa", art:"PanelKichwa.jpg", icon:""},
+	{languageID:14, language:"Kamentzá", art:"", icon:""},
+	{languageID:15, language:"Quechua", art:"", icon:""},
+	{languageID:16, language:"Isthmus Zapotec", art:"PanelZaptotek.jpg", icon:""},
+	{languageID:17, language:"Yiddish", art:"", icon:""},
+	{languageID:18, language:"Purari - I'ai dialect", art:"", icon:""}
+];
 
 var _layerOV;
 var _layerSelected;
@@ -164,12 +183,11 @@ function init3()
 	
 	_master = createMaster();
 	$.each(_master, function(index, value) {
-		$("#selectLanguage").append("<option value='"+value.languageID+"' style='background-color:"+value.color+";cursor:pointer'>"+value.language+"</option>");
+		$("#selectLanguage").append("<option value='"+value.languageID+"' style='cursor:pointer'>"+value.language+"</option>");
 	});
 
 	$("#selectLanguage").change(function(e) {
 		_languageID = $(this).val();
-		colorizeBox(_languageID);
 		changeState(STATE_SELECTION_OVERVIEW);
 	});
 	
@@ -182,16 +200,18 @@ function init3()
     });
 	
 	var pt;	
-	var color;
+	var icon;
 	$.each(_recsOV, function(index, value) {
-		pt = esri.geometry.geographicToWebMercator(
-			new esri.geometry.Point(
-				[value.getLongitude(), value.getLatitude()],
-				new esri.SpatialReference({ wkid:4326}))
-		);
-		color = $.grep(_master, function(n, i){return n.languageID == value.getLanguageID()})[0].color;
-		graphic = new esri.Graphic(pt, createCircleMarker(color), value);		
-		_layerOV.add(graphic);
+		if ($.grep(_master, function(n, i){return n.languageID == value.getLanguageID()}).length > 0) {
+			pt = esri.geometry.geographicToWebMercator(
+				new esri.geometry.Point(
+					[value.getLongitude(), value.getLatitude()],
+					new esri.SpatialReference({ wkid:4326}))
+			);
+			icon = $.grep(_lut, function(n, i){return n.languageID == value.getLanguageID()})[0].icon;
+			graphic = new esri.Graphic(pt, createIconMarker(icon), value);		
+			_layerOV.add(graphic);
+		}
 	});
 		
 }
@@ -223,7 +243,6 @@ function layerOV_onClick(event)
 	$("#hoverInfo").hide();
 	_languageID = event.graphic.attributes.getLanguageID();
 	$("#selectLanguage").val(_languageID);
-	colorizeBox(_languageID);
 	changeState(STATE_SELECTION_OVERVIEW);
 }
 
@@ -269,13 +288,6 @@ function playSound(soundfile) {
 // -----------------
 // private functions
 // -----------------
-
-function colorizeBox(languageID)
-{
-	var selected = $.grep(_master, function(n, i){return languageID == n.languageID})[0];
-	$("#selectLanguage").css("background-color", selected.color);
-}
-
 
 function zoomToSelected()
 {
@@ -345,19 +357,26 @@ function createMaster()
 		}
 	});
 	
-	var language;
+	console.log("There are ", arr1.length, " unique languages.");
+	
+	var recOV;
+	var recLUT;
 	var arr2 = [];
 	$.each(arr1, function(index, id) {
-		language = $.grep(_recsOV, function(n, i) {
+		recOV = $.grep(_recsOV, function(n, i) {
 			return n.getLanguageID() == id;
-		})[0].getLanguage();
-		arr2.push({languageID: id, language: language, color: createRandomColor()});
+		})[0];
+		recLUT = $.grep(_lut, function(n, i) {
+			return n.languageID == id;
+		})[0];
+		if ($.trim(recLUT.icon) != "") {
+			arr2.push({languageID: id, language: recOV.getLanguage()});
+		}
 	});
 	
 	arr2.sort(function(a,b) {return a.language.replace(/[^a-z]/ig,'') > b.language.replace(/[^a-z]/ig,'') ? 1 : -1;});
 	
 	return arr2;
-	
 }
 
 function loadStoryPoints(languageID)
@@ -419,21 +438,10 @@ function handleWindowResize() {
 	_map.resize();
 }
 
-function createRandomColor() {
-    var letters = '0123456789ABCDEF'.split('');
-    var color = '#';
-    for (var i = 0; i < 6; i++ ) {
-        color += letters[Math.round(Math.random() * 15)];
-    }
-    return color;
-}
-
-function createCircleMarker(color) 
+function createIconMarker(icon) 
 {
- 	return new esri.symbol.SimpleMarkerSymbol(esri.symbol.SimpleMarkerSymbol.STYLE_CIRCLE, 15,
-		   new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_SOLID,
-		   new dojo.Color([0,0,0]), 1),
-		   color);
+	console.log("resources/icons/"+icon);
+ 	return new esri.symbol.PictureMarkerSymbol("resources/icons/"+icon, 30, 30); 
 }
 
 function moveGraphicToFront(graphic)
