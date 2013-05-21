@@ -24,6 +24,9 @@ var STATE_SELECTION_LOCAL = 2;
 
 var TEST_SOUND_FILE = "resources/media/birz.wav"
 
+var ICONS_PATH = "resources/icons/";
+var ARTWORK_PATH = "resources/artwork/";
+
 var _currentState = STATE_NO_SELECTION;
 var _languageID;
 
@@ -189,7 +192,7 @@ function init3()
 	
 	$.each(_master, function(index, value) {
 		var thumb = $.grep(_lut, function(n, i){return n.languageID == value.languageID})[0].art;
-		$("#listThumbs").append("<li value='"+value.languageID+"'><img src='resources/artwork/"+thumb+"' style='max-height:70px'/></li>");
+		$("#listThumbs").append("<li value='"+value.languageID+"'><img src='"+ARTWORK_PATH+thumb+"' style='max-height:70px'/></li>");
 	});
 
 	$("#listThumbs li").click(function(e) {
@@ -441,7 +444,7 @@ function handleWindowResize() {
 function createIconMarker(icon) 
 {
 	// todo: remove hard-coded width and height values
-	return new esri.symbol.PictureMarkerSymbol("resources/icons/"+icon, 30, 30); 
+	return new esri.symbol.PictureMarkerSymbol(ICONS_PATH+icon, 30, 30); 
 }
 
 function moveGraphicToFront(graphic)
