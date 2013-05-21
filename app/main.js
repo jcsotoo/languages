@@ -199,7 +199,7 @@ function init3()
 	
 	$("#zoomButton").click(function(e) {
 		if (_layerStoryPoints.graphics.length == 0) {
-			alert('no story points current available for this language');
+			alert('no story points currently available for this language');
 			return false;
 		}
         changeState(STATE_SELECTION_LOCAL);
@@ -398,12 +398,6 @@ function loadStoryPoints(languageID)
 			   new dojo.Color([255,0,0,0.25]));
 			   
 	var selected = $.grep(_recsMain, function(n, i){return n.getLanguageID() == languageID});
-	if (selected.length == 0) {
-		//alert("no records for the selected language in the main table");
-		return false;
-	}
-	
-	var multi = new esri.geometry.Multipoint(new esri.SpatialReference({wkid:102100}));
 	
 	$.each(selected, function(index, value) {
 		pt = esri.geometry.geographicToWebMercator(
