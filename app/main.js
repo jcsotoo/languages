@@ -22,10 +22,9 @@ var STATE_NO_SELECTION = 0;
 var STATE_SELECTION_OVERVIEW = 1;
 var STATE_SELECTION_LOCAL = 2;
 
-var TEST_SOUND_FILE = "resources/media/birz.wav"
-
 var ICONS_PATH = "resources/icons/";
 var ARTWORK_PATH = "resources/artwork/";
+var MEDIA_PATH = "resources/media/";
 
 var _currentState = STATE_NO_SELECTION;
 var _languageID;
@@ -270,7 +269,8 @@ function changeState(toState)
 		_layerSelected.show();
 		doSelect(_languageID);
 		zoomToSelected();
-		playSound(TEST_SOUND_FILE);
+		console.log("audio: ", MEDIA_PATH+_selected[0].attributes.getAudio());
+		playSound(MEDIA_PATH+_selected[0].attributes.getAudio());
 	} else if (_currentState == STATE_SELECTION_LOCAL) {
 		_layerOV.hide();
 		_layerSelected.hide();
