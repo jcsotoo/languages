@@ -122,6 +122,39 @@ a:hover{
 	outline:none;
 }
 
+
+#info {
+	width:300px;
+	height:100%;
+	float:left;
+	margin-left:30px;
+	margin-right:30px;
+}
+
+.info-title {
+	font-size:22px;
+	color:#5d5d5d;
+	font-family:Georgia, "Times New Roman", Times, serif;
+	margin-bottom:10px;
+	margin-top:10px;
+}
+
+.info-caption {
+	color:#5d5d5d;
+	font-family:Georgia, "Times New Roman", Times, serif;
+	margin-bottom:10px;
+	margin-top:10px;
+}
+
+.info-instructions {
+	font-size:18px;
+	color:#5d5d5d;
+	font-family:Georgia, "Times New Roman", Times, serif;
+	margin-bottom:10px;
+	margin-top:10px;
+	font-style:italic;
+}
+
 #map {
 	position:relative;
 	border:none;
@@ -129,6 +162,7 @@ a:hover{
 	height:100%;
 	width:100%;
 	overflow:hidden;
+	float:left;
 }
 
 #hoverInfo{

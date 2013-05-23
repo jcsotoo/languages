@@ -125,18 +125,28 @@
     <div style="width:100%">
 	    <ul id="listThumbs"></ul>
     </div>
+
+	<div>
+        <div id="info">
+        	<div class="info-title">The Smithsonian Folklife Festival Spotlights Language Diversity</div>
+            <img src="resources/images/intro.jpg" style="max-width:300px"/>
+            <div class="info-caption">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean feugiat, purus at varius molestie, metus urna fermentum erat, non viverra nisl ligula eu ante. Praesent sed iaculis est. Fusce venenatis, quam sed elementum dapibus, ligula erat lobortis nisi, non molestie orci elit quis felis. Proin id justo felis, vitae posuere leo.</div>
+            <div class="info-instructions">
+            Click on a language in the gallery (above) to start
+            </div>
+        </div>    
+        <div id="map" dojotype="dijit.layout.ContentPane">
+            <div id="zoomToggle">
+                <img id="zoomIn" src="resources/images/ZoomLight_01.png">
+                <img id="zoomExtent" src="resources/images/ZoomHome.png">
+                <img id="zoomOut" src="resources/images/ZoomLight_03.png">
+            </div><!--?zoomToggle-->
+            <div id="hoverInfo"></div>        
+            <button id="zoomButton" style="position:absolute;bottom:100px;left:20px;cursor:pointer;z-index:99">Zoom to Story Points</button>
+        </div><!--mapPane-->
+	</div>
     
     <span id="dummy"></span>
-    
-    <div id="map" dojotype="dijit.layout.ContentPane">
-        <div id="zoomToggle">
-            <img id="zoomIn" src="resources/images/ZoomLight_01.png">
-            <img id="zoomExtent" src="resources/images/ZoomHome.png">
-            <img id="zoomOut" src="resources/images/ZoomLight_03.png">
-        </div><!--?zoomToggle-->
-        <div id="hoverInfo"></div>        
-        <button id="zoomButton" style="position:absolute;bottom:100px;left:20px;cursor:pointer;z-index:99">Zoom to Story Points</button>
-    </div><!--mapPane-->
         
 </body>
 
