@@ -52,7 +52,9 @@ var _lut = [
 	{languageID:15, language:"Quechua", art:"", icon:""},
 	{languageID:16, language:"Isthmus Zapotec", art:"PanelZaptotek.jpg", icon:""},
 	{languageID:17, language:"Yiddish", art:"", icon:""},
-	{languageID:18, language:"Purari - I'ai dialect", art:"", icon:""}
+	{languageID:18, language:"Purari - I'ai dialect", art:"", icon:""},
+	{languageID:19, language:"Arhuaco", art:"", icon:""},
+	{languageID:20, language:"Uitoto", art:"", icon:""}	
 ];
 
 var _layerOV;
