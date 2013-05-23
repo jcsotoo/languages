@@ -30,4 +30,9 @@ function RecordOV(name,	languageID, language, region, longitude, latitude, text,
 		return latitude;
 	}
 	
+	this.getAudio = function()
+	{
+		return audio;
+	}
+	
 }
