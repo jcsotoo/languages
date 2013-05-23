@@ -35,4 +35,19 @@ function RecordOV(name,	languageID, language, region, longitude, latitude, text,
 		return audio;
 	}
 	
+	this.getText = function()
+	{
+		return text;
+	}
+	
+	this.getURL = function()
+	{
+		return url;
+	}
+	
+	this.getName = function()
+	{
+		return name;
+	}
+	
 }

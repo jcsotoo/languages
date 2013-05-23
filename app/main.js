@@ -271,7 +271,21 @@ function changeState(toState)
 		_layerSelected.show();
 		doSelect(_languageID);
 		zoomToSelected(_selected);
-		console.log("audio: ", MEDIA_PATH+_selected[0].attributes.getAudio());
+		console.log("url: ", _selected[0].attributes.getURL());
+		
+		$("#info").empty();
+		$("#info").append("<div class='info-box'>"+_selected[0].attributes.getLanguage().toUpperCase()+"</div>");
+		$("#info").append("<div class='info-title'>"+_selected[0].attributes.getName()+"</div>");		
+		var url = _selected[0].attributes.getURL();
+		if (url == "") {
+			$("#info").append("No photo available");
+		} else {
+			if (url.indexOf("http") == -1) url = MEDIA_PATH+url;
+			$("#info").append("<img src='"+url+"'/>");
+		}
+		$("#info").append("<div class='info-caption'>"+_selected[0].attributes.getText()+"</div>");
+		$("#info").append("<div class='info-caption'>Playing audio:"+_selected[0].attributes.getAudio()+"</div>");		
+		
 		playSound(MEDIA_PATH+_selected[0].attributes.getAudio());
 		$("#zoomButton").show();
 	} else if (_currentState == STATE_SELECTION_LOCAL) {
