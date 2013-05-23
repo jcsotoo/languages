@@ -226,6 +226,8 @@ function init3()
 			_layerOV.add(graphic);
 		}
 	});
+	
+	zoomToSelected(_layerOV.graphics);
 		
 }
 
@@ -268,9 +270,10 @@ function changeState(toState)
 		_layerOV.show();
 		_layerSelected.show();
 		doSelect(_languageID);
-		zoomToSelected();
+		zoomToSelected(_selected);
 		console.log("audio: ", MEDIA_PATH+_selected[0].attributes.getAudio());
 		playSound(MEDIA_PATH+_selected[0].attributes.getAudio());
+		$("#zoomButton").show();
 	} else if (_currentState == STATE_SELECTION_LOCAL) {
 		_layerOV.hide();
 		_layerSelected.hide();
@@ -285,7 +288,7 @@ function changeState(toState)
 		});
 		
 		_layerStoryPoints.show();
-		
+		$("#zoomButton").hide();		
 		setTimeout(function(){zoomToStoryPoints()},1000)
 
 	} else {
@@ -302,11 +305,11 @@ function playSound(soundfile) {
 // private functions
 // -----------------
 
-function zoomToSelected()
+function zoomToSelected(selected)
 {
 	var multi = new esri.geometry.Multipoint(new esri.SpatialReference({wkid:102100}));
 	
-	$.each(_selected, function(index, value) {
+	$.each(selected, function(index, value) {
 		multi.addPoint(value.geometry);
 	});
 	
