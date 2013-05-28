@@ -467,6 +467,9 @@ function handleWindowResize() {
 	$("#map").height($("body").height() - $("#header").height() - $("#listThumbs").height());
 	$("#map").width($("body").width() - $("#info").width() - parseInt($("#info").css("margin-left"))  - parseInt($("#info").css("margin-right")));
 	_map.resize();
+	var arrowJunk = $("#arrowLeft").width() + (parseInt($("#arrowLeft").css("padding-left"))*2);
+	$("#outerCarousel").width($("body").width() - (arrowJunk*2));
+	
 }
 
 function createIconMarker(icon) 
