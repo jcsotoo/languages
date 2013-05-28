@@ -96,7 +96,7 @@ function init() {
 	}
 
 	$.each(_lut, function(index, value) {
-		$("#listThumbs").append("<li value='"+value.languageID+"'><img src='"+ARTWORK_PATH+value.art+"' style='max-height:70px'/></li>");
+		$("#listThumbs").append("<li value='"+value.languageID+"'><img src='"+ARTWORK_PATH+value.art+"' style='max-height:70px'/><span>"+value.language+"</span></li>");
 	});
 	
 	// jQuery event assignment

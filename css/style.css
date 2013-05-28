@@ -247,4 +247,13 @@ a:hover{
 	display: inline;
 	list-style-type: none;
 	cursor:pointer;
+	position:relative;
+}
+
+#listThumbs span {
+	position:absolute;
+	left:32px;
+	bottom:46px;
+	width:100px;
+	font-weight:bold;
 }
