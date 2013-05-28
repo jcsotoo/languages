@@ -26,6 +26,8 @@ var ICONS_PATH = "resources/icons/";
 var ARTWORK_PATH = "resources/artwork/";
 var MEDIA_PATH = "media/";
 
+var INIT_CENTER;
+
 var _currentState = STATE_NO_SELECTION;
 var _languageID;
 
@@ -80,6 +82,8 @@ function init() {
 	if (!_jqueryReady) return;
 	if (!_dojoReady) return;
 	
+	INIT_CENTER = new esri.geometry.Point(-293518, 2778638, new esri.SpatialReference({wkid: 102100}));
+	
 	// determine whether we're in embed mode
 	
 	var queryString = esri.urlToObject(document.location.href).query;
@@ -90,6 +94,10 @@ function init() {
 			}
 		}
 	}
+
+	$.each(_lut, function(index, value) {
+		$("#listThumbs").append("<li value='"+value.languageID+"'><img src='"+ARTWORK_PATH+value.art+"' style='max-height:70px'/></li>");
+	});
 	
 	// jQuery event assignment
 	
@@ -108,7 +116,11 @@ function init() {
 	$("#title").append(TITLE);
 	$("#subtitle").append(BYLINE);	
 
-	_map = new esri.Map("map", {slider:false});
+	_map = new esri.Map("map", {
+		slider:false, 
+		center:INIT_CENTER, 
+		zoom:2
+	});
 	_map.addLayer(new esri.layers.ArcGISTiledMapServiceLayer(BASEMAP_SERVICE_NATGEO));
 	
 	_layerOV = new esri.layers.GraphicsLayer();
@@ -157,8 +169,7 @@ function init2() {
 	_lods = _map._params.lods.reverse();
 	
 	handleWindowResize();
-	_map.setLevel(2);
-
+	setTimeout(function(){_map.centerAt(INIT_CENTER)},500);
 	// get the spreadsheet data
 	
 	var serviceMain = new CSVService();
@@ -191,11 +202,6 @@ function init3()
 	
 	_master = createMaster();
 	
-	$.each(_master, function(index, value) {
-		var thumb = $.grep(_lut, function(n, i){return n.languageID == value.languageID})[0].art;
-		$("#listThumbs").append("<li value='"+value.languageID+"'><img src='"+ARTWORK_PATH+thumb+"' style='max-height:70px'/></li>");
-	});
-
 	$("#listThumbs li").click(function(e) {
 		_languageID = $(this).val();
 		changeState(STATE_SELECTION_OVERVIEW);
@@ -227,7 +233,7 @@ function init3()
 		}
 	});
 
-	_map.centerAt(new esri.geometry.Point(-293518, 2778638, new esri.SpatialReference({wkid: 102100})));
+	_map.centerAt(INIT_CENTER);
 				
 }
 
@@ -287,7 +293,7 @@ function changeState(toState)
 		$("#info").append("<div class='info-caption'>Playing audio:"+_selected[0].attributes.getAudio()+"</div>");		
 		
 		playSound(MEDIA_PATH+_selected[0].attributes.getAudio());
-		$("#zoomButton").show();
+		//$("#zoomButton").show();
 	} else if (_currentState == STATE_SELECTION_LOCAL) {
 		_layerOV.hide();
 		_layerSelected.hide();
