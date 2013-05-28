@@ -96,7 +96,7 @@ function init() {
 	}
 
 	$.each(_lut, function(index, value) {
-		$("#listThumbs").append("<li value='"+value.languageID+"'><img src='"+ARTWORK_PATH+value.art+"' style='max-height:70px'/><span>"+value.language+"</span></li>");
+		$("#listThumbs").append("<li value='"+value.languageID+"'><img src='"+ARTWORK_PATH+value.art+"' style='max-height:70px'/><span>"+value.language+"</span><div class='selectionHalo'></div></li>");
 	});
 	
 	// jQuery event assignment
@@ -364,6 +364,11 @@ function doSelect(languageID)
 		value.setSymbol(value.symbol.setSize(15)); // todo: remove hard-coded value
 		_layerOV.add(value);
 	});
+	
+	$(".selectionHalo").hide();
+	
+	var li = ($.grep($("#listThumbs").children("li"),function(n,i){return n.value == languageID})[0]);
+	$(li).find(".selectionHalo").show();
 
 	_selected = $.grep(_layerOV.graphics, function(n, i){return n.attributes.getLanguageID() == languageID});
 	
