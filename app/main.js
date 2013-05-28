@@ -24,7 +24,7 @@ var STATE_SELECTION_LOCAL = 2;
 
 var ICONS_PATH = "resources/icons/";
 var ARTWORK_PATH = "resources/artwork/";
-var MEDIA_PATH = "resources/media/";
+var MEDIA_PATH = "media/";
 
 var _currentState = STATE_NO_SELECTION;
 var _languageID;
@@ -46,12 +46,12 @@ var _lut = [
 	{languageID:10, language:"Kallawaya", art:"PanelKallawaya.jpg", icon:"Icon1Kallawaya.png"},
 	{languageID:11, language:"Wayuunaiki", art:"PanelWayuu.jpg", icon:"Icon1Wayuu.png"},
 	{languageID:13, language:"Kichwa", art:"PanelKichwa.jpg", icon:"Icon1Kichwa.png"},
-	{languageID:12, language:"Ri Palenge", art:"", icon:""},
-	{languageID:14, language:"Kamentzá", art:"", icon:""},
-	{languageID:15, language:"Quechua", art:"", icon:""},
-	{languageID:16, language:"Isthmus Zapotec", art:"PanelZaptotek.jpg", icon:""},
-	{languageID:17, language:"Yiddish", art:"", icon:""},
-	{languageID:18, language:"Purari - I'ai dialect", art:"", icon:""},
+	{languageID:12, language:"Ri Palenge", art:"PanelRiPalenge.jpg", icon:"Icon1RiPalenge.png"},
+	{languageID:14, language:"Kamentzá", art:"PanelKamentza.jpg", icon:"Icon1Kamentza.png"},
+	{languageID:15, language:"Quechua", art:"PanelQuechua.jpg", icon:"Icon1Quechua.png"},
+	{languageID:16, language:"Isthmus Zapotec", art:"PanelZapotek.jpg", icon:"Icon1Zapotek.png"},
+	{languageID:17, language:"Yiddish", art:"PanelYiddish.jpg", icon:"Icon1Yiddish.png"},
+	{languageID:18, language:"Purari - I'ai dialect", art:"PanelPNG.jpg", icon:"Icon1PNG.png"},
 	{languageID:19, language:"Arhuaco", art:"", icon:""},
 	{languageID:20, language:"Uitoto", art:"", icon:""}	
 ];
@@ -138,7 +138,7 @@ function init() {
 }
 
 function init2() {
-	
+
 	// if _homeExtent hasn't been set, then default to the initial extent
 	// of the web map.  On the other hand, if it HAS been set AND we're using
 	// the embed option, we need to reset the extent (because the map dimensions
@@ -158,7 +158,7 @@ function init2() {
 	
 	handleWindowResize();
 	_map.setLevel(2);
-	
+
 	// get the spreadsheet data
 	
 	var serviceMain = new CSVService();
@@ -226,9 +226,9 @@ function init3()
 			_layerOV.add(graphic);
 		}
 	});
-	
-	zoomToSelected(_layerOV.graphics);
-		
+
+	_map.centerAt(new esri.geometry.Point(-293518, 2778638, new esri.SpatialReference({wkid: 102100})));
+				
 }
 
 function layerOV_onMouseOver(event) 
@@ -312,7 +312,10 @@ function changeState(toState)
 
 function playSound(soundfile) {
 	$("#dummy").empty();
-	$("#dummy").append("<embed src='"+soundfile+"' hidden='true' autostart='true' loop='false' />");
+	var audio = $("<audio autoplay></audio>");
+	$(audio).append("<source src='"+soundfile+"' type='audio/mpeg'>");
+	$(audio).append("<embed src='"+soundfile+"' hidden='true' autostart='true' loop='false' />");
+	$("#dummy").append(audio);
  }
 
 // -----------------
