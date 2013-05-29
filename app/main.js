@@ -147,7 +147,7 @@ function init() {
 	_map.addLayer(new esri.layers.ArcGISTiledMapServiceLayer(BASEMAP_SERVICE_NATGEO));
 
 	_layerRegions = new esri.layers.FeatureLayer(SERVICE_HOTSPOTS_FEATURES,{mode:esri.layers.FeatureLayer.MODE_SNAPSHOT, outFields: ["*"]});
-	_layerRegions.setOpacity(0.5);
+	_layerRegions.setOpacity(0.4);
 	_map.addLayer(_layerRegions);
 		
 	_layerOV = new esri.layers.GraphicsLayer();
