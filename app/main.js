@@ -110,6 +110,10 @@ function init() {
 		$("#listThumbs").append("<li value='"+value.languageID+"'><img src='"+ARTWORK_PATH+value.art+"' style='max-height:70px'/><span>"+value.language+"</span><div class='selectionHalo'></div></li>");
 	});
 	
+	if (_isMobile) {
+		_scroll = new iScroll('outerCarousel', {snap:'li',momentum:true,hScrollbar:false});
+	}
+	
 	// jQuery event assignment
 	
 	$(this).resize(handleWindowResize);
@@ -141,9 +145,9 @@ function init() {
 		zoom:2
 	});
 	_map.addLayer(new esri.layers.ArcGISTiledMapServiceLayer(BASEMAP_SERVICE_NATGEO));
-	_map.addLayer(new esri.layers.ArcGISTiledMapServiceLayer(SERVICE_HOTSPOTS));
 
 	_layerRegions = new esri.layers.FeatureLayer(SERVICE_HOTSPOTS_FEATURES,{mode:esri.layers.FeatureLayer.MODE_SNAPSHOT, outFields: ["*"]});
+	_layerRegions.setOpacity(0.5);
 	_map.addLayer(_layerRegions);
 		
 	_layerOV = new esri.layers.GraphicsLayer();
@@ -261,6 +265,8 @@ function init3()
 	});
 
 	_map.centerAt(INIT_CENTER);
+	
+	if(_scroll){_scroll.refresh()}	
 				
 }
 
@@ -387,7 +393,11 @@ function playSound(soundfile) {
 
 function scrollToPage(index)
 {
-	$("#outerCarousel").animate({scrollLeft: (index*$("#listThumbs li").width())}, 'slow');
+	if (_scroll) {
+		_scroll.scrollToPage(index, 0, 500);
+	} else {	
+		$("#outerCarousel").animate({scrollLeft: (index*$("#listThumbs li").width())}, 'slow');
+	}
 }
 
 function pageLeft()
