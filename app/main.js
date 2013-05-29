@@ -74,8 +74,15 @@ var _homeExtent; // set this in init() if desired; otherwise, it will
 				 // be the default extent of the web map;
 
 var _isMobile = isMobile();
-
+var _isIE = (navigator.appVersion.indexOf("MSIE") > -1)
 var _isEmbed = false;
+
+var _lutBallIconSpecs = {
+	tiny:new IconSpecs(24,24,12,12),
+	medium:new IconSpecs(30,30,15,15),
+	large:new IconSpecs(30,30,15,15)
+}
+
 
 dojo.addOnLoad(function() {_dojoReady = true;init()});
 jQuery(document).ready(function() {_jqueryReady = true;init()});
@@ -247,7 +254,7 @@ function init3()
 					new esri.SpatialReference({ wkid:4326}))
 			);
 			icon = $.grep(_lut, function(n, i){return n.languageID == value.getLanguageID()})[0].icon;
-			graphic = new esri.Graphic(pt, createIconMarker(icon), value);		
+			graphic = new esri.Graphic(pt, createIconMarker(ICONS_PATH+icon, _lutBallIconSpecs.tiny), value);		
 			_layerOV.add(graphic);
 		}
 	});
@@ -261,8 +268,10 @@ function layerOV_onMouseOver(event)
 	if (_isMobile) return;
 	var graphic = event.graphic;
 	_map.setMapCursor("pointer");
-	//graphic.setSymbol(resizePictureMarkerSymbol(graphic.symbol, _lutArenaIconSpecs["actual"]))
-	moveGraphicToFront(graphic);
+	if ($.inArray(graphic, _selected) == -1) {
+		graphic.setSymbol(resizeSymbol(graphic.symbol, _lutBallIconSpecs.medium));
+	}
+	if (!_isIE) moveGraphicToFront(graphic);	
 	$("#hoverInfo").html("<b>"+graphic.attributes.getLanguage()+"</b>"+"<p>"+graphic.attributes.getRegion());
 	var pt = _map.toScreen(graphic.geometry);
 	hoverInfoPos(pt.x,pt.y);	
@@ -274,14 +283,17 @@ function layerOV_onMouseOut(event)
 	var graphic = event.graphic;
 	_map.setMapCursor("default");
 	$("#hoverInfo").hide();
-	//graphic.setSymbol(resizePictureMarkerSymbol(graphic.symbol, _lutArenaIconSpecs["normal"]))
+	if ($.inArray(graphic, _selected) == -1) {
+		graphic.setSymbol(resizeSymbol(graphic.symbol, _lutBallIconSpecs.tiny));
+	}
 }
 
 
 function layerOV_onClick(event) 
 {
 	$("#hoverInfo").hide();
-	_languageID = event.graphic.attributes.getLanguageID();
+	var graphic = event.graphic;
+	_languageID = graphic.attributes.getLanguageID();
 	$("#selectLanguage").val(_languageID);
 	changeState(STATE_SELECTION_OVERVIEW);
 	scrollToPage($.inArray($.grep($("#listThumbs").children("li"),function(n,i){return n.value == _languageID})[0], $("#listThumbs").children("li")));	
@@ -419,7 +431,7 @@ function doSelect(languageID)
 
 	$.each(_selected, function(index, value) {
 		_layerSelected.remove(value);
-		value.setSymbol(value.symbol.setSize(15)); // todo: remove hard-coded value
+		value.setSymbol(resizeSymbol(value.symbol, _lutBallIconSpecs.tiny));	
 		_layerOV.add(value);
 	});
 	
@@ -430,10 +442,10 @@ function doSelect(languageID)
 
 	_selected = $.grep(_layerOV.graphics, function(n, i){return n.attributes.getLanguageID() == languageID});
 	
-	$.grep(_selected, function(n, i){
-		_layerOV.remove(n);
-		_layerSelected.add(n);
-		n.setSymbol(n.symbol.setSize(20)); // todo: remove hard-coded value
+	$.each(_selected, function(index, value){
+		_layerOV.remove(value);
+		_layerSelected.add(value);
+		value.setSymbol(resizeSymbol(value.symbol, _lutBallIconSpecs.large));	
 	});	
 
 	$("#map").multiTips({
@@ -535,10 +547,14 @@ function handleWindowResize() {
 	
 }
 
-function createIconMarker(icon) 
+function createIconMarker(iconPath, spec) 
 {
-	// todo: remove hard-coded width and height values
-	return new esri.symbol.PictureMarkerSymbol(ICONS_PATH+icon, 30, 30); 
+	return new esri.symbol.PictureMarkerSymbol(iconPath, spec.getWidth(), spec.getHeight()); 
+}
+
+function resizeSymbol(symbol, spec)
+{
+	return symbol.setWidth(spec.getWidth()).setHeight(spec.getHeight())	
 }
 
 function moveGraphicToFront(graphic)
