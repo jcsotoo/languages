@@ -224,9 +224,9 @@ a:hover{
 
 #outerCarousel {
 	overflow:hidden;
-	background-color:#FFCCCC;
 	float:left;
 	width:0px;
+	background-color:#CCC;
 }
 
 .arrows {
@@ -240,8 +240,7 @@ a:hover{
 
 #listThumbs {
 	height:70px;	
-	width:2700px;
-	background-color:#C9C;
+	width:4000px;
 }
 
 #listThumbs li {

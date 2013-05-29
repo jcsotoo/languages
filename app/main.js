@@ -113,6 +113,14 @@ function init() {
         _map.setExtent(_homeExtent);
     });
 	
+	$("#arrowRight").click(function(e) {
+        pageRight();
+    });
+	
+	$("#arrowLeft").click(function(e) {
+        pageLeft();
+    });
+	
 	$("#title").append(TITLE);
 	$("#subtitle").append(BYLINE);	
 
@@ -265,6 +273,7 @@ function layerOV_onClick(event)
 	_languageID = event.graphic.attributes.getLanguageID();
 	$("#selectLanguage").val(_languageID);
 	changeState(STATE_SELECTION_OVERVIEW);
+	scrollToPage($.inArray($.grep($("#listThumbs").children("li"),function(n,i){return n.value == _languageID})[0], $("#listThumbs").children("li")));	
 }
 
 function changeState(toState)
@@ -328,6 +337,27 @@ function playSound(soundfile) {
 // private functions
 // -----------------
 
+
+function scrollToPage(index)
+{
+	$("#outerCarousel").animate({scrollLeft: (index*$("#listThumbs li").width())}, 'slow');
+}
+
+function pageLeft()
+{
+	var numVisibleTiles = Math.floor($("#outerCarousel").width() / $("#listThumbs li").width());
+	var currentIndex = Math.floor($("#outerCarousel").scrollLeft() / $("#listThumbs li").width());
+	var left = (currentIndex - numVisibleTiles) * $("#listThumbs li").width();
+	$("#outerCarousel").animate({scrollLeft: left}, 'slow');
+}
+
+function pageRight()
+{
+	var numVisibleTiles = Math.floor($("#outerCarousel").width() / $("#listThumbs li").width());
+	var left = $("#outerCarousel").scrollLeft() + (numVisibleTiles * $("#listThumbs li").width());
+	$("#outerCarousel").animate({scrollLeft: left}, 'slow');
+}
+
 function zoomToSelected(selected)
 {
 	var multi = new esri.geometry.Multipoint(new esri.SpatialReference({wkid:102100}));
@@ -367,7 +397,7 @@ function doSelect(languageID)
 	
 	$(".selectionHalo").hide();
 	
-	var li = ($.grep($("#listThumbs").children("li"),function(n,i){return n.value == languageID})[0]);
+	var li = $.grep($("#listThumbs").children("li"),function(n,i){return n.value == languageID})[0];
 	$(li).find(".selectionHalo").show();
 
 	_selected = $.grep(_layerOV.graphics, function(n, i){return n.attributes.getLanguageID() == languageID});
