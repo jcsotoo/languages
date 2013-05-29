@@ -10,6 +10,8 @@ dojo.require("esri.map");
 var TITLE = "Endangered Languages"
 var BYLINE = "Just a test to make sure there are no issues reading the data.";
 var BASEMAP_SERVICE_NATGEO = "http://server.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Map/MapServer";
+var SERVICE_HOTSPOTS = "http://tiles.arcgis.com/tiles/nzS0F0zdNLvs7nc8/arcgis/rest/services/LanguageHotspots/MapServer";
+var SERVICE_HOTSPOTS_FEATURES = "http://services.arcgis.com/nzS0F0zdNLvs7nc8/arcgis/rest/services/LanguageHotspots/FeatureServer/0"
 var SPREADSHEET_MAIN_URL = "/proxy/proxy.ashx?https://docs.google.com/spreadsheet/pub?key=0ApQt3h4b9AptdDR2cjc2Wm4xcFpSQjVlT2ZnX3BEemc&output=csv";
 var SPREADSHEET_OVERVIEW_URL = "/proxy/proxy.ashx?https://docs.google.com/spreadsheet/pub?key=0ApQt3h4b9AptdDByc0FOY2NacHZNUlhjWnZ6WHdYb1E&output=csv";
 
@@ -61,6 +63,7 @@ var _lut = [
 var _layerOV;
 var _layerSelected; // todo: still need a separate layer for selected?
 var _layerStoryPoints;
+var _layerRegions;
 
 var _dojoReady = false;
 var _jqueryReady = false;
@@ -130,13 +133,21 @@ function init() {
 		zoom:2
 	});
 	_map.addLayer(new esri.layers.ArcGISTiledMapServiceLayer(BASEMAP_SERVICE_NATGEO));
-	
+	_map.addLayer(new esri.layers.ArcGISTiledMapServiceLayer(SERVICE_HOTSPOTS));
+
+	_layerRegions = new esri.layers.FeatureLayer(SERVICE_HOTSPOTS_FEATURES,{mode:esri.layers.FeatureLayer.MODE_SNAPSHOT, outFields: ["*"]});
+	_map.addLayer(_layerRegions);
+		
 	_layerOV = new esri.layers.GraphicsLayer();
 	_map.addLayer(_layerOV);
 	
 	_layerSelected = new esri.layers.GraphicsLayer();
 	_map.addLayer(_layerSelected);
 	
+	dojo.connect(_layerRegions, "onMouseOver", layerRegions_onMouseOver);
+	dojo.connect(_layerRegions, "onMouseOut", layerRegions_onMouseOut);
+	dojo.connect(_layerRegions, "onClick", layerRegions_onClick);
+		
 	dojo.connect(_layerOV, "onMouseOver", layerOV_onMouseOver);
 	dojo.connect(_layerOV, "onMouseOut", layerOV_onMouseOut);
 	dojo.connect(_layerOV, "onClick", layerOV_onClick);	
@@ -274,6 +285,23 @@ function layerOV_onClick(event)
 	$("#selectLanguage").val(_languageID);
 	changeState(STATE_SELECTION_OVERVIEW);
 	scrollToPage($.inArray($.grep($("#listThumbs").children("li"),function(n,i){return n.value == _languageID})[0], $("#listThumbs").children("li")));	
+}
+
+function layerRegions_onMouseOver(event)
+{
+	if (_isMobile) return;
+	$("#hoverInfo").html("<b>"+event.graphic.attributes.FeatureLabel+"</b>");
+	hoverInfoPos(event.x - $("#info").width(), event.y - ($("#header").height() + $("#controls").height()));	
+}
+
+function layerRegions_onMouseOut(event)
+{
+	_map.setMapCursor("default");
+	$("#hoverInfo").hide();
+}
+
+function layerRegions_onClick(event)
+{
 }
 
 function changeState(toState)
