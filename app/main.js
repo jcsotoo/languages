@@ -74,7 +74,8 @@ var _homeExtent; // set this in init() if desired; otherwise, it will
 				 // be the default extent of the web map;
 
 var _isMobile = isMobile();
-var _isIE = (navigator.appVersion.indexOf("MSIE") > -1)
+var _isIE = (navigator.appVersion.indexOf("MSIE") > -1);
+var _isLegacyIE = ((navigator.appVersion.indexOf("MSIE 8") > -1) || (navigator.appVersion.indexOf("MSIE 7") > -1));
 var _isEmbed = false;
 
 var _lutBallIconSpecs = {
@@ -303,7 +304,13 @@ function layerRegions_onMouseOver(event)
 {
 	if (_isMobile) return;
 	$("#hoverInfo").html("<b>"+event.graphic.attributes.FeatureLabel+"</b>");
-	hoverInfoPos(event.x - $("#info").width(), event.y - ($("#header").height() + $("#controls").height()));	
+	var x = event.x;
+	var y = event.y;
+	if (!_isLegacyIE) {
+		x = x - $("#info").width();
+		y = y - ($("#header").height() + $("#controls").height())
+	}
+	hoverInfoPos(x, y);	
 }
 
 function layerRegions_onMouseOut(event)
