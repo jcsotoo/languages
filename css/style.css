@@ -227,6 +227,7 @@ a:hover{
 	float:left;
 	width:0px;
 	background-color:#CCC;
+	position:relative;
 }
 
 .arrows {
