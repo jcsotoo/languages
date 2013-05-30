@@ -32,6 +32,7 @@ var INIT_CENTER;
 
 var _currentState = STATE_NO_SELECTION;
 var _languageID;
+var _scroll;
 
 var _map;
 var _recsMain;
@@ -403,16 +404,27 @@ function scrollToPage(index)
 function pageLeft()
 {
 	var numVisibleTiles = Math.floor($("#outerCarousel").width() / $("#listThumbs li").width());
-	var currentIndex = Math.floor($("#outerCarousel").scrollLeft() / $("#listThumbs li").width());
-	var left = (currentIndex - numVisibleTiles) * $("#listThumbs li").width();
-	$("#outerCarousel").animate({scrollLeft: left}, 'slow');
+	var currentIndex;
+	if (_scroll) {
+		currentIndex = Math.floor(Math.abs(_scroll.x) / $("#listThumbs li").width());
+		_scroll.scrollToPage((currentIndex - numVisibleTiles) + 1, 0, 200);
+	} else {
+		currentIndex = Math.floor($("#outerCarousel").scrollLeft() / $("#listThumbs li").width());
+		var left = ((currentIndex - numVisibleTiles) + 1) * $("#listThumbs li").width();
+		$("#outerCarousel").animate({scrollLeft: left}, 'slow');
+	}
 }
 
 function pageRight()
 {
 	var numVisibleTiles = Math.floor($("#outerCarousel").width() / $("#listThumbs li").width());
-	var left = $("#outerCarousel").scrollLeft() + (numVisibleTiles * $("#listThumbs li").width());
-	$("#outerCarousel").animate({scrollLeft: left}, 'slow');
+	if (_scroll) {
+		var currentIndex = Math.floor(Math.abs(_scroll.x) / $("#listThumbs li").width());
+		_scroll.scrollToPage(currentIndex + numVisibleTiles, 0, 200);
+	} else {
+		var left = $("#outerCarousel").scrollLeft() + (numVisibleTiles * $("#listThumbs li").width());
+		$("#outerCarousel").animate({scrollLeft: left}, 'slow');
+	}
 }
 
 function zoomToSelected(selected)
