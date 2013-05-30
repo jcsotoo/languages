@@ -26,7 +26,7 @@ var STATE_SELECTION_LOCAL = 2;
 
 var ICONS_PATH = "resources/icons/";
 var ARTWORK_PATH = "resources/artwork/";
-var MEDIA_PATH = "media/";
+var MEDIA_PATH = "media";
 
 var INIT_CENTER;
 
@@ -354,13 +354,13 @@ function changeState(toState)
 		if (url == "") {
 			$("#info").append("No photo available");
 		} else {
-			if (url.indexOf("http") == -1) url = MEDIA_PATH+url;
+			if (url.indexOf("http") == -1) url = MEDIA_PATH+"/"+url;
 			$("#info").append("<img src='"+url+"'/>");
 		}
 		$("#info").append("<div class='info-caption'>"+_selected[0].attributes.getText()+"</div>");
 		$("#info").append("<div class='info-caption'>Playing audio:"+_selected[0].attributes.getAudio()+"</div>");		
 		
-		playSound(MEDIA_PATH+_selected[0].attributes.getAudio());
+		playSound(MEDIA_PATH+"/"+_selected[0].attributes.getAudio());
 		$("#zoomButton").show();
 	} else if (_currentState == STATE_SELECTION_LOCAL) {
 		_layerOV.hide();
