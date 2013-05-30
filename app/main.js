@@ -374,6 +374,9 @@ function changeState(toState)
 			textColor : "#444",
 			pointerColor: "#444"
 		});
+
+		$("#info").empty();
+		$("#info").append("<div class='info-box'>"+_selected[0].attributes.getLanguage().toUpperCase()+"</div>");
 		
 		_layerStoryPoints.show();
 		$("#zoomButton").hide();		
