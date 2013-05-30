@@ -357,10 +357,9 @@ function changeState(toState)
 			if (url.indexOf("http") == -1) url = MEDIA_PATH+"/"+url;
 			$("#info").append("<img src='"+url+"'/>");
 		}
+		$("#info").append(createSoundDiv(MEDIA_PATH+"/"+_selected[0].attributes.getAudio()));
 		$("#info").append("<div class='info-caption'>"+_selected[0].attributes.getText()+"</div>");
 		$("#info").append("<div class='info-caption'>Playing audio:"+_selected[0].attributes.getAudio()+"</div>");		
-		
-		playSound(MEDIA_PATH+"/"+_selected[0].attributes.getAudio());
 		$("#zoomButton").show();
 	} else if (_currentState == STATE_SELECTION_LOCAL) {
 		_layerOV.hide();
@@ -387,12 +386,11 @@ function changeState(toState)
 	}
 }
 
-function playSound(soundfile) {
-	$("#dummy").empty();
-	var audio = $("<audio autoplay></audio>");
+function createSoundDiv(soundfile) {
+	var audio = $("<audio autoplay controls></audio>");
 	$(audio).append("<source src='"+soundfile+"' type='audio/mpeg'>");
 	$(audio).append("<embed src='"+soundfile+"' hidden='true' autostart='true' loop='false' />");
-	$("#dummy").append(audio);
+	return audio;
  }
 
 // -----------------
