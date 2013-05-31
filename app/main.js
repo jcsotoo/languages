@@ -478,7 +478,7 @@ function zoomToSelected(selected)
 	});
 	
 	setTimeout(function(){
-		_map.centerAt(multi.getExtent().getCenter());
+		if (_map.getLevel() <= 4) _map.centerAt(multi.getExtent().getCenter());
 		setTimeout(function(){
 			var level;
 			var extent;
