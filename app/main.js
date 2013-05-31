@@ -374,7 +374,7 @@ function changeState(toState)
 			pointerColor: "#444"
 		});
 		_layerStoryPoints.show();
-		$("#zoomButton").hide();		
+		$("#zoomButton").fadeOut();
 		_localCounter = 0;
 		displayLocalRecord(_layerStoryPoints.graphics[_localCounter]);		
 		setTimeout(function(){zoomToStoryPoints()},1000)
