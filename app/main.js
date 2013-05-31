@@ -491,6 +491,7 @@ function zoomToSelected(selected)
 				}
 			});
 			if (level > 4) level = 4;
+			if ((expand.getWidth() == 0) && (expand.getHeight() == 0)) level = 4;
 			_map.centerAndZoom(multi.getExtent().getCenter(), level);
 		},1000);
 	},500);
