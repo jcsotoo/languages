@@ -360,7 +360,7 @@ function changeState(toState)
 		$("#info").append(createSoundDiv(MEDIA_PATH+"/"+_selected[0].attributes.getAudio()));
 		$("#info").append("<div class='info-caption'>"+_selected[0].attributes.getText()+"</div>");
 		$("#info").append("<div class='info-caption'>Playing audio:"+_selected[0].attributes.getAudio()+"</div>");		
-		$("#zoomButton").show();
+		$("#zoomButton").fadeIn();
 	} else if (_currentState == STATE_SELECTION_LOCAL) {
 		_layerOV.hide();
 		_layerSelected.hide();
