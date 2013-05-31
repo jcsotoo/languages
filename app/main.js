@@ -479,7 +479,15 @@ function zoomToSelected(selected)
 	});
 	
 	setTimeout(function(){
-		if (_map.getLevel() <= 4) _map.centerAt(multi.getExtent().getCenter());
+		var timeout = 0;
+		// TODO: Should probably be using state test here instead of going by zoom
+		//       level.
+		// Test to see whether we're zoomed into local extent.  If so, we can 
+		// bypass the ballet
+		if (_map.getLevel() <= 4) {
+			_map.centerAt(multi.getExtent().getCenter());
+			timeout = 1000;
+		}
 		setTimeout(function(){
 			var level;
 			var extent;
@@ -493,8 +501,9 @@ function zoomToSelected(selected)
 			});
 			if (level > 4) level = 4;
 			if ((expand.getWidth() == 0) && (expand.getHeight() == 0)) level = 4;
+			if (level <= 2) level = 3;
 			_map.centerAndZoom(multi.getExtent().getCenter(), level);
-		},1000);
+		}, timeout);
 	},500);
 	
 }
