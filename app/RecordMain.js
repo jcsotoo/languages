@@ -24,4 +24,10 @@ function RecordMain(name, languageID, language, region, longitude, latitude, tex
 		return latitude;
 	}
 	
+	this.getText = function() {
+		return text;
+	}
+	
+	this.name = name;
+	
 }
