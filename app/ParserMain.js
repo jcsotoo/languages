@@ -47,7 +47,8 @@ function ParserMain(lines)
 				values[getFieldIndex(FIELDNAME_LANGUAGE,fields)],
 				values[getFieldIndex(FIELDNAME_REGION,fields)],
 				values[getFieldIndex(FIELDNAME_LONGITUDE,fields)],
-				values[getFieldIndex(FIELDNAME_LATITUDE,fields)]							
+				values[getFieldIndex(FIELDNAME_LATITUDE,fields)],
+				values[getFieldIndex(FIELDNAME_TEXT,fields)]							
 			);
 	
 			recs.push(rec);

@@ -419,6 +419,7 @@ function displayLocalRecord(graphic)
 	$("#info").append("<div class='local-name'>"+graphic.attributes.getName()+"</div>");
 	$("#info").append("<a href='javascript:doPrevLocal()' class='arrowsLocal' style='left:0px'>&lt</a>");
 	$("#info").append("<a href='javascript:doNextLocal()' class='arrowsLocal' style='right:0px'>&gt</a>");
+	$("#info").append("<div class='local-text'>"+graphic.attributes.getText()+"</div>");
 }
 
 function displayLocalTip(graphic)

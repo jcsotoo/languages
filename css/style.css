@@ -183,6 +183,10 @@ a:hover{
 	text-align:center;
 }
 
+.local-text {
+	padding-right:40px;
+	padding-left:40px;
+}
 
 .arrowsLocal {
 	font-size:50px;
