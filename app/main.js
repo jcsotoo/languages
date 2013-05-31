@@ -373,14 +373,12 @@ function changeState(toState)
 			textColor : "#444",
 			pointerColor: "#444"
 		});
-
-		$("#info").empty();
-		$("#info").append("<div class='info-box'>"+_selected[0].attributes.getLanguage().toUpperCase()+"</div>");
-		
 		_layerStoryPoints.show();
 		$("#zoomButton").hide();		
+		_localCounter = 0;
+		displayLocalRecord(_layerStoryPoints.graphics[_localCounter]);		
 		setTimeout(function(){zoomToStoryPoints()},1000)
-
+		setTimeout(function(){displayLocalTip(_layerStoryPoints.graphics[_localCounter])}, 3000);
 	} else {
 		alert('invalid state');
 	}
@@ -397,6 +395,43 @@ function createSoundDiv(soundfile) {
 // private functions
 // -----------------
 
+function doNextLocal()
+{
+	_localCounter++;
+	if (_localCounter > _layerStoryPoints.graphics.length - 1) _localCounter = 0;
+	displayLocalRecord(_layerStoryPoints.graphics[_localCounter]);
+	displayLocalTip(_layerStoryPoints.graphics[_localCounter]);
+}
+
+
+function doPrevLocal()
+{
+	_localCounter--;
+	if (_localCounter < 0) _localCounter = _layerStoryPoints.graphics.length - 1;
+	displayLocalRecord(_layerStoryPoints.graphics[_localCounter]);
+	displayLocalTip(_layerStoryPoints.graphics[_localCounter]);
+}
+
+function displayLocalRecord(graphic)
+{
+	$("#info").empty();
+	$("#info").append("<div class='info-box'>"+_selected[0].attributes.getLanguage().toUpperCase()+"</div>");
+	$("#info").append("<div>"+graphic.attributes.getName()+"</div>");
+	$("#info").append("<div><a href='javascript:doPrevLocal()' style='padding-right:50px'>prev</a><a href='javascript:doNextLocal()'>next</a></div>");
+}
+
+function displayLocalTip(graphic)
+{
+	$("#map").multiTips({
+		pointArray : [graphic],
+		attributeLabelField: "name",
+		mapVariable : _map,
+		labelDirection : "top",
+		backgroundColor : "#dadada",
+		textColor : "#444",
+		pointerColor: "#444"
+	});
+}
 
 function scrollToPage(index)
 {
@@ -485,6 +520,7 @@ function doSelect(languageID)
 
 	$("#map").multiTips({
 		pointArray : _selected,
+		attributeLabelField : "region", 
 		mapVariable : _map,
 		labelDirection : "top",
 		backgroundColor : "#dadada",
