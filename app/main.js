@@ -472,6 +472,8 @@ function displayLocalRecord(graphic)
 	$("#info").append("<a href='javascript:doNextLocal()' class='arrowsLocal' style='right:0px'>&gt</a>");
 	$("#info").append("<div class='local-text'>"+rec.getText()+"</div>");
 	
+	$("#info").append("<a class='more-info' href='"+rec.getMoreInfoURL()+"' target='_blank'>"+rec.getMoreInfo()+"</a>");
+	
 	handleWindowResize();
 	
 }

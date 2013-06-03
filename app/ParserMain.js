@@ -55,7 +55,9 @@ function ParserMain(lines)
 				values[getFieldIndex(FIELDNAME_LINK,fields)],
 				values[getFieldIndex(FIELDNAME_CREDIT_PHOTO,fields)],
 				values[getFieldIndex(FIELDNAME_CREDIT_AUDIO,fields)],
-				values[getFieldIndex(FIELDNAME_CREDIT_VIDEO,fields)]
+				values[getFieldIndex(FIELDNAME_CREDIT_VIDEO,fields)],
+				values[getFieldIndex(FIELDNAME_MORE_INFO,fields)],
+				values[getFieldIndex(FIELDNAME_MORE_INFO_URL,fields)]
 			);
 			
 			recs.push(rec);
