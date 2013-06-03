@@ -377,8 +377,8 @@ function changeState(toState)
 		$("#zoomButton").fadeOut();
 		_localCounter = 0;
 		displayLocalRecord(_layerStoryPoints.graphics[_localCounter]);		
-		setTimeout(function(){zoomToStoryPoints()},1000)
-		setTimeout(function(){displayLocalTip(_layerStoryPoints.graphics[_localCounter])}, 3000);
+		setTimeout(function(){zoomToStoryPoints()}, 1000)
+		setTimeout(function(){displayLocalTip(_layerStoryPoints.graphics[_localCounter])}, 2000);
 	} else {
 		alert('invalid state');
 	}
