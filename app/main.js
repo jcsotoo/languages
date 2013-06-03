@@ -444,12 +444,36 @@ function doPrevLocal()
 
 function displayLocalRecord(graphic)
 {
+	
+	var rec = graphic.attributes;
+	
 	$("#info").empty();
-	$("#info").append("<div class='info-box'>"+_selected[0].attributes.getLanguage().toUpperCase()+"</div>");
-	$("#info").append("<div class='local-name'>"+graphic.attributes.getName()+"</div>");
+	$("#info").append("<div class='info-box'>"+rec.getLanguage().toUpperCase()+"</div>");			
+	
+	if (rec.getPhoto()) {
+		$("#info").append("<img src='"+MEDIA_PATH+"/"+rec.getPhoto()+"'/>");
+		$("#info").append("<span class='credits'>"+rec.getCreditPhoto()+"</span>");
+	}
+
+	if (rec.getVideo()) {
+		var tokens = rec.getVideo().split("/"); 
+		var youTubeID = tokens[tokens.length - 1];
+		$("#info").append("<iframe src='http://www.youtube.com/embed/"+youTubeID+"?rel=0' frameborder='0' allowfullscreen></iframe>");
+		$("#info").append("<span class='credits'>"+rec.getCreditVideo()+"</span>");
+	}
+	
+	if (rec.getAudio()) {
+		$("#info").append(createSoundDiv(MEDIA_PATH+"/"+rec.getAudio()));
+		$("#info").append("<span class='credits'>"+rec.getCreditAudio()+"</span>");
+	}
+
+	$("#info").append("<div class='local-name'>"+rec.getName()+"</div>");
 	$("#info").append("<a href='javascript:doPrevLocal()' class='arrowsLocal' style='left:0px'>&lt</a>");
 	$("#info").append("<a href='javascript:doNextLocal()' class='arrowsLocal' style='right:0px'>&gt</a>");
-	$("#info").append("<div class='local-text'>"+graphic.attributes.getText()+"</div>");
+	$("#info").append("<div class='local-text'>"+rec.getText()+"</div>");
+	
+	handleWindowResize();
+	
 }
 
 function displayLocalTip(graphic)
@@ -653,7 +677,8 @@ function handleWindowResize() {
 	_map.resize();
 	var arrowJunk = $("#arrowLeft").width() + (parseInt($("#arrowLeft").css("padding-left"))*2);
 	$("#outerCarousel").width($("body").width() - (arrowJunk*2));
-	
+	$("#info iframe").width($("#info").width());
+	$("#info iframe").height($("#info iframe").width()*0.6);
 }
 
 function createIconMarker(iconPath, spec) 

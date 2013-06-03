@@ -28,6 +28,38 @@ function RecordMain(name, languageID, language, region, longitude, latitude, tex
 		return text;
 	}
 	
+	this.getPhoto = function() {
+		return photo;
+	}
+	
+	this.getAudio = function() {
+		return audio;
+	}
+	
+	this.getVideo = function() {
+		return video;
+	}
+	
+	this.getCreditPhoto = function() {
+		return creditPhoto;
+	}
+	
+	this.getCreditAudio = function() {
+		return creditAudio;
+	}
+	
+	this.getCreditVideo = function() {
+		return creditVideo;
+	}
+	
+	this.getMoreInfo = function() {
+		return moreInfo;
+	}
+	
+	this.getMoreInfoURL = function() {
+		return moreInfoURL;
+	}
+	
 	this.name = name;
 	
 }

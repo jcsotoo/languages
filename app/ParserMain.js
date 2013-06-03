@@ -48,15 +48,27 @@ function ParserMain(lines)
 				values[getFieldIndex(FIELDNAME_REGION,fields)],
 				values[getFieldIndex(FIELDNAME_LONGITUDE,fields)],
 				values[getFieldIndex(FIELDNAME_LATITUDE,fields)],
-				values[getFieldIndex(FIELDNAME_TEXT,fields)]							
+				values[getFieldIndex(FIELDNAME_TEXT,fields)],
+				checkValue(values[getFieldIndex(FIELDNAME_PHOTO,fields)]),
+				checkValue(values[getFieldIndex(FIELDNAME_AUDIO,fields)]),
+				checkValue(values[getFieldIndex(FIELDNAME_VIDEO,fields)]),
+				values[getFieldIndex(FIELDNAME_LINK,fields)],
+				values[getFieldIndex(FIELDNAME_CREDIT_PHOTO,fields)],
+				values[getFieldIndex(FIELDNAME_CREDIT_AUDIO,fields)],
+				values[getFieldIndex(FIELDNAME_CREDIT_VIDEO,fields)]
 			);
-	
+			
 			recs.push(rec);
 	
 		}	
 		
 		return recs;
 	}	
+	
+	function checkValue(value) 
+	{
+		return $.trim(value) == "" ? null : value;		
+	}
 	
 	function getFieldIndex(name,fields) 
 	{
