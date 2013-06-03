@@ -161,11 +161,19 @@ function init() {
 	
 	_layerSelected = new esri.layers.GraphicsLayer();
 	_map.addLayer(_layerSelected);
+
+	_layerStoryPoints = new esri.layers.GraphicsLayer();
+	_map.addLayer(_layerStoryPoints);
+
 	
 	dojo.connect(_layerRegions, "onMouseOver", layerRegions_onMouseOver);
 	dojo.connect(_layerRegions, "onMouseOut", layerRegions_onMouseOut);
 	dojo.connect(_layerRegions, "onClick", layerRegions_onClick);
-		
+	
+	dojo.connect(_layerStoryPoints, "onMouseOver", layerLocal_onMouseOver);
+	dojo.connect(_layerStoryPoints, "onMouseOut", layerLocal_onMouseOut);
+	dojo.connect(_layerStoryPoints, "onClick", layerLocal_onClick);
+			
 	dojo.connect(_layerOV, "onMouseOver", layerOV_onMouseOver);
 	dojo.connect(_layerOV, "onMouseOut", layerOV_onMouseOut);
 	dojo.connect(_layerOV, "onClick", layerOV_onClick);	
@@ -174,9 +182,6 @@ function init() {
 	dojo.connect(_layerSelected, "onMouseOut", layerOV_onMouseOut);
 	dojo.connect(_layerSelected, "onClick", layerOV_onClick);	
 	
-	_layerStoryPoints = new esri.layers.GraphicsLayer();
-	_map.addLayer(_layerStoryPoints);
-
 	if(_map.loaded){
 		init2();
 	} else {
@@ -274,6 +279,31 @@ function init3()
 	
 	if(_scroll){_scroll.refresh()}	
 				
+}
+
+function layerLocal_onMouseOver(event)
+{
+	if (_isMobile) return;
+	var graphic = event.graphic;
+	_map.setMapCursor("pointer");	
+	$("#hoverInfo").html("Click to show story.");
+	var pt = _map.toScreen(graphic.geometry);
+	hoverInfoPos(pt.x,pt.y);	
+}
+
+function layerLocal_onMouseOut(event)
+{
+	_map.setMapCursor("default");
+	$("#hoverInfo").hide();	
+}
+
+function layerLocal_onClick(event)
+{
+	var graphic = event.graphic;
+	_localCounter = $.inArray(graphic, _layerStoryPoints.graphics);
+	$("#hoverInfo").hide();	
+	displayLocalRecord(_layerStoryPoints.graphics[_localCounter]);
+	displayLocalTip(_layerStoryPoints.graphics[_localCounter]);
 }
 
 function layerOV_onMouseOver(event) 
