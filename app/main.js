@@ -8,7 +8,7 @@ dojo.require("esri.map");
 *******************************************************/
 
 var TITLE = "One World, Many Voices: Endangered Languages and Cultural Heritage"
-var BYLINE = "Just a test to make sure there are no issues reading the data.";
+var BYLINE = "Subtitle to come.";
 var BASEMAP_SERVICE_NATGEO = "http://server.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Map/MapServer";
 var SERVICE_HOTSPOTS = "http://tiles.arcgis.com/tiles/nzS0F0zdNLvs7nc8/arcgis/rest/services/LanguageHotspots/MapServer";
 var SERVICE_HOTSPOTS_FEATURES = "http://services.arcgis.com/nzS0F0zdNLvs7nc8/arcgis/rest/services/LanguageHotspots/FeatureServer/0"
@@ -389,7 +389,7 @@ function changeState(toState)
 		}
 		$("#info").append(createSoundDiv(MEDIA_PATH+"/"+_selected[0].attributes.getAudio()));
 		$("#info").append("<div class='info-caption'>"+_selected[0].attributes.getText()+"</div>");
-		$("#info").append("<div class='info-caption'>Playing audio:"+_selected[0].attributes.getAudio()+"</div>");		
+		$("#info").append("<div class='info-caption'><a href='"+MEDIA_PATH+"/"+_selected[0].attributes.getAudio()+"' target='_blank'>Audio Diagnostic</a></div>");		
 		$("#zoomButton").fadeIn();
 	} else if (_currentState == STATE_SELECTION_LOCAL) {
 		_layerOV.hide();
