@@ -129,7 +129,7 @@ a:hover{
 	border:none;
 	padding:0;
 	height:100%;
-	width:100%;
+	width:60%;
 	overflow:hidden;
 	float:left;
 }
@@ -230,7 +230,7 @@ a:hover{
 
 #info {
 	min-width:300px;
-	max-width:450px;
+	max-width:600px;
 	width:40%;
 	height:100%;
 	float:left;
@@ -262,8 +262,6 @@ a:hover{
 	font-family:Georgia, "Times New Roman", Times, serif;
 	margin-bottom:10px;
 	margin-top:10px;
-	margin-left:30px;
-	margin-right:30px;
 }
 
 .info-caption {
@@ -271,8 +269,6 @@ a:hover{
 	font-family:Georgia, "Times New Roman", Times, serif;
 	margin-bottom:10px;
 	margin-top:10px;
-	margin-left:30px;
-	margin-right:30px;
 }
 
 .info-instructions {
@@ -296,9 +292,7 @@ a:hover{
 }
 
 #info img {
-	max-width:240px;
-	margin-left:30px;
-	margin-right:30px;
+	width:100%;
 }
 
 .local-name {

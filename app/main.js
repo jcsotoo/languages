@@ -678,7 +678,8 @@ function handleWindowResize() {
 	if ((($("body").height() <= 500) || ($("body").width() <= 800)) || _isEmbed) $("#header").height(0);
 	else $("#header").height(115);
 	$("#map").height($("body").height() - $("#header").height() - $("#listThumbs").height());
-	$("#map").width($("body").width() - $("#info").width() - parseInt($("#info").css("margin-left"))  - parseInt($("#info").css("margin-right")));
+	$("#map").width($("body").width() - $("#info").width());
+	if (_isLegacyIE) $("#map").width($("#map").width() - 1); //TODO: figure out why IE needs this???
 	_map.resize();
 	var arrowJunk = $("#arrowLeft").width() + (parseInt($("#arrowLeft").css("padding-left"))*2);
 	$("#outerCarousel").width($("body").width() - (arrowJunk*2));
