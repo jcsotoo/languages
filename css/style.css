@@ -256,6 +256,11 @@ a:hover{
 	background-color:#FFFFFF;
 }
 
+.info-indented {
+	margin-left:30px;
+	margin-right:30px;
+}
+
 .info-title {
 	font-size:22px;
 	color:#5d5d5d;
