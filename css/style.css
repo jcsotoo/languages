@@ -229,10 +229,31 @@ a:hover{
 /* side info section */
 
 #info {
-	width:300px;
+	min-width:300px;
+	max-width:450px;
+	width:40%;
 	height:100%;
 	float:left;
 	position:relative;
+}
+
+#infoIntro {
+	width:100%;
+	height:100%;
+	position:absolute;
+}
+
+#infoOverview {
+	width:100%;
+	height:100%;
+	position:absolute;
+}
+
+#infoLocal {
+	width:100%;
+	height:100%;
+	position:absolute;
+	background-color:#FFFFFF;
 }
 
 .info-title {

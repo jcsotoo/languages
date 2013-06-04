@@ -367,6 +367,7 @@ function layerRegions_onClick(event)
 
 function changeState(toState)
 {
+	$("#infoIntro").hide();
 	var fromState = _currentState;
 	_currentState = toState;
 	if (_currentState == STATE_SELECTION_OVERVIEW) {
@@ -377,20 +378,21 @@ function changeState(toState)
 		zoomToSelected(_selected);
 		console.log("url: ", _selected[0].attributes.getURL());
 		
-		$("#info").empty();
-		$("#info").append("<div class='info-box'>"+_selected[0].attributes.getLanguage().toUpperCase()+"</div>");
-		$("#info").append("<div class='info-title'>"+_selected[0].attributes.getName()+"</div>");		
+		$("#infoOverview").empty();
+		$("#infoOverview").append("<div class='info-box'>"+_selected[0].attributes.getLanguage().toUpperCase()+"</div>");
+		$("#infoOverview").append("<div class='info-title'>"+_selected[0].attributes.getName()+"</div>");		
 		var url = _selected[0].attributes.getURL();
 		if (url == "") {
-			$("#info").append("No photo available");
+			$("#infoOverview").append("No photo available");
 		} else {
 			if (url.indexOf("http") == -1) url = MEDIA_PATH+"/"+url;
-			$("#info").append("<img src='"+url+"'/>");
+			$("#infoOverview").append("<img src='"+url+"'/>");
 		}
-		$("#info").append(createSoundDiv(MEDIA_PATH+"/"+_selected[0].attributes.getAudio()));
-		$("#info").append("<div class='info-caption'>"+_selected[0].attributes.getText()+"</div>");
-		$("#info").append("<div class='info-caption'><a href='"+MEDIA_PATH+"/"+_selected[0].attributes.getAudio()+"' target='_blank'>Audio Diagnostic</a></div>");		
+		$("#infoOverview").append(createSoundDiv(MEDIA_PATH+"/"+_selected[0].attributes.getAudio()));
+		$("#infoOverview").append("<div class='info-caption'>"+_selected[0].attributes.getText()+"</div>");
+		$("#infoOverview").append("<div class='info-caption'><a href='"+MEDIA_PATH+"/"+_selected[0].attributes.getAudio()+"' target='_blank'>Audio Diagnostic</a></div>");		
 		$("#zoomButton").fadeIn();
+		$("#infoLocal").fadeOut(1000);
 	} else if (_currentState == STATE_SELECTION_LOCAL) {
 		_layerOV.hide();
 		_layerSelected.hide();
@@ -409,6 +411,7 @@ function changeState(toState)
 		displayLocalRecord(_layerStoryPoints.graphics[_localCounter]);		
 		setTimeout(function(){zoomToStoryPoints()}, 1000)
 		setTimeout(function(){displayLocalTip(_layerStoryPoints.graphics[_localCounter])}, 2000);
+		$("#infoLocal").fadeIn(1000);
 	} else {
 		alert('invalid state');
 	}
@@ -447,32 +450,32 @@ function displayLocalRecord(graphic)
 	
 	var rec = graphic.attributes;
 	
-	$("#info").empty();
-	$("#info").append("<div class='info-box'>"+rec.getLanguage().toUpperCase()+"</div>");			
+	$("#infoLocal").empty();
+	$("#infoLocal").append("<div class='info-box'>"+rec.getLanguage().toUpperCase()+"</div>");			
 	
 	if (rec.getPhoto()) {
-		$("#info").append("<img src='"+MEDIA_PATH+"/"+rec.getPhoto()+"'/>");
-		$("#info").append("<span class='credits'>"+rec.getCreditPhoto()+"</span>");
+		$("#infoLocal").append("<img src='"+MEDIA_PATH+"/"+rec.getPhoto()+"'/>");
+		$("#infoLocal").append("<span class='credits'>"+rec.getCreditPhoto()+"</span>");
 	}
 
 	if (rec.getVideo()) {
 		var tokens = rec.getVideo().split("/"); 
 		var youTubeID = tokens[tokens.length - 1];
-		$("#info").append("<iframe src='http://www.youtube.com/embed/"+youTubeID+"?rel=0' frameborder='0' allowfullscreen></iframe>");
-		$("#info").append("<span class='credits'>"+rec.getCreditVideo()+"</span>");
+		$("#infoLocal").append("<iframe src='http://www.youtube.com/embed/"+youTubeID+"?rel=0' frameborder='0' allowfullscreen></iframe>");
+		$("#infoLocal").append("<span class='credits'>"+rec.getCreditVideo()+"</span>");
 	}
 	
 	if (rec.getAudio()) {
-		$("#info").append(createSoundDiv(MEDIA_PATH+"/"+rec.getAudio()));
-		$("#info").append("<span class='credits'>"+rec.getCreditAudio()+"</span>");
+		$("#infoLocal").append(createSoundDiv(MEDIA_PATH+"/"+rec.getAudio()));
+		$("#infoLocal").append("<span class='credits'>"+rec.getCreditAudio()+"</span>");
 	}
 
-	$("#info").append("<div class='local-name'>"+rec.getName()+"</div>");
-	$("#info").append("<a href='javascript:doPrevLocal()' class='arrowsLocal' style='left:0px'>&lt</a>");
-	$("#info").append("<a href='javascript:doNextLocal()' class='arrowsLocal' style='right:0px'>&gt</a>");
-	$("#info").append("<div class='local-text'>"+rec.getText()+"</div>");
+	$("#infoLocal").append("<div class='local-name'>"+rec.getName()+"</div>");
+	$("#infoLocal").append("<a href='javascript:doPrevLocal()' class='arrowsLocal' style='left:0px'>&lt</a>");
+	$("#infoLocal").append("<a href='javascript:doNextLocal()' class='arrowsLocal' style='right:0px'>&gt</a>");
+	$("#infoLocal").append("<div class='local-text'>"+rec.getText()+"</div>");
 	
-	$("#info").append("<a class='more-info' href='"+rec.getMoreInfoURL()+"' target='_blank'>"+rec.getMoreInfo()+"</a>");
+	$("#infoLocal").append("<a class='more-info' href='"+rec.getMoreInfoURL()+"' target='_blank'>"+rec.getMoreInfo()+"</a>");
 	
 	handleWindowResize();
 	
@@ -679,6 +682,7 @@ function handleWindowResize() {
 	_map.resize();
 	var arrowJunk = $("#arrowLeft").width() + (parseInt($("#arrowLeft").css("padding-left"))*2);
 	$("#outerCarousel").width($("body").width() - (arrowJunk*2));
+	$("#info").height($("body").height() - $("#header").height() - $("#listThumbs").height());
 	$("#info iframe").width($("#info").width());
 	$("#info iframe").height($("#info iframe").width()*0.6);
 }
