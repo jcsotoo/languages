@@ -7,7 +7,7 @@ dojo.require("esri.map");
 ***************** begin config section ****************
 *******************************************************/
 
-var TITLE = "Endangered Languages"
+var TITLE = "One World, Many Voices: Endangered Languages and Cultural Heritage"
 var BYLINE = "Just a test to make sure there are no issues reading the data.";
 var BASEMAP_SERVICE_NATGEO = "http://server.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Map/MapServer";
 var SERVICE_HOTSPOTS = "http://tiles.arcgis.com/tiles/nzS0F0zdNLvs7nc8/arcgis/rest/services/LanguageHotspots/MapServer";
