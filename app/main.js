@@ -377,20 +377,7 @@ function changeState(toState)
 		doSelect(_languageID);
 		zoomToSelected(_selected);
 		console.log("url: ", _selected[0].attributes.getURL());
-		
-		$("#infoOverview").empty();
-		$("#infoOverview").append("<div class='info-box'>"+_selected[0].attributes.getLanguage().toUpperCase()+"</div>");
-		$("#infoOverview").append("<div class='info-title'>"+_selected[0].attributes.getName()+"</div>");		
-		var url = _selected[0].attributes.getURL();
-		if (url == "") {
-			$("#infoOverview").append("No photo available");
-		} else {
-			if (url.indexOf("http") == -1) url = MEDIA_PATH+"/"+url;
-			$("#infoOverview").append("<img src='"+url+"'/>");
-		}
-		$("#infoOverview").append(createSoundDiv(MEDIA_PATH+"/"+_selected[0].attributes.getAudio()));
-		$("#infoOverview").append("<div class='info-caption'>"+_selected[0].attributes.getText()+"</div>");
-		$("#infoOverview").append("<div class='info-caption'><a href='"+MEDIA_PATH+"/"+_selected[0].attributes.getAudio()+"' target='_blank'>Audio Diagnostic</a></div>");		
+		displayOverviewRecord();
 		$("#zoomButton").fadeIn();
 		$("#infoLocal").fadeOut(1000);
 	} else if (_currentState == STATE_SELECTION_LOCAL) {
@@ -443,6 +430,34 @@ function doPrevLocal()
 	if (_localCounter < 0) _localCounter = _layerStoryPoints.graphics.length - 1;
 	displayLocalRecord(_layerStoryPoints.graphics[_localCounter]);
 	displayLocalTip(_layerStoryPoints.graphics[_localCounter]);
+}
+
+function displayOverviewRecord()
+{
+	
+	$("#infoOverview").empty();
+	$("#infoOverview").append("<div class='info-box'>"+_selected[0].attributes.getLanguage().toUpperCase()+"</div>");
+	
+	var divTop = $("<div class='top'></div>")
+	$(divTop).append("<div class='info-title'>"+_selected[0].attributes.getName()+"</div>");		
+	var url = _selected[0].attributes.getURL();
+	if (url == "") {
+		$(divTop).append("No photo available");
+	} else {
+		if (url.indexOf("http") == -1) url = MEDIA_PATH+"/"+url;
+		$(divTop).append("<img src='"+url+"'/>");
+	}
+	$(divTop).append(createSoundDiv(MEDIA_PATH+"/"+_selected[0].attributes.getAudio()));
+	
+	var divIndented = $("<div class='info-indented'></div>")
+	$(divIndented).append(divTop);
+	$(divIndented).append("<div class='info-caption'>"+_selected[0].attributes.getText()+"</div>");
+	$(divIndented).append("<a href='"+MEDIA_PATH+"/"+_selected[0].attributes.getAudio()+"' target='_blank' style='margin-top:10px'>Audio Diagnostic</a>");
+	
+	$("#infoOverview").append(divIndented);
+	
+	setTimeout(function(){handleWindowResize()},1000);
+	
 }
 
 function displayLocalRecord(graphic)
@@ -686,6 +701,21 @@ function handleWindowResize() {
 	$("#info").height($("body").height() - $("#header").height() - $("#listThumbs").height());
 	$("#info iframe").width($("#info").width());
 	$("#info iframe").height($("#info iframe").width()*0.6);
+
+	/*
+	$("#infoOverview").height($("#info").height());
+	$("#infoOverview .info-indented").height($("#infoOverview").height() - $("#infoOverview").height() - $(".info-box").height());
+	*/
+	
+	$("#zoomButton").css("left", $("#info").width() - 35);
+	
+	$("#info img").css("max-height", $("#info").height() * 0.6);
+
+	$("#infoOverview .info-indented").height($("#infoOverview").height() - $(".info-box").height() - 15);
+	$("#infoOverview .info-indented .info-caption").height($("#infoOverview .info-indented").height() - $("#infoOverview .info-indented .top").height() - 40);
+	$("#infoOverview .info-indented .info-caption").width($(".info-indented").width() - 20);
+	
+	
 }
 
 function createIconMarker(iconPath, spec) 

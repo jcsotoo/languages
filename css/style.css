@@ -257,8 +257,10 @@ a:hover{
 }
 
 .info-indented {
+	position:relative;
 	margin-left:30px;
 	margin-right:30px;
+	height:100%;
 }
 
 .info-title {
@@ -272,8 +274,7 @@ a:hover{
 .info-caption {
 	color:#5d5d5d;
 	font-family:Georgia, "Times New Roman", Times, serif;
-	margin-bottom:10px;
-	margin-top:10px;
+	overflow:auto;
 }
 
 .info-instructions {
@@ -297,7 +298,22 @@ a:hover{
 }
 
 #info img {
+	max-width:100%;
+	max-height:70%;
+}
+
+#info audio {
+	margin-top:10px;
+	margin-bottom:10px;
 	width:100%;
+}
+
+.top {
+	position:relative;
+}
+
+.bottom {
+	overflow:auto;
 }
 
 .local-name {
@@ -331,4 +347,13 @@ a:hover{
 
 .more-info {
 	
+}
+
+#zoomButton {
+    position:absolute;
+	bottom:50px;
+	cursor:pointer;
+	z-index:99;
+	display:none;
+	width:70px;
 }
