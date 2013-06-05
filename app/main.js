@@ -46,7 +46,7 @@ var _lut = [
 	{languageID:5, language:"Welsh", art:"PanelWales.jpg", icon:"Icon1Wales.png", icon2:"IconWales.png", color:"#29a883"},
 	{languageID:6, language:"Garifuna", art:"PanelGarifuna.jpg", icon:"Icon1Garifuna.png", icon2:"IconGarifuna.png", color:"#e7870a"},
 	{languageID:7, language:"Kalmyk", art:"PanelKalmyk.jpg", icon:"Icon1Kalmyk.png", icon2:"IconKalmyk.png", color:"#7e50e7"},
-	{languageID:8, language:"Passamaquoddy", art:"PanelPassamaquoddy.jpg", icon:"Icon1Passamaquoddy.png", icon2:"IconPassamaquoddy.png", color:"#4164d4"},
+	{languageID:8, language:"Passama-quoddy", art:"PanelPassamaquoddy.jpg", icon:"Icon1Passamaquoddy.png", icon2:"IconPassamaquoddy.png", color:"#4164d4"},
 	{languageID:9, language:"Penobscot", art:"PanelPenobscot.jpg", icon:"Icon1Penobscot.png", icon2:"IconPenobscot.png", color:"#b1551d"},
 	{languageID:10, language:"Kallawaya", art:"PanelKallawaya.jpg", icon:"Icon1Kallawaya.png", icon2:"IconKallawaya.png", color:"#17a49c"},
 	{languageID:11, language:"Wayuunaiki", art:"PanelWayuu.jpg", icon:"Icon1Wayuu.png", icon2:"IconWayuu.png", color:"#a20b0b"},
@@ -450,7 +450,7 @@ function displayOverviewRecord()
 		$(divTop).append("No photo available");
 	} else {
 		if (url.indexOf("http") == -1) url = MEDIA_PATH+"/"+url;
-		$(divTop).append("<img class='feature-image' src='"+url+"'/>");
+		$(divTop).append("<div style='width:100%;text-align:center'><img class='feature-image' src='"+url+"'/><div>");
 	}
 	$(divTop).append(createSoundDiv(MEDIA_PATH+"/"+_selected[0].attributes.getAudio()));
 	
@@ -460,7 +460,6 @@ function displayOverviewRecord()
 	$(divIndented).append("<a href='"+MEDIA_PATH+"/"+_selected[0].attributes.getAudio()+"' target='_blank' style='margin-top:10px'>Audio Diagnostic</a>");
 	
 	$("#infoOverview").append(divIndented);
-	
 	
 	var color = $.grep(_lut, function(n, i){return n.languageID == _languageID})[0].color;
 	$(".info-box").css("background-color", color);
