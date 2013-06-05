@@ -39,26 +39,26 @@ var _recsMain;
 var _recsOV;
 var _lods;
 var _lut = [
-	{languageID:1, language:"Siletz Dee-ni", art:"PanelSiletz.jpg", icon:"Icon1Siletz.png", icon2:"IconSiletz.png"},
-	{languageID:2, language:"Koro", art:"PanelKoro.jpg", icon:"Icon1Koro.png", icon2:"IconKoro.png"},
-	{languageID:3, language:"Tuvan", art:"PanelTuvan.jpg", icon:"Icon1Tuvan.png", icon2:"IconTuvan.png"},
-	{languageID:4, language:"Hawaiian", art:"PanelHawaii.jpg", icon:"Icon1Hawaii.png", icon2:"IconHawaii.png"},
-	{languageID:5, language:"Welsh", art:"PanelWales.jpg", icon:"Icon1Wales.png", icon2:"IconWales.png"},
-	{languageID:6, language:"Garifuna", art:"PanelGarifuna.jpg", icon:"Icon1Garifuna.png", icon2:"IconGarifuna.png"},
-	{languageID:7, language:"Kalmyk", art:"PanelKalmyk.jpg", icon:"Icon1Kalmyk.png", icon2:"IconKalmyk.png"},
-	{languageID:8, language:"Passamaquoddy", art:"PanelPassamaquoddy.jpg", icon:"Icon1Passamaquoddy.png", icon2:"IconPassamaquoddy.png"},
-	{languageID:9, language:"Penobscot", art:"PanelPenobscot.jpg", icon:"Icon1Penobscot.png", icon2:"IconPenobscot.png"},
-	{languageID:10, language:"Kallawaya", art:"PanelKallawaya.jpg", icon:"Icon1Kallawaya.png", icon2:"IconKallawaya.png"},
-	{languageID:11, language:"Wayuunaiki", art:"PanelWayuu.jpg", icon:"Icon1Wayuu.png", icon2:"IconWayuu.png"},
-	{languageID:13, language:"Kichwa", art:"PanelKichwa.jpg", icon:"Icon1Kichwa.png", icon2:"IconKichwa.png"},
-	{languageID:12, language:"Ri Palenge", art:"PanelRiPalenge.jpg", icon:"Icon1RiPalenge.png", icon2:"IconRiPalenge.png"},
-	{languageID:14, language:"Kamentzá", art:"PanelKamentza.jpg", icon:"Icon1Kamentza.png", icon2:"IconKamentza.png"},
-	{languageID:15, language:"Quechua", art:"PanelQuechua.jpg", icon:"Icon1Quechua.png", icon2:"IconQuechua.png"},
-	{languageID:16, language:"Isthmus Zapotec", art:"PanelZapotek.jpg", icon:"Icon1Zapotek.png", icon2:"IconZapotek.png"},
-	{languageID:17, language:"Yiddish", art:"PanelYiddish.jpg", icon:"Icon1Yiddish.png", icon2:"IconYiddish.png"},
-	{languageID:18, language:"Purari - I'ai dialect", art:"PanelPNG.jpg", icon:"Icon1PNG.png", icon2:"IconPNG.png"},
-	{languageID:19, language:"Arhuaco", art:"", icon:"", icon2:""},
-	{languageID:20, language:"Uitoto", art:"", icon:"", icon2:""}	
+	{languageID:1, language:"Siletz Dee-ni", art:"PanelSiletz.jpg", icon:"Icon1Siletz.png", icon2:"IconSiletz.png", color:"#a72179"},
+	{languageID:2, language:"Koro", art:"PanelKoro.jpg", icon:"Icon1Koro.png", icon2:"IconKoro.png", color:"#baa025"},
+	{languageID:3, language:"Tuvan", art:"PanelTuvan.jpg", icon:"Icon1Tuvan.png", icon2:"IconTuvan.png", color:"#799811"},
+	{languageID:4, language:"Hawaiian", art:"PanelHawaii.jpg", icon:"Icon1Hawaii.png", icon2:"IconHawaii.png", color:"#0b9618"},
+	{languageID:5, language:"Welsh", art:"PanelWales.jpg", icon:"Icon1Wales.png", icon2:"IconWales.png", color:"#29a883"},
+	{languageID:6, language:"Garifuna", art:"PanelGarifuna.jpg", icon:"Icon1Garifuna.png", icon2:"IconGarifuna.png", color:"#e7870a"},
+	{languageID:7, language:"Kalmyk", art:"PanelKalmyk.jpg", icon:"Icon1Kalmyk.png", icon2:"IconKalmyk.png", color:"#7e50e7"},
+	{languageID:8, language:"Passamaquoddy", art:"PanelPassamaquoddy.jpg", icon:"Icon1Passamaquoddy.png", icon2:"IconPassamaquoddy.png", color:"#4164d4"},
+	{languageID:9, language:"Penobscot", art:"PanelPenobscot.jpg", icon:"Icon1Penobscot.png", icon2:"IconPenobscot.png", color:"#b1551d"},
+	{languageID:10, language:"Kallawaya", art:"PanelKallawaya.jpg", icon:"Icon1Kallawaya.png", icon2:"IconKallawaya.png", color:"#17a49c"},
+	{languageID:11, language:"Wayuunaiki", art:"PanelWayuu.jpg", icon:"Icon1Wayuu.png", icon2:"IconWayuu.png", color:"#a20b0b"},
+	{languageID:13, language:"Kichwa", art:"PanelKichwa.jpg", icon:"Icon1Kichwa.png", icon2:"IconKichwa.png", color:"#aa7830"},
+	{languageID:12, language:"Ri Palenge", art:"PanelRiPalenge.jpg", icon:"Icon1RiPalenge.png", icon2:"IconRiPalenge.png", color:"#ca6739"},
+	{languageID:14, language:"Kamentzá", art:"PanelKamentza.jpg", icon:"Icon1Kamentza.png", icon2:"IconKamentza.png", color:"#2084e2"},
+	{languageID:15, language:"Quechua", art:"PanelQuechua.jpg", icon:"Icon1Quechua.png", icon2:"IconQuechua.png", color:"#4a8920"},
+	{languageID:16, language:"Isthmus Zapotec", art:"PanelZapotek.jpg", icon:"Icon1Zapotek.png", icon2:"IconZapotek.png", color:"#0b9ece"},
+	{languageID:17, language:"Yiddish", art:"PanelYiddish.jpg", icon:"Icon1Yiddish.png", icon2:"IconYiddish.png", color:"#cb2c21"},
+	{languageID:18, language:"Purari - I'ai dialect", art:"PanelPNG.jpg", icon:"Icon1PNG.png", icon2:"IconPNG.png", color:"#d769ce"},
+	{languageID:19, language:"Arhuaco", art:"", icon:"", icon2:"", color:"#9143be"},
+	{languageID:20, language:"Uitoto", art:"", icon:"", icon2:"", color:"#1e8a9e"}	
 ];
 
 var _layerOV;
@@ -461,6 +461,10 @@ function displayOverviewRecord()
 	
 	$("#infoOverview").append(divIndented);
 	
+	
+	var color = $.grep(_lut, function(n, i){return n.languageID == _languageID})[0].color;
+	$(".info-box").css("background-color", color);
+	
 	setTimeout(function(){handleWindowResize()},1000);
 	
 }
@@ -518,6 +522,9 @@ function displayLocalRecord(graphic)
 	$("#arrowLocalRight").click(function(e) {
         doNextLocal();
     });
+	
+	var color = $.grep(_lut, function(n, i){return n.languageID == _languageID})[0].color;
+	$(".info-box").css("background-color", color);	
 	
 	handleWindowResize();
 	
