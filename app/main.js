@@ -457,7 +457,7 @@ function displayOverviewRecord()
 	var divIndented = $("<div class='info-indented'></div>")
 	$(divIndented).append(divTop);
 	$(divIndented).append("<div class='info-caption'>"+_selected[0].attributes.getText()+"</div>");
-	$(divIndented).append("<a href='"+MEDIA_PATH+"/"+_selected[0].attributes.getAudio()+"' target='_blank' style='margin-top:10px'>Audio Diagnostic</a>");
+	//$(divIndented).append("<a href='"+MEDIA_PATH+"/"+_selected[0].attributes.getAudio()+"' target='_blank' style='margin-top:10px'>Audio Diagnostic</a>");
 	
 	$("#infoOverview").append(divIndented);
 	
