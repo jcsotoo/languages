@@ -734,20 +734,14 @@ function handleWindowResize() {
 	$("#info").height($("body").height() - $("#header").height() - $("#listThumbs").height());
 	$("#info iframe").width($("#info").width());
 	$("#info iframe").height($("#info iframe").width()*0.6);
-
-	/*
-	$("#infoOverview").height($("#info").height());
-	$("#infoOverview .info-indented").height($("#infoOverview").height() - $("#infoOverview").height() - $(".info-box").height());
-	*/
 	
 	$("#zoomButton").css("left", $("#info").width() - 35);
 	
 	$(".feature-image").css("max-height", $("#info").height() * 0.5);
 
-	$("#infoOverview .info-indented").height($("#infoOverview").height() - $(".info-box").height() - 15);
-	$("#infoOverview .info-indented .info-caption").height($("#infoOverview .info-indented").height() - $("#infoOverview .info-indented .top").height() - 40);
-	$("#infoOverview .info-indented .info-caption").width($(".info-indented").width() - 20);
-	
+	$(".info-indented").height($("#info").height() - $(".info-box").height() - 15);
+	$(".info-indented .info-caption").height($(".info-indented").height() - $(".info-indented .top").height() - 40);
+	$(".info-indented .info-caption").width($(".info-indented").width() - 20);
 	
 }
 
