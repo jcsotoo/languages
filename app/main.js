@@ -377,7 +377,7 @@ function changeState(toState)
 		doSelect(_languageID);
 		zoomToSelected(_selected);
 		console.log("url: ", _selected[0].attributes.getURL());
-		displayOverviewRecord();
+		displayOverviewRecord($("#infoOverview"));
 		$("#zoomButton").fadeIn();
 		$("#infoLocal").fadeOut(1000);
 	} else if (_currentState == STATE_SELECTION_LOCAL) {
@@ -437,11 +437,11 @@ function doPrevLocal()
 	displayLocalTip(_layerStoryPoints.graphics[_localCounter]);
 }
 
-function displayOverviewRecord()
+function displayOverviewRecord(parentDiv)
 {
 	
-	$("#infoOverview").empty();
-	$("#infoOverview").append("<div class='info-box'>"+_selected[0].attributes.getLanguage().toUpperCase()+"</div>");
+	$(parentDiv).empty();
+	$(parentDiv).append("<div class='info-box'>"+_selected[0].attributes.getLanguage().toUpperCase()+"</div>");
 	
 	var divTop = $("<div class='top'></div>")
 	$(divTop).append("<div class='info-title'>"+_selected[0].attributes.getName()+"</div>");		
@@ -459,7 +459,7 @@ function displayOverviewRecord()
 	$(divIndented).append("<div class='info-caption'>"+_selected[0].attributes.getText()+"</div>");
 	//$(divIndented).append("<a href='"+MEDIA_PATH+"/"+_selected[0].attributes.getAudio()+"' target='_blank' style='margin-top:10px'>Audio Diagnostic</a>");
 	
-	$("#infoOverview").append(divIndented);
+	$(parentDiv).append(divIndented);
 	
 	var color = $.grep(_lut, function(n, i){return n.languageID == _languageID})[0].color;
 	$(".info-box").css("background-color", color);
