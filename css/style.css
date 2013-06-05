@@ -297,7 +297,7 @@ a:hover{
 	padding-left:30px;
 }
 
-#info img {
+.feature-image {
 	max-width:100%;
 	max-height:70%;
 }
@@ -319,26 +319,16 @@ a:hover{
 .local-name {
 	font-size:16px;
 	font-weight:bold;
-	padding-right:40px;
-	padding-left:40px;
-	text-align:center;
+	padding-bottom:10px;
 }
 
 .local-text {
-	padding-right:40px;
-	padding-left:40px;
+	padding-bottom:10px;
 }
 
-.arrowsLocal {
-	font-size:50px;
-	font-weight:bold;
-	padding-left:5px;
-	padding-right:5px;
-	padding-top:10px;
+.arrows-local {
 	cursor:pointer;
-	position:absolute;
-	top:10px;
-	color:#db3042;
+	max-width:30px;
 }
 
 .credits {

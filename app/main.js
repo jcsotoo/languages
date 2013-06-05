@@ -450,7 +450,7 @@ function displayOverviewRecord()
 		$(divTop).append("No photo available");
 	} else {
 		if (url.indexOf("http") == -1) url = MEDIA_PATH+"/"+url;
-		$(divTop).append("<img src='"+url+"'/>");
+		$(divTop).append("<img class='feature-image' src='"+url+"'/>");
 	}
 	$(divTop).append(createSoundDiv(MEDIA_PATH+"/"+_selected[0].attributes.getAudio()));
 	
@@ -474,7 +474,7 @@ function displayLocalRecord(graphic)
 	$("#infoLocal").append("<div class='info-box'>"+rec.getLanguage().toUpperCase()+"</div>");			
 	
 	if (rec.getPhoto()) {
-		$("#infoLocal").append("<img src='"+MEDIA_PATH+"/"+rec.getPhoto()+"'/>");
+		$("#infoLocal").append("<img class='feature-image' src='"+MEDIA_PATH+"/"+rec.getPhoto()+"'/>");
 		$("#infoLocal").append("<span class='credits'>"+rec.getCreditPhoto()+"</span>");
 	}
 
@@ -490,12 +490,34 @@ function displayLocalRecord(graphic)
 		$("#infoLocal").append("<span class='credits'>"+rec.getCreditAudio()+"</span>");
 	}
 
-	$("#infoLocal").append("<div class='local-name'>"+rec.getName()+"</div>");
-	$("#infoLocal").append("<a href='javascript:doPrevLocal()' class='arrowsLocal' style='left:0px'>&lt</a>");
-	$("#infoLocal").append("<a href='javascript:doNextLocal()' class='arrowsLocal' style='right:0px'>&gt</a>");
-	$("#infoLocal").append("<div class='local-text'>"+rec.getText()+"</div>");
+	var table = $("<table></table>");
+	var tr = $("<tr></tr>");
 	
-	$("#infoLocal").append("<a class='more-info' href='"+rec.getMoreInfoURL()+"' target='_blank'>"+rec.getMoreInfo()+"</a>");
+	var tdArrowLeft = $("<td></td>");
+	$(tdArrowLeft).append("<img id='arrowLocalLeft' class='arrows-local' src='resources/images/RedPointerLeft.png'/>");
+	$(tr).append(tdArrowLeft);	
+	
+	var tdMiddle =  $("<td style='padding-left:10px;padding-right:10px'></td>");
+	$(tdMiddle).append("<div class='local-name'>"+rec.getName()+"</div>");
+	$(tdMiddle).append("<div class='local-text'>"+rec.getText()+"</div>");
+	$(tdMiddle).append("<a class='more-info' href='"+rec.getMoreInfoURL()+"' target='_blank'>"+rec.getMoreInfo()+"</a>");
+	
+	$(tr).append(tdMiddle);	
+	
+	var tdArrowRight = $("<td></td>");
+	$(tdArrowRight).append("<img id='arrowLocalRight' class='arrows-local' src='resources/images/RedPointerRight.png'/>");
+	$(tr).append(tdArrowRight);	
+	
+	$(table).append(tr);	
+	$("#infoLocal").append(table);
+
+	$("#arrowLocalLeft").click(function(e) {
+        doPrevLocal();
+    });
+
+	$("#arrowLocalRight").click(function(e) {
+        doNextLocal();
+    });
 	
 	handleWindowResize();
 	
