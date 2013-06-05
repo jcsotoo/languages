@@ -302,7 +302,7 @@ function layerLocal_onClick(event)
 	var graphic = event.graphic;
 	_localCounter = $.inArray(graphic, _layerStoryPoints.graphics);
 	$("#hoverInfo").hide();	
-	displayLocalRecord(_layerStoryPoints.graphics[_localCounter]);
+	displayLocalRecord(_layerStoryPoints.graphics[_localCounter], $("#infoLocal"));
 	displayLocalTip(_layerStoryPoints.graphics[_localCounter]);
 }
 
@@ -395,7 +395,7 @@ function changeState(toState)
 		_layerStoryPoints.show();
 		$("#zoomButton").fadeOut();
 		_localCounter = 0;
-		displayLocalRecord(_layerStoryPoints.graphics[_localCounter]);		
+		displayLocalRecord(_layerStoryPoints.graphics[_localCounter], $("#infoLocal"));		
 		setTimeout(function(){zoomToStoryPoints()}, 1000)
 		setTimeout(function(){displayLocalTip(_layerStoryPoints.graphics[_localCounter])}, 2000);
 		$("#infoLocal").fadeIn(1000);
@@ -424,7 +424,7 @@ function doNextLocal()
 {
 	_localCounter++;
 	if (_localCounter > _layerStoryPoints.graphics.length - 1) _localCounter = 0;
-	displayLocalRecord(_layerStoryPoints.graphics[_localCounter]);
+	displayLocalRecord(_layerStoryPoints.graphics[_localCounter], $("#infoLocal"));
 	displayLocalTip(_layerStoryPoints.graphics[_localCounter]);
 }
 
@@ -433,7 +433,7 @@ function doPrevLocal()
 {
 	_localCounter--;
 	if (_localCounter < 0) _localCounter = _layerStoryPoints.graphics.length - 1;
-	displayLocalRecord(_layerStoryPoints.graphics[_localCounter]);
+	displayLocalRecord(_layerStoryPoints.graphics[_localCounter], $("#infoLocal"));
 	displayLocalTip(_layerStoryPoints.graphics[_localCounter]);
 }
 
@@ -468,29 +468,29 @@ function displayOverviewRecord(parentDiv)
 	
 }
 
-function displayLocalRecord(graphic)
+function displayLocalRecord(graphic, parentDiv)
 {
 	
 	var rec = graphic.attributes;
 	
-	$("#infoLocal").empty();
-	$("#infoLocal").append("<div class='info-box'>"+rec.getLanguage().toUpperCase()+"</div>");			
+	$(parentDiv).empty();
+	$(parentDiv).append("<div class='info-box'>"+rec.getLanguage().toUpperCase()+"</div>");			
 	
 	if (rec.getPhoto()) {
-		$("#infoLocal").append("<div class='picture-frame'><img class='feature-image' src='"+MEDIA_PATH+"/"+rec.getPhoto()+"'/></div>");
-		$("#infoLocal").append("<span class='credits'>"+rec.getCreditPhoto()+"</span>");
+		$(parentDiv).append("<div class='picture-frame'><img class='feature-image' src='"+MEDIA_PATH+"/"+rec.getPhoto()+"'/></div>");
+		$(parentDiv).append("<span class='credits'>"+rec.getCreditPhoto()+"</span>");
 	}
 
 	if (rec.getVideo()) {
 		var tokens = rec.getVideo().split("/"); 
 		var youTubeID = tokens[tokens.length - 1];
-		$("#infoLocal").append("<iframe src='http://www.youtube.com/embed/"+youTubeID+"?rel=0' frameborder='0' allowfullscreen></iframe>");
-		$("#infoLocal").append("<span class='credits'>"+rec.getCreditVideo()+"</span>");
+		$(parentDiv).append("<iframe src='http://www.youtube.com/embed/"+youTubeID+"?rel=0' frameborder='0' allowfullscreen></iframe>");
+		$(parentDiv).append("<span class='credits'>"+rec.getCreditVideo()+"</span>");
 	}
 	
 	if (rec.getAudio()) {
-		$("#infoLocal").append(createSoundDiv(MEDIA_PATH+"/"+rec.getAudio()));
-		$("#infoLocal").append("<span class='credits'>"+rec.getCreditAudio()+"</span>");
+		$(parentDiv).append(createSoundDiv(MEDIA_PATH+"/"+rec.getAudio()));
+		$(parentDiv).append("<span class='credits'>"+rec.getCreditAudio()+"</span>");
 	}
 
 	var table = $("<table></table>");
@@ -512,7 +512,7 @@ function displayLocalRecord(graphic)
 	$(tr).append(tdArrowRight);	
 	
 	$(table).append(tr);	
-	$("#infoLocal").append(table);
+	$(parentDiv).append(table);
 
 	$("#arrowLocalLeft").click(function(e) {
         doPrevLocal();
