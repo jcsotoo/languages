@@ -477,7 +477,7 @@ function displayLocalRecord(graphic)
 	$("#infoLocal").append("<div class='info-box'>"+rec.getLanguage().toUpperCase()+"</div>");			
 	
 	if (rec.getPhoto()) {
-		$("#infoLocal").append("<img class='feature-image' src='"+MEDIA_PATH+"/"+rec.getPhoto()+"'/>");
+		$("#infoLocal").append("<div style='width:100%;text-align:center'><img class='feature-image' src='"+MEDIA_PATH+"/"+rec.getPhoto()+"'/></div>");
 		$("#infoLocal").append("<span class='credits'>"+rec.getCreditPhoto()+"</span>");
 	}
 
@@ -496,7 +496,7 @@ function displayLocalRecord(graphic)
 	var table = $("<table></table>");
 	var tr = $("<tr></tr>");
 	
-	var tdArrowLeft = $("<td></td>");
+	var tdArrowLeft = $("<td width='20'></td>");
 	$(tdArrowLeft).append("<img id='arrowLocalLeft' class='arrows-local' src='resources/images/RedPointerLeft.png'/>");
 	$(tr).append(tdArrowLeft);	
 	
@@ -507,7 +507,7 @@ function displayLocalRecord(graphic)
 	
 	$(tr).append(tdMiddle);	
 	
-	var tdArrowRight = $("<td></td>");
+	var tdArrowRight = $("<td width='20'></td>");
 	$(tdArrowRight).append("<img id='arrowLocalRight' class='arrows-local' src='resources/images/RedPointerRight.png'/>");
 	$(tr).append(tdArrowRight);	
 	
