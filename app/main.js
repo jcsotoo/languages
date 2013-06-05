@@ -26,7 +26,7 @@ var STATE_SELECTION_LOCAL = 2;
 
 var ICONS_PATH = "resources/icons/";
 var ARTWORK_PATH = "resources/artwork/";
-var MEDIA_PATH = "media";
+var MEDIA_PATH = "https://dl.dropboxusercontent.com/u/142378389/";
 
 var INIT_CENTER;
 
@@ -717,11 +717,11 @@ function zoomToStoryPoints()
 }
 
 function handleWindowResize() {
+	
 	if ((($("body").height() <= 500) || ($("body").width() <= 800)) || _isEmbed) $("#header").height(0);
 	else $("#header").height(115);
 	$("#map").height($("body").height() - $("#header").height() - $("#listThumbs").height());
-	$("#map").width($("body").width() - $("#info").width());
-	if (_isLegacyIE) $("#map").width($("#map").width() - 1); //TODO: figure out why IE needs this???
+	$("#map").width($("body").width() - $("#info").width() - 1); //TODO: figure out why IE & mac need the extra pixel?
 	_map.resize();
 	var arrowJunk = $("#arrowLeft").width() + (parseInt($("#arrowLeft").css("padding-left"))*2);
 	$("#outerCarousel").width($("body").width() - (arrowJunk*2));
@@ -736,7 +736,7 @@ function handleWindowResize() {
 	
 	$("#zoomButton").css("left", $("#info").width() - 35);
 	
-	//$("#info img").css("max-height", $("#info").height() * 0.6);
+	$(".feature-image").css("max-height", $("#info").height() * 0.5);
 
 	$("#infoOverview .info-indented").height($("#infoOverview").height() - $(".info-box").height() - 15);
 	$("#infoOverview .info-indented .info-caption").height($("#infoOverview .info-indented").height() - $("#infoOverview .info-indented .top").height() - 40);
