@@ -305,12 +305,12 @@ a:hover{
 
 #info audio {
 	margin-top:10px;
-	margin-bottom:10px;
 	width:100%;
 }
 
 .top {
 	position:relative;
+	margin-bottom:10px;
 }
 
 .bottom {
@@ -338,6 +338,11 @@ a:hover{
 
 .more-info {
 	
+}
+
+.picture-frame {
+	width:100%;
+	text-align:center;
 }
 
 #zoomButton {

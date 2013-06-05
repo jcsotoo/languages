@@ -450,7 +450,7 @@ function displayOverviewRecord()
 		$(divTop).append("No photo available");
 	} else {
 		if (url.indexOf("http") == -1) url = MEDIA_PATH+"/"+url;
-		$(divTop).append("<div style='width:100%;text-align:center'><img class='feature-image' src='"+url+"'/><div>");
+		$(divTop).append("<div class='picture-frame'><img class='feature-image' src='"+url+"'/><div>");
 	}
 	$(divTop).append(createSoundDiv(MEDIA_PATH+"/"+_selected[0].attributes.getAudio()));
 	
@@ -477,7 +477,7 @@ function displayLocalRecord(graphic)
 	$("#infoLocal").append("<div class='info-box'>"+rec.getLanguage().toUpperCase()+"</div>");			
 	
 	if (rec.getPhoto()) {
-		$("#infoLocal").append("<div style='width:100%;text-align:center'><img class='feature-image' src='"+MEDIA_PATH+"/"+rec.getPhoto()+"'/></div>");
+		$("#infoLocal").append("<div class='picture-frame'><img class='feature-image' src='"+MEDIA_PATH+"/"+rec.getPhoto()+"'/></div>");
 		$("#infoLocal").append("<span class='credits'>"+rec.getCreditPhoto()+"</span>");
 	}
 
