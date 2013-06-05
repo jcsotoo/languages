@@ -275,6 +275,7 @@ a:hover{
 	color:#5d5d5d;
 	font-family:Georgia, "Times New Roman", Times, serif;
 	overflow:auto;
+	padding-right:5px;
 }
 
 .info-instructions {
