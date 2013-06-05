@@ -406,7 +406,12 @@ function changeState(toState)
 
 function createSoundDiv(soundfile) {
 	var audio = $("<audio autoplay controls></audio>");
-	$(audio).append("<source src='"+soundfile+"' type='audio/mpeg'>");
+	// IE9 doesn't like single quotes, so I'm setting
+	// the attributes this way.
+	var source1 = $("<source></source>");
+	$(source1).attr("src", soundfile);
+	$(source1).attr("type", "audio/mpeg");
+	$(audio).append(source1);
 	$(audio).append("<embed src='"+soundfile+"' hidden='true' autostart='true' loop='false' />");
 	return audio;
  }
@@ -709,7 +714,7 @@ function handleWindowResize() {
 	
 	$("#zoomButton").css("left", $("#info").width() - 35);
 	
-	$("#info img").css("max-height", $("#info").height() * 0.6);
+	//$("#info img").css("max-height", $("#info").height() * 0.6);
 
 	$("#infoOverview .info-indented").height($("#infoOverview").height() - $(".info-box").height() - 15);
 	$("#infoOverview .info-indented .info-caption").height($("#infoOverview .info-indented").height() - $("#infoOverview .info-indented .top").height() - 40);
