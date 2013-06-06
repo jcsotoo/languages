@@ -66,6 +66,9 @@ var _layerSelected; // todo: still need a separate layer for selected?
 var _layerStoryPoints;
 var _layerRegions;
 
+var _subInfoCurrent;
+var _subInfoOld;
+
 var _dojoReady = false;
 var _jqueryReady = false;
 
@@ -98,6 +101,8 @@ function init() {
 	
 	if (!_jqueryReady) return;
 	if (!_dojoReady) return;
+	
+	_subInfoCurrent = $("#subInfo1");
 	
 	INIT_CENTER = new esri.geometry.Point(-293518, 2778638, new esri.SpatialReference({wkid: 102100}));
 	
@@ -302,8 +307,10 @@ function layerLocal_onClick(event)
 	var graphic = event.graphic;
 	_localCounter = $.inArray(graphic, _layerStoryPoints.graphics);
 	$("#hoverInfo").hide();	
-	displayLocalRecord(_layerStoryPoints.graphics[_localCounter], $("#infoLocal"));
+	swap();
+	displayLocalRecord(_layerStoryPoints.graphics[_localCounter], _subInfoCurrent);
 	displayLocalTip(_layerStoryPoints.graphics[_localCounter]);
+	crossFade();
 }
 
 function layerOV_onMouseOver(event) 
@@ -367,7 +374,8 @@ function layerRegions_onClick(event)
 
 function changeState(toState)
 {
-	$("#infoIntro").hide();
+	swap();
+	
 	var fromState = _currentState;
 	_currentState = toState;
 	if (_currentState == STATE_SELECTION_OVERVIEW) {
@@ -377,9 +385,8 @@ function changeState(toState)
 		doSelect(_languageID);
 		zoomToSelected(_selected);
 		console.log("url: ", _selected[0].attributes.getURL());
-		displayOverviewRecord($("#infoOverview"));
+		displayOverviewRecord(_subInfoCurrent);
 		$("#zoomButton").fadeIn();
-		$("#infoLocal").fadeOut(1000);
 	} else if (_currentState == STATE_SELECTION_LOCAL) {
 		_layerOV.hide();
 		_layerSelected.hide();
@@ -395,13 +402,14 @@ function changeState(toState)
 		_layerStoryPoints.show();
 		$("#zoomButton").fadeOut();
 		_localCounter = 0;
-		displayLocalRecord(_layerStoryPoints.graphics[_localCounter], $("#infoLocal"));		
+		displayLocalRecord(_layerStoryPoints.graphics[_localCounter], _subInfoCurrent);		
 		setTimeout(function(){zoomToStoryPoints()}, 1000)
 		setTimeout(function(){displayLocalTip(_layerStoryPoints.graphics[_localCounter])}, 2000);
-		$("#infoLocal").fadeIn(1000);
 	} else {
 		alert('invalid state');
 	}
+	
+	crossFade();
 }
 
 function createSoundDiv(soundfile) {
@@ -420,12 +428,35 @@ function createSoundDiv(soundfile) {
 // private functions
 // -----------------
 
+function swap()
+{
+	console.log("going in: ", $(_subInfoCurrent).attr("id"))
+	if ($(_subInfoCurrent).attr("id") == $("#subInfo1").attr("id")) {
+		_subInfoCurrent = $("#subInfo2");
+		_subInfoOld = $("#subInfo1");
+	} else {
+		_subInfoCurrent = $("#subInfo1");
+		_subInfoOld = $("#subInfo2");
+	}
+	console.log("swapping to: ", $(_subInfoCurrent).attr("id"));
+}
+
+function crossFade()
+{
+	setTimeout(function(){
+		_subInfoCurrent.show();
+		_subInfoOld.hide();	
+	}, 1000);
+}
+
 function doNextLocal()
 {
 	_localCounter++;
 	if (_localCounter > _layerStoryPoints.graphics.length - 1) _localCounter = 0;
-	displayLocalRecord(_layerStoryPoints.graphics[_localCounter], $("#infoLocal"));
+	swap();
+	displayLocalRecord(_layerStoryPoints.graphics[_localCounter], _subInfoCurrent);
 	displayLocalTip(_layerStoryPoints.graphics[_localCounter]);
+	crossFade();
 }
 
 
@@ -433,8 +464,10 @@ function doPrevLocal()
 {
 	_localCounter--;
 	if (_localCounter < 0) _localCounter = _layerStoryPoints.graphics.length - 1;
-	displayLocalRecord(_layerStoryPoints.graphics[_localCounter], $("#infoLocal"));
+	swap();
+	displayLocalRecord(_layerStoryPoints.graphics[_localCounter], _subInfoCurrent);
 	displayLocalTip(_layerStoryPoints.graphics[_localCounter]);
+	crossFade();
 }
 
 function displayOverviewRecord(parentDiv)
@@ -497,7 +530,7 @@ function displayLocalRecord(graphic, parentDiv)
 	var tr = $("<tr></tr>");
 	
 	var tdArrowLeft = $("<td width='20'></td>");
-	$(tdArrowLeft).append("<img id='arrowLocalLeft' class='arrows-local' src='resources/images/RedPointerLeft.png'/>");
+	$(tdArrowLeft).append("<img class='arrows-local arrowLocalLeft' src='resources/images/RedPointerLeft.png'/>");
 	$(tr).append(tdArrowLeft);	
 	
 	var tdMiddle =  $("<td style='padding-left:10px;padding-right:10px'></td>");
@@ -508,17 +541,17 @@ function displayLocalRecord(graphic, parentDiv)
 	$(tr).append(tdMiddle);	
 	
 	var tdArrowRight = $("<td width='20'></td>");
-	$(tdArrowRight).append("<img id='arrowLocalRight' class='arrows-local' src='resources/images/RedPointerRight.png'/>");
+	$(tdArrowRight).append("<img class='arrows-local arrowLocalRight' src='resources/images/RedPointerRight.png'/>");
 	$(tr).append(tdArrowRight);	
 	
 	$(table).append(tr);	
 	$(parentDiv).append(table);
 
-	$("#arrowLocalLeft").click(function(e) {
+	$(".arrowLocalLeft").click(function(e) {
         doPrevLocal();
     });
 
-	$("#arrowLocalRight").click(function(e) {
+	$(".arrowLocalRight").click(function(e) {
         doNextLocal();
     });
 	

@@ -237,19 +237,7 @@ a:hover{
 	position:relative;
 }
 
-#infoIntro {
-	width:100%;
-	height:100%;
-	position:absolute;
-}
-
-#infoOverview {
-	width:100%;
-	height:100%;
-	position:absolute;
-}
-
-#infoLocal {
+.sub-info {
 	width:100%;
 	height:100%;
 	position:absolute;
