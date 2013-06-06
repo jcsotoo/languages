@@ -773,7 +773,7 @@ function handleWindowResize() {
 	$(".feature-image").css("max-height", $("#info").height() * 0.5);
 
 	$(".info-indented").height($("#info").height() - $(".info-box").height() - 15);
-	$(".info-indented .info-caption").height($(".info-indented").height() - $(".info-indented .top").height() - 40);
+	$(".info-indented .info-caption").css("max-height", $(".info-indented").height() - $(".info-indented .top").height() - 40);
 	$(".info-indented .info-caption").width($(".info-indented").width() - 20);
 	
 }
