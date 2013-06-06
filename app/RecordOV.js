@@ -50,6 +50,11 @@ function RecordOV(name,	languageID, language, region, longitude, latitude, text,
 		return name;
 	}
 	
+	this.getCredit = function()
+	{
+		return credit;
+	}
+	
 	this.region = region; // to support multiTips
 	
 }

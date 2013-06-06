@@ -488,6 +488,7 @@ function displayOverviewRecord(parentDiv)
 		if (url.indexOf("http") == -1) url = MEDIA_PATH+"/"+url;
 		$(divTop).append("<div class='picture-frame'><img class='feature-image' src='"+url+"'/><div>");
 	}
+	$(divTop).append("<span class='credits'>"+_selected[0].attributes.getCredit()+"</span>");
 	$(divTop).append(createSoundDiv(MEDIA_PATH+"/"+_selected[0].attributes.getAudio()));
 	
 	var divIndented = $("<div class='info-indented'></div>")
