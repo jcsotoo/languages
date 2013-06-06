@@ -293,6 +293,7 @@ a:hover{
 
 #info audio {
 	margin-top:10px;
+	margin-bottom:10px;
 	width:100%;
 }
 
@@ -322,6 +323,7 @@ a:hover{
 
 .credits {
 	font-style:italic;
+	font-size:12px;
 }
 
 .more-info {

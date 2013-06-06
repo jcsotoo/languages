@@ -514,20 +514,24 @@ function displayLocalRecord(graphic, parentDiv)
 	
 	if (rec.getPhoto()) {
 		$(parentDiv).append("<div class='picture-frame'><img class='feature-image' src='"+MEDIA_PATH+"/"+rec.getPhoto()+"'/></div>");
-		$(parentDiv).append("<span class='credits'>"+rec.getCreditPhoto()+"</span>");
 	}
 
 	if (rec.getVideo()) {
 		var tokens = rec.getVideo().split("/"); 
 		var youTubeID = tokens[tokens.length - 1];
-		$(parentDiv).append("<iframe src='http://www.youtube.com/embed/"+youTubeID+"?rel=0' frameborder='0' allowfullscreen></iframe>");
-		$(parentDiv).append("<span class='credits'>"+rec.getCreditVideo()+"</span>");
+		$(parentDiv).append("<iframe src='http://www.youtube.com/embed/"+youTubeID+"?rel=0' frameborder='0' allowfullscreen style='padding-bottom:10px'></iframe>");
 	}
 	
 	if (rec.getAudio()) {
 		$(parentDiv).append(createSoundDiv(MEDIA_PATH+"/"+rec.getAudio()));
-		$(parentDiv).append("<span class='credits'>"+rec.getCreditAudio()+"</span>");
 	}
+	
+	var indentDiv = $("<div style='margin-left:40px;margin-right:33px;padding-bottom:10px;'></div>");
+	if (rec.getPhoto()) $(indentDiv).append("<div class='credits'>"+rec.getCreditPhoto()+"</div>");
+	if (rec.getVideo()) $(indentDiv).append("<div class='credits'>"+rec.getCreditVideo()+"</div>");
+	if (rec.getAudio()) $(indentDiv).append("<div class='credits'>"+rec.getCreditAudio()+"</div>");
+
+	$(parentDiv).append(indentDiv);
 
 	var table = $("<table></table>");
 	var tr = $("<tr></tr>");
