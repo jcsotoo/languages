@@ -445,7 +445,8 @@ function crossFade()
 {
 	setTimeout(function(){
 		_subInfoCurrent.show();
-		_subInfoOld.hide();	
+		_subInfoOld.hide();
+		_subInfoOld.empty();	
 	}, 1000);
 }
 
@@ -472,9 +473,11 @@ function doPrevLocal()
 
 function displayOverviewRecord(parentDiv)
 {
+
+	var color = $.grep(_lut, function(n, i){return n.languageID == _languageID})[0].color;
 	
 	$(parentDiv).empty();
-	$(parentDiv).append("<div class='info-box'>"+_selected[0].attributes.getLanguage().toUpperCase()+"</div>");
+	$(parentDiv).append("<div class='info-box' style='background-color:"+color+"'>"+_selected[0].attributes.getLanguage().toUpperCase()+"</div>");
 	
 	var divTop = $("<div class='top'></div>")
 	$(divTop).append("<div class='info-title'>"+_selected[0].attributes.getName()+"</div>");		
@@ -494,20 +497,19 @@ function displayOverviewRecord(parentDiv)
 	
 	$(parentDiv).append(divIndented);
 	
-	var color = $.grep(_lut, function(n, i){return n.languageID == _languageID})[0].color;
-	$(".info-box").css("background-color", color);
-	
 	setTimeout(function(){handleWindowResize()},1000);
 	
 }
 
 function displayLocalRecord(graphic, parentDiv)
 {
-	
+
+	var color = $.grep(_lut, function(n, i){return n.languageID == _languageID})[0].color;
+		
 	var rec = graphic.attributes;
 	
 	$(parentDiv).empty();
-	$(parentDiv).append("<div class='info-box'>"+rec.getLanguage().toUpperCase()+"</div>");			
+	$(parentDiv).append("<div class='info-box' style='background-color:"+color+"'>"+rec.getLanguage().toUpperCase()+"</div>");			
 	
 	if (rec.getPhoto()) {
 		$(parentDiv).append("<div class='picture-frame'><img class='feature-image' src='"+MEDIA_PATH+"/"+rec.getPhoto()+"'/></div>");
@@ -554,9 +556,6 @@ function displayLocalRecord(graphic, parentDiv)
 	$(".arrowLocalRight").click(function(e) {
         doNextLocal();
     });
-	
-	var color = $.grep(_lut, function(n, i){return n.languageID == _languageID})[0].color;
-	$(".info-box").css("background-color", color);	
 	
 	handleWindowResize();
 	
