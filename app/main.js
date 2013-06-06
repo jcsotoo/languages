@@ -352,7 +352,7 @@ function layerOV_onClick(event)
 function layerRegions_onMouseOver(event)
 {
 	if (_isMobile) return;
-	$("#hoverInfo").html("<b>"+event.graphic.attributes.FeatureLabel+"</b>");
+	$("#hoverInfo").html("<span style='font-weight:bold;padding-bottom:5px'>"+event.graphic.attributes.FeatureLabel+"</span><br>"+event.graphic.attributes.Description);
 	var x = event.x;
 	var y = event.y;
 	if (!_isLegacyIE) {
