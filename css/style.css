@@ -152,7 +152,7 @@ a:hover{
 	-ms-filter: "progid: DXImageTransform.Microsoft.Shadow(strength = 2, Direction = 135, Color = '#333333')";
 	overflow:hidden;
 	display:none;
-	z-index:100;
+	z-index:1001;
 	color:#FFFFFF;
 }
 

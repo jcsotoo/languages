@@ -370,6 +370,15 @@ function layerRegions_onMouseOut(event)
 
 function layerRegions_onClick(event)
 {
+	if (!_isMobile) return;
+	$("#hoverInfo").html("<span style='font-weight:bold;padding-bottom:5px'>"+event.graphic.attributes.FeatureLabel+"</span><br>"+event.graphic.attributes.Description);
+	var x = event.x;
+	var y = event.y;
+	if (!_isLegacyIE) {
+		x = x - $("#info").width();
+		y = y - ($("#header").height() + $("#controls").height())
+	}
+	hoverInfoPos(x, y);	
 }
 
 function changeState(toState)
