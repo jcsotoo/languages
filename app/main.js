@@ -528,7 +528,9 @@ function displayLocalRecord(graphic, parentDiv)
 	}
 	
 	if (rec.getAudio()) {
-		$(scrollerDiv).append(createSoundDiv(MEDIA_PATH+"/"+rec.getAudio()));
+		var soundDiv = createSoundDiv(MEDIA_PATH+"/"+rec.getAudio());
+		if (rec.getPhoto()) $(soundDiv).css("margin-top", 0);
+		$(scrollerDiv).append(soundDiv);
 	}
 	
 	var indentDiv = $("<div style='margin-left:40px;margin-right:33px;padding-bottom:10px;'></div>");
