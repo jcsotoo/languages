@@ -148,7 +148,7 @@ function init() {
     });
 	
 	$("#title").append(TITLE);
-	$("#subtitle").append(BYLINE);	
+	//$("#subtitle").append(BYLINE);	
 
 	_map = new esri.Map("map", {
 		slider:false, 
