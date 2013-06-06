@@ -49,17 +49,20 @@ var _lut = [
 	{languageID:8, language:"Passama-quoddy", art:"PanelPassamaquoddy.jpg", icon:"Icon1Passamaquoddy.png", icon2:"IconPassamaquoddy.png", color:"#4164d4"},
 	{languageID:9, language:"Penobscot", art:"PanelPenobscot.jpg", icon:"Icon1Penobscot.png", icon2:"IconPenobscot.png", color:"#b1551d"},
 	{languageID:10, language:"Kallawaya", art:"PanelKallawaya.jpg", icon:"Icon1Kallawaya.png", icon2:"IconKallawaya.png", color:"#17a49c"},
-	{languageID:11, language:"Wayuunaiki", art:"PanelWayuu.jpg", icon:"Icon1Wayuu.png", icon2:"IconWayuu.png", color:"#a20b0b"},
 	{languageID:13, language:"Kichwa", art:"PanelKichwa.jpg", icon:"Icon1Kichwa.png", icon2:"IconKichwa.png", color:"#aa7830"},
-	{languageID:12, language:"Ri Palenge", art:"PanelRiPalenge.jpg", icon:"Icon1RiPalenge.png", icon2:"IconRiPalenge.png", color:"#ca6739"},
-	{languageID:14, language:"Kamentzá", art:"PanelKamentza.jpg", icon:"Icon1Kamentza.png", icon2:"IconKamentza.png", color:"#2084e2"},
 	{languageID:15, language:"Quechua", art:"PanelQuechua.jpg", icon:"Icon1Quechua.png", icon2:"IconQuechua.png", color:"#4a8920"},
 	{languageID:16, language:"Isthmus Zapotec", art:"PanelZapotek.jpg", icon:"Icon1Zapotek.png", icon2:"IconZapotek.png", color:"#0b9ece"},
 	{languageID:17, language:"Yiddish", art:"PanelYiddish.jpg", icon:"Icon1Yiddish.png", icon2:"IconYiddish.png", color:"#cb2c21"},
-	{languageID:18, language:"Purari - I'ai dialect", art:"PanelPNG.jpg", icon:"Icon1PNG.png", icon2:"IconPNG.png", color:"#d769ce"},
+	{languageID:18, language:"Purari - I'ai dialect", art:"PanelPNG.jpg", icon:"Icon1PNG.png", icon2:"IconPNG.png", color:"#d769ce"}
+];
+
+/*
+	{languageID:11, language:"Wayuunaiki", art:"PanelWayuu.jpg", icon:"Icon1Wayuu.png", icon2:"IconWayuu.png", color:"#a20b0b"},
+	{languageID:12, language:"Ri Palenge", art:"PanelRiPalenge.jpg", icon:"Icon1RiPalenge.png", icon2:"IconRiPalenge.png", color:"#ca6739"},
+	{languageID:14, language:"Kamentzá", art:"PanelKamentza.jpg", icon:"Icon1Kamentza.png", icon2:"IconKamentza.png", color:"#2084e2"},
 	{languageID:19, language:"Arhuaco", art:"", icon:"", icon2:"", color:"#9143be"},
 	{languageID:20, language:"Uitoto", art:"", icon:"", icon2:"", color:"#1e8a9e"}	
-];
+*/
 
 var _layerOV;
 var _layerSelected; // todo: still need a separate layer for selected?
@@ -727,8 +730,10 @@ function createMaster()
 		recLUT = $.grep(_lut, function(n, i) {
 			return n.languageID == id;
 		})[0];
-		if ($.trim(recLUT.icon) != "") {
-			arr2.push({languageID: id, language: recOV.getLanguage()});
+		if (recLUT) {
+			if ($.trim(recLUT.icon) != "") {
+				arr2.push({languageID: id, language: recOV.getLanguage()});
+			}
 		}
 	});
 	
