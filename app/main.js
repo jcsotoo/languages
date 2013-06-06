@@ -479,6 +479,8 @@ function displayOverviewRecord(parentDiv)
 	$(parentDiv).empty();
 	$(parentDiv).append("<div class='info-box' style='background-color:"+color+"'>"+_selected[0].attributes.getLanguage().toUpperCase()+"</div>");
 	
+	var divScroller = $("<div class='scroller'></div>");
+	
 	var divTop = $("<div class='top'></div>")
 	$(divTop).append("<div class='info-title'>"+_selected[0].attributes.getName()+"</div>");		
 	var url = _selected[0].attributes.getURL();
@@ -496,7 +498,8 @@ function displayOverviewRecord(parentDiv)
 	$(divIndented).append("<div class='info-caption'>"+_selected[0].attributes.getText()+"</div>");
 	//$(divIndented).append("<a href='"+MEDIA_PATH+"/"+_selected[0].attributes.getAudio()+"' target='_blank' style='margin-top:10px'>Audio Diagnostic</a>");
 	
-	$(parentDiv).append(divIndented);
+	$(divScroller).append(divIndented);
+	$(parentDiv).append(divScroller);
 	
 	setTimeout(function(){handleWindowResize()},1000);
 	
@@ -510,20 +513,22 @@ function displayLocalRecord(graphic, parentDiv)
 	var rec = graphic.attributes;
 	
 	$(parentDiv).empty();
-	$(parentDiv).append("<div class='info-box' style='background-color:"+color+"'>"+rec.getLanguage().toUpperCase()+"</div>");			
+	$(parentDiv).append("<div class='info-box' style='background-color:"+color+"'>"+rec.getLanguage().toUpperCase()+"</div>");
+	
+	var scrollerDiv = $("<div class='scroller'></div>");
 	
 	if (rec.getPhoto()) {
-		$(parentDiv).append("<div class='picture-frame'><img class='feature-image' src='"+MEDIA_PATH+"/"+rec.getPhoto()+"'/></div>");
+		$(scrollerDiv).append("<div class='picture-frame'><img class='feature-image' src='"+MEDIA_PATH+"/"+rec.getPhoto()+"'/></div>");
 	}
 
 	if (rec.getVideo()) {
 		var tokens = rec.getVideo().split("/"); 
 		var youTubeID = tokens[tokens.length - 1];
-		$(parentDiv).append("<iframe src='http://www.youtube.com/embed/"+youTubeID+"?rel=0' frameborder='0' allowfullscreen style='padding-bottom:10px'></iframe>");
+		$(scrollerDiv).append("<iframe src='http://www.youtube.com/embed/"+youTubeID+"?rel=0' frameborder='0' allowfullscreen style='padding-bottom:10px'></iframe>");
 	}
 	
 	if (rec.getAudio()) {
-		$(parentDiv).append(createSoundDiv(MEDIA_PATH+"/"+rec.getAudio()));
+		$(scrollerDiv).append(createSoundDiv(MEDIA_PATH+"/"+rec.getAudio()));
 	}
 	
 	var indentDiv = $("<div style='margin-left:40px;margin-right:33px;padding-bottom:10px;'></div>");
@@ -531,7 +536,7 @@ function displayLocalRecord(graphic, parentDiv)
 	if (rec.getVideo()) $(indentDiv).append("<div class='credits'>"+rec.getCreditVideo()+"</div>");
 	if (rec.getAudio()) $(indentDiv).append("<div class='credits'>"+rec.getCreditAudio()+"</div>");
 
-	$(parentDiv).append(indentDiv);
+	$(scrollerDiv).append(indentDiv);
 
 	var table = $("<table></table>");
 	var tr = $("<tr></tr>");
@@ -552,7 +557,9 @@ function displayLocalRecord(graphic, parentDiv)
 	$(tr).append(tdArrowRight);	
 	
 	$(table).append(tr);	
-	$(parentDiv).append(table);
+	$(scrollerDiv).append(table);
+	
+	$(parentDiv).append(scrollerDiv);
 
 	$(".arrowLocalLeft").click(function(e) {
         doPrevLocal();
@@ -775,10 +782,8 @@ function handleWindowResize() {
 	$("#zoomButton").css("left", $("#info").width() - 35);
 	
 	$(".feature-image").css("max-height", $("#info").height() * 0.5);
-
-	$(".info-indented").height($("#info").height() - $(".info-box").height() - 15);
-	$(".info-indented .info-caption").css("max-height", $(".info-indented").height() - $(".info-indented .top").height() - 40);
-	$(".info-indented .info-caption").width($(".info-indented").width() - 20);
+	
+	$(".scroller").height($("#info").height() - $(".info-box").height() - 5);
 	
 }
 

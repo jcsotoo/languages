@@ -244,6 +244,11 @@ a:hover{
 	background-color:#FFFFFF;
 }
 
+.scroller {
+	overflow-y:auto;
+	overflow-x:hidden;	
+}
+
 .info-indented {
 	position:relative;
 	margin-left:30px;
