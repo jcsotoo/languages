@@ -593,6 +593,10 @@ function displayLocalRecord(graphic, parentDiv)
         doNextLocal();
     });
 	
+	if (_layerStoryPoints.graphics.length == 1) {
+		$(".arrows-local").hide();
+	}
+	
 	handleWindowResize();
 	
 }
