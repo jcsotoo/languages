@@ -196,6 +196,7 @@ a:hover{
 	position:relative;
 	overflow:hidden;
 	float:left;
+	font-family:Arial, Helvetica, sans-serif;
 }
 
 #listThumbs span {
