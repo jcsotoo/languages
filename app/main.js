@@ -11,9 +11,10 @@ var TITLE = "One World, Many Voices: Endangered Languages and Cultural Heritage"
 var BYLINE = "Subtitle to come.";
 var BASEMAP_SERVICE_NATGEO = "http://server.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Map/MapServer";
 var SERVICE_HOTSPOTS = "http://tiles.arcgis.com/tiles/nzS0F0zdNLvs7nc8/arcgis/rest/services/LanguageHotspots/MapServer";
-var SERVICE_HOTSPOTS_FEATURES = "http://services.arcgis.com/nzS0F0zdNLvs7nc8/arcgis/rest/services/LanguageHotspots/FeatureServer/0"
-var SPREADSHEET_MAIN_URL = "/proxy/proxy.ashx?https://docs.google.com/spreadsheet/pub?key=0ApQt3h4b9AptdDR2cjc2Wm4xcFpSQjVlT2ZnX3BEemc&output=csv";
-var SPREADSHEET_OVERVIEW_URL = "/proxy/proxy.ashx?https://docs.google.com/spreadsheet/pub?key=0ApQt3h4b9AptdDByc0FOY2NacHZNUlhjWnZ6WHdYb1E&output=csv";
+var SERVICE_HOTSPOTS_FEATURES = "http://services.arcgis.com/nzS0F0zdNLvs7nc8/arcgis/rest/services/LanguageHotspots/FeatureServer/0";
+
+var SPREADSHEET_MAIN_URL = "data/csv/SI_Main.csv";
+var SPREADSHEET_OVERVIEW_URL = "data/csv/SI_Overview.csv";
 
 /******************************************************
 ***************** end config section ******************
@@ -26,7 +27,7 @@ var STATE_SELECTION_LOCAL = 2;
 
 var ICONS_PATH = "resources/icons/";
 var ARTWORK_PATH = "resources/artwork/";
-var MEDIA_PATH = "https://dl.dropboxusercontent.com/u/142378389/";
+var MEDIA_PATH = "data/media";
 
 var INIT_CENTER;
 
@@ -116,6 +117,13 @@ function init() {
 		if (queryString.embed) {
 			if (queryString.embed.toUpperCase() == "TRUE") {
 				_isEmbed = true;
+			}
+		}
+		if (queryString.dev) {
+			if (queryString.dev.toUpperCase() == "TRUE") {
+				SPREADSHEET_MAIN_URL = "/proxy/proxy.ashx?https://docs.google.com/spreadsheet/pub?key=0ApQt3h4b9AptdDR2cjc2Wm4xcFpSQjVlT2ZnX3BEemc&output=csv";
+				SPREADSHEET_OVERVIEW_URL = "/proxy/proxy.ashx?https://docs.google.com/spreadsheet/pub?key=0ApQt3h4b9AptdDByc0FOY2NacHZNUlhjWnZ6WHdYb1E&output=csv";			
+				MEDIA_PATH = "https://dl.dropboxusercontent.com/u/142378389/";
 			}
 		}
 	}
