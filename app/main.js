@@ -27,7 +27,13 @@ var STATE_SELECTION_LOCAL = 2;
 
 var ICONS_PATH = "resources/icons/";
 var ARTWORK_PATH = "resources/artwork/";
+var IMAGES_PATH = "resources/images/";
 var MEDIA_PATH = "data/media";
+
+var IMAGE_ARROW_LEFT_GRAY = "GrayLeft.png";
+var IMAGE_ARROW_LEFT_WHITE = "WhiteLeft.png";
+var IMAGE_ARROW_RIGHT_GRAY = "GrayRight.png";
+var IMAGE_ARROW_RIGHT_WHITE = "WhiteRight.png";
 
 var INIT_CENTER;
 
