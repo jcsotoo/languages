@@ -259,6 +259,7 @@ a:hover{
 	color:#5d5d5d;
 	overflow:auto;
 	padding-right:5px;
+	line-height:1.4em;
 }
 
 .info-instructions {
@@ -308,6 +309,7 @@ a:hover{
 
 .local-text {
 	padding-bottom:10px;
+	line-height:1.4em;	
 }
 
 .arrows-local {
