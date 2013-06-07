@@ -294,6 +294,8 @@ function init3()
 	_map.centerAt(INIT_CENTER);
 	
 	if(_scroll){_scroll.refresh()}	
+	
+	$("#whiteOut").fadeOut("slow");			
 				
 }
 
