@@ -669,11 +669,14 @@ function checkArrows()
 	imgLeft = IMAGES_PATH+"/"+imgLeft
 	
 	$("#arrowLeft").attr("src", imgLeft);
-	
+	$("#arrowLeft").css("cursor", (left == 0) ? "default" : "pointer"); 
+
 	if (((left + $("#outerCarousel").width()) / $("#listThumbs li").width()) == _lut.length) {
 		$("#arrowRight").attr("src", IMAGES_PATH+"/"+IMAGE_ARROW_RIGHT_GRAY);
+		$("#arrowRight").css("cursor", "default");
 	} else {
 		$("#arrowRight").attr("src", IMAGES_PATH+"/"+IMAGE_ARROW_RIGHT_WHITE);
+		$("#arrowRight").css("cursor", "pointer");		
 	}
 
 }
