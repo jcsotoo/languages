@@ -623,9 +623,10 @@ function displayLocalTip(graphic)
 function scrollToPage(index)
 {
 	if (_scroll) {
-		_scroll.scrollToPage(index, 0, 500);
+		_scroll.scrollToPage(index, 0, 200	);
+		setTimeout(function(){checkArrows()}, 500)
 	} else {	
-		$("#outerCarousel").animate({scrollLeft: (index*$("#listThumbs li").width())}, 'slow');
+		$("#outerCarousel").animate({scrollLeft: (index*$("#listThumbs li").width())}, 'slow', null, function(){checkArrows()});
 	}
 }
 
@@ -636,10 +637,11 @@ function pageLeft()
 	if (_scroll) {
 		currentIndex = Math.floor(Math.abs(_scroll.x) / $("#listThumbs li").width());
 		_scroll.scrollToPage((currentIndex - numVisibleTiles) + 1, 0, 200);
+		setTimeout(function(){checkArrows()}, 500);
 	} else {
 		currentIndex = Math.floor($("#outerCarousel").scrollLeft() / $("#listThumbs li").width());
 		var left = ((currentIndex - numVisibleTiles) + 1) * $("#listThumbs li").width();
-		$("#outerCarousel").animate({scrollLeft: left}, 'slow');
+		$("#outerCarousel").animate({scrollLeft: left}, 'slow', null, function(){checkArrows()});
 	}
 }
 
@@ -649,10 +651,31 @@ function pageRight()
 	if (_scroll) {
 		var currentIndex = Math.floor(Math.abs(_scroll.x) / $("#listThumbs li").width());
 		_scroll.scrollToPage(currentIndex + numVisibleTiles, 0, 200);
+		setTimeout(function(){checkArrows()}, 500);
 	} else {
 		var left = $("#outerCarousel").scrollLeft() + (numVisibleTiles * $("#listThumbs li").width());
-		$("#outerCarousel").animate({scrollLeft: left}, 'slow');
+		$("#outerCarousel").animate({scrollLeft: left}, 'slow', null, function(){checkArrows()});
 	}
+}
+
+function checkArrows()
+{
+	var left;
+	
+	if (_scroll) left = _scroll.left;
+	else left = $("#outerCarousel").scrollLeft();
+	
+	var imgLeft = (left == 0) ? IMAGE_ARROW_LEFT_GRAY : IMAGE_ARROW_LEFT_WHITE;
+	imgLeft = IMAGES_PATH+"/"+imgLeft
+	
+	$("#arrowLeft").attr("src", imgLeft);
+	
+	if (((left + $("#outerCarousel").width()) / $("#listThumbs li").width()) == _lut.length) {
+		$("#arrowRight").attr("src", IMAGES_PATH+"/"+IMAGE_ARROW_RIGHT_GRAY);
+	} else {
+		$("#arrowRight").attr("src", IMAGES_PATH+"/"+IMAGE_ARROW_RIGHT_WHITE);
+	}
+
 }
 
 function zoomToSelected(selected)
@@ -827,6 +850,8 @@ function handleWindowResize() {
 	$(".feature-image").css("max-height", $("#info").height() * 0.5);
 	
 	$(".scroller").height($("#info").height() - $(".info-box").height() - 5);
+	
+	checkArrows();
 	
 }
 
