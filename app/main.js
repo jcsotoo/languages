@@ -113,6 +113,7 @@ function init() {
 	if (!_dojoReady) return;
 	
 	_subInfoCurrent = $("#subInfo1");
+	displayIntro(_subInfoCurrent);
 	
 	INIT_CENTER = new esri.geometry.Point(-293518, 2778638, new esri.SpatialReference({wkid: 102100}));
 	
@@ -497,6 +498,34 @@ function doPrevLocal()
 	displayLocalRecord(_layerStoryPoints.graphics[_localCounter], _subInfoCurrent);
 	displayLocalTip(_layerStoryPoints.graphics[_localCounter]);
 	crossFade();
+}
+
+function displayIntro(parentDiv)
+{
+
+	var top = $("<div class='top'></div>");
+	$(top).append("<div class='info-title'>The Smithsonian Folklife Festival Spotlights Language Diversity</div>");
+	$(top).append("<div class='picture-frame'><img class='feature-image' src='resources/images/intro.jpg'/></div>");
+	$(top).append("<div class='credits'>Photo of Tuvan musician Ai-Xaan Oorzhak by Lynn Johnson / National Geographic Enduring Voices Project</div>");
+	
+	var text = $("<div class='info-caption'></div>");
+	$(text).append(getIntroText());
+
+	var indented = $("<div class='info-indented'></div>");
+	$(indented).append(top);
+	$(indented).append(text);
+	$(indented).append("<div class='info-instructions'>Click on a language in the gallery (above) to start</div>");		
+	
+	var scroller = $("<div class='scroller'></div>");
+	$(scroller).append(indented);
+	
+	$(parentDiv).append(scroller);
+}
+
+function getIntroText()
+{
+	var text = "<p>Of the 7,105 languages spoken today, over half are considered in danger of extinction in this century. As languages vanish, communities lose a wealth of knowledge about history, culture, the natural environment and the human mind. This will be a catastrophic erosion of the human knowledge base, affecting all fields of science, art, and human endeavor. It will also be an incalculable loss to indigenous peoples' sense of history, identity, belonging, and self.</p><p style='text-indent:10px'>Against this threat, a global cohort of language warriors are mobilizing. They are speaking, texting and publishing in Hawaiian, Koro, Kallawaya, Siletz, and Garifuna. Thousands of tongues previously heard only locally are now—via the internet—raising their voices to a global audience. We can all help to raise awareness of the value of language diversity, and contribute to revitalization efforts. Language rights are, after all, human rights. And the knowledge base found in smaller languages sustains us all in ways we may not even perceive.</p><p style='text-indent:10px'>This story map will take you on a virtual tour of some endangered language communities around the world, to see and hear some of the last speakers, and understand their struggle to save their languages.</p>";
+	return text;
 }
 
 function displayOverviewRecord(parentDiv)
