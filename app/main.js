@@ -155,6 +155,7 @@ function init() {
     });
 	$("#zoomExtent").click(function(e) {
         _map.setExtent(_homeExtent);
+		changeState(STATE_NO_SELECTION)
     });
 	
 	$("#arrowRight").click(function(e) {
@@ -434,6 +435,19 @@ function changeState(toState)
 		displayLocalRecord(_layerStoryPoints.graphics[_localCounter], _subInfoCurrent);		
 		setTimeout(function(){zoomToStoryPoints()}, 1000)
 		setTimeout(function(){displayLocalTip(_layerStoryPoints.graphics[_localCounter])}, 2000);
+	} else if (_currentState == STATE_NO_SELECTION) {
+		clearSelect();
+		displayIntro(_subInfoCurrent);		
+		$("#map").multiTips({
+			pointArray : [],
+			mapVariable : _map,
+			labelDirection : "top",
+			backgroundColor : "#dadada",
+			textColor : "#444",
+			pointerColor: "#444"
+		});		
+		_layerStoryPoints.hide();
+		_layerOV.show();
 	} else {
 		alert('invalid state');
 	}
@@ -751,13 +765,7 @@ function zoomToSelected(selected)
 function doSelect(languageID)
 {
 
-	$.each(_selected, function(index, value) {
-		_layerSelected.remove(value);
-		value.setSymbol(resizeSymbol(value.symbol, _lutBallIconSpecs.tiny));	
-		_layerOV.add(value);
-	});
-	
-	$(".selectionHalo").hide();
+	clearSelect();
 	
 	var li = $.grep($("#listThumbs").children("li"),function(n,i){return n.value == languageID})[0];
 	$(li).find(".selectionHalo").show();
@@ -781,6 +789,18 @@ function doSelect(languageID)
 	});
 	
 	loadStoryPoints(languageID);
+}
+
+function clearSelect()
+{
+
+	$.each(_selected, function(index, value) {
+		_layerSelected.remove(value);
+		value.setSymbol(resizeSymbol(value.symbol, _lutBallIconSpecs.tiny));	
+		_layerOV.add(value);
+	});
+	
+	$(".selectionHalo").hide();
 }
 
 function createMaster() 
