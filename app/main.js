@@ -139,7 +139,7 @@ function init() {
 	});
 	
 	if (_isMobile) {
-		_scroll = new iScroll('outerCarousel', {snap:'li',momentum:true,hScrollbar:false});
+		_scroll = new iScroll('outerCarousel', {snap:'li',momentum:true,hScrollbar:false,onScrollEnd:function(){checkArrows()}});
 	}
 	
 	// jQuery event assignment
@@ -623,7 +623,7 @@ function displayLocalTip(graphic)
 function scrollToPage(index)
 {
 	if (_scroll) {
-		_scroll.scrollToPage(index, 0, 200	);
+		_scroll.scrollToPage(index, 0, 200);
 		setTimeout(function(){checkArrows()}, 500)
 	} else {	
 		$("#outerCarousel").animate({scrollLeft: (index*$("#listThumbs li").width())}, 'slow', null, function(){checkArrows()});
@@ -661,8 +661,8 @@ function pageRight()
 function checkArrows()
 {
 	var left;
-	
-	if (_scroll) left = _scroll.left;
+
+	if (_scroll) left = Math.abs(_scroll.x);
 	else left = $("#outerCarousel").scrollLeft();
 	
 	var imgLeft = (left == 0) ? IMAGE_ARROW_LEFT_GRAY : IMAGE_ARROW_LEFT_WHITE;
