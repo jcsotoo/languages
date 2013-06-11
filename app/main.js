@@ -414,7 +414,6 @@ function changeState(toState)
 		_layerSelected.show();
 		doSelect(_languageID);
 		zoomToSelected(_selected);
-		console.log("url: ", _selected[0].attributes.getURL());
 		displayOverviewRecord(_subInfoCurrent);
 		$("#zoomButton").fadeIn();
 	} else if (_currentState == STATE_SELECTION_LOCAL) {
