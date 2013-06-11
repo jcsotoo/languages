@@ -888,7 +888,7 @@ function handleWindowResize() {
 	if ((($("body").height() <= 500) || ($("body").width() <= 800)) || _isEmbed) $("#header").height(0);
 	else $("#header").height(115);
 	$("#map").height($("body").height() - $("#header").height() - $("#listThumbs").height());
-	$("#map").width($("body").width() - $("#info").width() - 1); //TODO: figure out why IE & mac need the extra pixel?
+	$("#map").width($("body").width() - $("#info").width() - 2); //TODO: figure out why IE & mac need the extra pixel?
 	_map.resize();
 	var arrowJunk = $("#arrowLeft").width() + (parseInt($("#arrowLeft").css("padding-left"))*2);
 	$("#outerCarousel").width($("body").width() - (arrowJunk*2));
