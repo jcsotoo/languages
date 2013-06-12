@@ -462,6 +462,12 @@ function createSoundDiv(soundfile) {
 	$(source1).attr("src", soundfile);
 	$(source1).attr("type", "audio/mpeg");
 	$(audio).append(source1);
+
+	var source2 = $("<source></source>");
+	$(source2).attr("src", soundfile.slice(0, -3)+"ogg");
+	$(source2).attr("type", "audio/ogg");
+	$(audio).append(source2);
+
 	$(audio).append("<embed src='"+soundfile+"' hidden='true' autostart='true' loop='false' />");
 	return audio;
  }
